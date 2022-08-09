@@ -1,0 +1,7 @@
+{
+  "APP_NAME": "dokmet",
+  "INGRESSES": [
+    "https://dokmet-q2.nais.preprod.local",
+    "https://dokmet-q2.dev.intern.nav.no"
+  ]
+}
