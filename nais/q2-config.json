@@ -2,5 +2,6 @@
   "APP_NAME": "dokmet",
   "INGRESSES": [
     "https://dokmet.dev.intern.nav.no"
-  ]
+  ],
+  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet"
 }
