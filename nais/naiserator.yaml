@@ -17,7 +17,7 @@ spec:
        - {{ this }}
            {{/each}}
   liveness:
-    path: dokmet/isAlive
+    path: /isAlive
     port: 8080
     initialDelay: 30
     failureThreshold: 10
@@ -26,7 +26,7 @@ spec:
     enabled: true
     path: /actuator/prometheus
   readiness:
-    path: dokmet/isReady
+    path: /isReady
     port: 8080
     initialDelay: 30
     timeout: 3
