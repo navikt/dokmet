@@ -15,17 +15,6 @@ import org.springframework.retry.annotation.EnableRetry;
 @EnableRetry
 @Configuration
 public class CoreConfig {
-	@Bean
-	ClientHttpRequestFactory requestFactory(HttpClient httpClient) {
-		return new HttpComponentsClientHttpRequestFactory(httpClient);
-	}
-
-	@Bean
-	HttpClient httpClient(HttpClientConnectionManager connectionManager) {
-		return HttpClients.custom()
-				.setConnectionManager(connectionManager)
-				.build();
-	}
 
 	@Bean
 	HttpClientConnectionManager httpClientConnectionManager() {

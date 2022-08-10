@@ -1,6 +1,8 @@
 package no.nav.dokmet.config;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -32,6 +34,13 @@ public class DokmetProperties {
     @Validated
     public static class Serviceuser {
 
+        @NotEmpty
+        @ToString.Exclude
+        private String username;
+
+        @NotEmpty
+        @ToString.Exclude
+        private String password;
     }
 
     @Data
