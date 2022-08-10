@@ -1,0 +1,6 @@
+{
+  "APP_NAME": "dokmet",
+  "INGRESSES": [
+    "https://dokmet.intern.nav.no"
+  ]
+}

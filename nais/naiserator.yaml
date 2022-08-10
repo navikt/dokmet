@@ -1,0 +1,45 @@
+kind: Application
+apiVersion: nais.io/v1alpha1
+metadata:
+  name: {{ APP_NAME }}
+  namespace: teamdokumenthandtering
+  labels:
+    team: teamdokumenthandtering
+spec:
+  env:
+    - name: DOKMET_PROXY_HOST
+      value: "webproxy.nais"
+    - name: DOKMET_PROXY_PORT
+      value: "8088"
+  image: {{ image }}
+  ingresses:
+    {{#each INGRESSES}}
+       - {{ this }}
+           {{/each}}
+  liveness:
+    path: dokmet/isAlive
+    port: 8080
+    initialDelay: 30
+    failureThreshold: 10
+  port: 8080
+  prometheus:
+    enabled: true
+    path: /actuator/prometheus
+  readiness:
+    path: dokmet/isReady
+    port: 8080
+    initialDelay: 30
+    timeout: 3
+  replicas:
+    min: 2
+    max: 4
+    cpuThresholdPercentage: 50
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+  vault:
+    enabled: true
+    paths:
+      - kvPath: {{SERVICEUSER_VAULT_PATH}}
+        mountPath: "/secrets/serviceuser/dokmet"
