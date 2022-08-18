@@ -17,7 +17,7 @@
 	<modules>
 		<module>app</module>
 		<module>core</module>
-		<module>web</module>
+		<!--<module>web</module>-->
 	</modules>
 
 	<properties>
