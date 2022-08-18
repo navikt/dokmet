@@ -1,7 +1,12 @@
 {
   "APP_NAME": "dokmet",
+  "MIN_REPLICAS": 1,
+  "MAX_REPLICAS": 2,
   "INGRESSES": [
     "https://dokmet.dev.intern.nav.no"
   ],
-  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet"
+  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet",
+  "AZURE_IAC_RULES": [
+
+  ]
 }

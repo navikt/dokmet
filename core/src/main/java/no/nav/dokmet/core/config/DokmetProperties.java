@@ -1,32 +1,37 @@
-package no.nav.dokmet.config;
+package no.nav.dokmet.core.config;
 
-import jakarta.validation.constraints.NotEmpty;
+
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Data
-@ConfigurationProperties("dokmet")
 @Validated
+@ConfigurationProperties("dokmet")
 public class DokmetProperties {
 
+    private final Proxy proxy = new Proxy();
+    private final Database database = new Database();
     private final Endpoints endpoints = new Endpoints();
     private final Serviceuser serviceuser = new Serviceuser();
-    private final Proxy proxy = new Proxy();
 
 
     @Data
     @Validated
     public static class Endpoints {
 
-    }
 
+    }
     @Data
     @Validated
     public static class AzureEndpoint {
+
 
     }
 
@@ -41,6 +46,15 @@ public class DokmetProperties {
         @NotEmpty
         @ToString.Exclude
         private String password;
+
+    }
+
+    @Data
+    @Validated
+    public static class Database {
+
+        @Positive
+        private int poolsize = 20;
     }
 
     @Data
