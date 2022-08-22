@@ -1,0 +1,60 @@
+package no.nav.dokmet.core.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import no.nav.dokmet.core.domain.entities.ChangeStamp;
+
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
+import java.io.Serializable;
+
+@MappedSuperclass
+@SuppressWarnings("serial")
+public abstract class AbstractDomainObject implements Serializable {
+
+	@Embedded
+	private ChangeStamp changeStamp;
+
+	@JsonIgnore
+	@Version
+	@Column(name = "versjon", nullable = false)
+	private long version;
+
+	/**
+	 * Getter for the changeStamp property.
+	 *
+	 * @return the changeStamp
+	 */
+	public ChangeStamp getChangeStamp() {
+		return changeStamp;
+	}
+
+	/**
+	 * Setter for the changeStamp property.
+	 *
+	 * @param changeStamp the changeStamp to set
+	 */
+	public void setChangeStamp(ChangeStamp changeStamp) {
+		this.changeStamp = changeStamp;
+	}
+
+	/**
+	 * Getter for the version property.
+	 *
+	 * @return the version
+	 */
+	public long getVersion() {
+		return version;
+	}
+
+	/**
+	 * Setter for the version property.
+	 *
+	 * @param version the version to set
+	 */
+	protected void setVersion(long version) {
+		this.version = version;
+	}
+
+}

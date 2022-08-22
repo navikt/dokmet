@@ -31,8 +31,8 @@ spec:
     initialDelay: 30
     timeout: 3
   replicas:
-    min: 2
-    max: 4
+    min: {{ MIN_REPLICAS }}
+    max: {{ MAX_REPLICAS }}
     cpuThresholdPercentage: 50
   resources:
     limits:
@@ -41,5 +41,21 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: {{SERVICEUSER_VAULT_PATH}}
+      - kvPath: {{ SERVICEUSER_VAULT_PATH }}
         mountPath: "/secrets/serviceuser/dokmet"
+      - kvPath: {{ DOKMET_DS }}
+        mountPath: "/var/run/secrets/nais.io/dokmetDS"
+azure:
+  application:
+    enabled: true
+    claims:
+      extra:
+        - "azp_name"
+  accessPolicy:
+    inbound:
+      rules:
+    {{#each AZURE_IAC_RULES}}
+       - application: {{app}}
+         namespace: {{namespace}}
+         cluster: {{cluster}}
+    {{/each}}

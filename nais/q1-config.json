@@ -1,7 +1,14 @@
 {
   "APP_NAME": "dokmet-q1",
+  "MIN_REPLICAS": 1,
+  "MAX_REPLICAS": 2,
   "INGRESSES": [
     "https://dokmet-q1.dev.intern.nav.no"
   ],
-  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet"
+  "DOKMET_DS": "/oracle/data/dev/creds/dokkat_q1-user",
+  "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@a01dbfl042.adeo.no:1521/dokkat_q1",
+  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet",
+  "AZURE_IAC_RULES": [
+
+  ]
 }
