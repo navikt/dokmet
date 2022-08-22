@@ -18,11 +18,6 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-/**
- * Test util methods
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 public class TestUtils {
 
 	/**

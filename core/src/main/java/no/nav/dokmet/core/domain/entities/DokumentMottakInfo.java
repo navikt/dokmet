@@ -33,9 +33,6 @@ import javax.persistence.Table;
  * OPPRETTET_DATO
  * ENDRET_AV
  * ENDRET_DATO
- *
- * @author Paul Magne Lunde, Visma Consulting
- * @author Leo-Andreas Ervik, Visma Consulting
  */
 
 @Entity

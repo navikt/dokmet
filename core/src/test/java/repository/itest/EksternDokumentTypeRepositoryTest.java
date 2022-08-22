@@ -31,9 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static repository.itest.DokumenttypeInfoRepositoryTest.REPO_USER_ID;
 
-/**
- * @author Ugur Alpay Cenar, Visma Consulting.
- */
 public class EksternDokumentTypeRepositoryTest extends AbstractTest {
 
 

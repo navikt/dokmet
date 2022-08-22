@@ -1,8 +1,5 @@
 package no.nav.dokmet.core.util;
 
-/**
- * @author Ugur Alpay Cenar, Visma Consulting.
- */
 public class MDCConstants {
 
 	public static final String MDC_APP_ID = "appId";

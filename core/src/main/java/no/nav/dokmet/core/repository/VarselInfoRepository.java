@@ -8,11 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/**
- * Repository for VarselInfo
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 public interface VarselInfoRepository extends CrudRepository<VarselInfo, Long> {
 
 

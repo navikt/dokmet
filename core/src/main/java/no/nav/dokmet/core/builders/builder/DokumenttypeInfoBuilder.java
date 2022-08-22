@@ -11,11 +11,6 @@ import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Builder for DokumenttypeInfo
- *
- * @author Joakim Bjørnstad, Visma Consulting
- */
 public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 	
 	private Long id;

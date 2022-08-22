@@ -11,11 +11,6 @@ import java.io.Serializable;
 
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 
-/**
- * Interceptor that handles domain objects' changestamp.
- *
- * @author Thomas Eugen Bjørge, Visma Consulting
- */
 @Component
 public class ChangeStampInterceptor extends EmptyInterceptor {
 

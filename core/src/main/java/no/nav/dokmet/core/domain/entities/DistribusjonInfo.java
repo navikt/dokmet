@@ -28,11 +28,6 @@ import java.util.Set;
 
 import static java.lang.String.format;
 
-/**
- * Domain object for DistribusjonInfo.
- *
- * @author Roar Bjurstrom, Visma Consulting.
- */
 @Entity
 @Table(name = "DISTRIBUSJON_INFO")
 public class DistribusjonInfo extends AbstractDomainObject {

@@ -10,11 +10,6 @@ import java.util.regex.Pattern;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.compile;
 
-/**
- * Validator for varsel tekst, validerer fletteparameter navn og tidsformat
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 public class VarselTekstValidator implements ConstraintValidator<VarselTekst, String> {
 
 	private static final Pattern ANY_PARAMETER_PATTERN = compile("\\{(.+?)}", CASE_INSENSITIVE);

@@ -18,11 +18,6 @@ import javax.persistence.Table;
 
 import static java.lang.String.format;
 
-/**
- * Domain object for DistribusjonVarsel.
- *
- * @author Roar Bjurstrom, Visma Consulting.
- */
 @Entity
 @NoArgsConstructor
 @Table(name = "DISTRIBUSJON_VARSEL")

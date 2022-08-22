@@ -29,11 +29,6 @@ import java.util.Set;
 
 import static java.lang.String.format;
 
-/**
- * Domain object for VarselInfo
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 @Entity
 @Table(name = "VARSEL_INFO", uniqueConstraints = @UniqueConstraint(columnNames = "varseltype_id"))
 public class VarselInfo extends AbstractDomainObject {

@@ -1,8 +1,5 @@
 package no.nav.dokmet.core.exceptions;
 
-/**
- * @author Ugur Alpay Cenar, Visma Consulting.
- */
 public class MultipleEksternDokumentTypeFoundException extends RuntimeException {
 	
 	public MultipleEksternDokumentTypeFoundException(String message) {

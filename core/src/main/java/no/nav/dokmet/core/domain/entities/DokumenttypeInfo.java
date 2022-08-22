@@ -1,15 +1,11 @@
 package no.nav.dokmet.core.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,13 +26,6 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Domain object for DokumenttypeInfo.
- *
- * @author Joakim Bjørnstad, Visma Consulting
- * @author Stig Strøm, Acando
- * @author Leo-Andreas Ervik, Visma Consulting
- */
 @Entity
 @Getter
 @Setter

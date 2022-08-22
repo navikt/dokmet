@@ -17,9 +17,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-/**
- * @author Ketill Fenne, Visma Consulting.
- */
 @Entity
 @Getter
 @Setter

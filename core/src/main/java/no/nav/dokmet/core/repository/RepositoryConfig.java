@@ -48,7 +48,7 @@ public class RepositoryConfig {
 		connProperties.setProperty(SQLnetDef.TCP_CONNTIMEOUT_STR, "3000");
 		connProperties.setProperty("oracle.jdbc.thinForceDNSLoadBalancing", "true");
 		int poolsize = dokmetProperties.getDatabase().getPoolsize();
-		log.info("Setter dokmet poolsize til: " + poolsize);
+		log.info("Setter dokmet database poolsize=" + poolsize);
 
 		poolDataSource.setInitialPoolSize(poolsize);
 		poolDataSource.setMinPoolSize(poolsize);

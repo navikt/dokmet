@@ -9,11 +9,6 @@ import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Builder for {@link VarselInfo}
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 public final class VarselInfoBuilder extends Builder<VarselInfo> {
 
 	private Long id;

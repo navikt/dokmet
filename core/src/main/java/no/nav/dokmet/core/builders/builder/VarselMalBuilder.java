@@ -4,11 +4,6 @@ import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.entities.VarselMal;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 
-/**
- * Builder for {@link VarselMal}
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 public final class VarselMalBuilder extends Builder<VarselMal> {
 
 	private String revarslingTekst;

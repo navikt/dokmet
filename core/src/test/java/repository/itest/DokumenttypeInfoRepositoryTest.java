@@ -39,11 +39,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Integration test for the dokumenttypeInfoRepository
- *
- * @author Joakim Bjørnstad, Visma Consulting
- */
 public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 
 	private static final String ARKIV_TEMA = "AAP";

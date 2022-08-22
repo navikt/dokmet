@@ -20,11 +20,6 @@ import javax.persistence.Table;
 
 import static java.lang.String.format;
 
-/**
- * Domain object for VarselMal
- *
- * @author Andreas Skomedal, Visma Consulting.
- */
 @Entity
 @Validated
 @Table(name = "VARSEL_MAL")

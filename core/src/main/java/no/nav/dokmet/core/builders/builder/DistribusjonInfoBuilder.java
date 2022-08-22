@@ -11,11 +11,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Builder for {@link DistribusjonInfo}
- *
- * @author Roar Bjurstrom, Visma Consulting.
- */
 public class DistribusjonInfoBuilder extends Builder<DistribusjonInfo> {
 
 	private Long id;

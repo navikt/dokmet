@@ -9,11 +9,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Builder for {@link DokumentProduksjonsInfo}
- *
- * @author Stig Strøm, Acando
- */
 public final class DokumentProduksjonInfoBuilder extends Builder<DokumentProduksjonsInfo> {
 
 	private Long id;

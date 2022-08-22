@@ -1,7 +1,6 @@
 package no.nav.dokmet.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
 
 import javax.persistence.Column;
@@ -10,14 +9,9 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.io.Serializable;
 
-/**
- * Base class for domain objects.
- *
- * @author Thomas Eugen Bjørge, Visma Consulting
- */
 @MappedSuperclass
 @SuppressWarnings("serial")
-public abstract class AbstractDomainObject implements Serializable{
+public abstract class AbstractDomainObject implements Serializable {
 
 	@Embedded
 	private ChangeStamp changeStamp;

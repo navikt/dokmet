@@ -3,11 +3,6 @@ package no.nav.dokmet.core.builders.builder;
 import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 
-/**
- * Builder for {@link DistribusjonVarsel}
- *
- * @author Roar Bjurstrom, Visma Consulting.
- */
 public class DistribusjonVarselBuilder extends Builder<DistribusjonVarsel> {
 
 	private Long id;
