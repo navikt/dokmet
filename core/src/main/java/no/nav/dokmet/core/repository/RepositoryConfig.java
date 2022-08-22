@@ -3,6 +3,7 @@ package no.nav.dokmet.core.repository;
 import lombok.extern.slf4j.Slf4j;
 
 import no.nav.dokmet.core.config.DokmetProperties;
+import oracle.jdbc.pool.OracleDataSource;
 import oracle.net.ns.SQLnetDef;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
@@ -39,8 +40,9 @@ public class RepositoryConfig {
 	DataSource dataSource(final DataSourceProperties dataSourceProperties,
 						  final DokmetProperties dokmetProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
-	//	log.info("Setter driverclassname");
+		log.info("Setter driverclassname");
 		//poolDataSource.setConnectionFactoryClassName(dataSourceProperties.getDriverClassName());
+		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
 		log.info("Setter db url");
 		poolDataSource.setURL(dataSourceProperties.getUrl());
 		log.info("Setter db username");
