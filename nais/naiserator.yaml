@@ -54,5 +54,6 @@ azure:
       rules:
     {{#each AZURE_IAC_RULES}}
        - application: {{app}}
-    namespace: {{namespace}}
-    cluster: {{cluster}}
+         namespace: {{namespace}}
+         cluster: {{cluster}}
+    {{/each}}
