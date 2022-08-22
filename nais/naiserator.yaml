@@ -41,10 +41,10 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: {{SERVICEUSER_VAULT_PATH}}
+      - kvPath: {{ SERVICEUSER_VAULT_PATH }}
         mountPath: "/secrets/serviceuser/dokmet"
-      - kvPath: { { DOKMET_DS } }
-        mountPath: /var/run/secrets/nais.io/dokmetDS
+      - kvPath: {{ DOKMET_DS }}
+        mountPath: "/var/run/secrets/nais.io/dokmetDS"
 azure:
   application:
     enabled: true
