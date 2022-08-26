@@ -20,7 +20,7 @@ public interface DokumenttypeInfoRepository extends CrudRepository<DokumenttypeI
 	void deleteBydokumenttypeId(String dokumenttypeId);
 
 	@Modifying
-	@Query(value = "DELETE from SpraakInfo where fk_dokumentproduksjon_info = :dokprodInfo", nativeQuery = true)
+	@Query(value = "DELETE from SPRAAK_INFO where fk_dokumentproduksjon_info = :dokprodInfo", nativeQuery = true)
 	void deleteSpraakInfosBydokProdInfoId(long dokprodInfo);
 
 	@Query(value = "SELECT distinct dokumentProdInfo.malXsdReferanse from DokumentProduksjonsInfo dokumentProdInfo", nativeQuery = true)
