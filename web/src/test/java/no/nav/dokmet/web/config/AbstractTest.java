@@ -8,7 +8,6 @@ import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
 import org.junit.Before;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -26,16 +25,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 
 @Transactional
 @AutoConfigureDataJpa
@@ -45,10 +40,11 @@ import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @AutoConfigureWireMock(port = 0)
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {AbstractTest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EntityScan(basePackages = {"no.nav.dokmet.core.domain.entities"})
+@SpringBootTest(classes = {AbstractTest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AbstractTest {
+
+	private static final String NAV_CUSTOM_CLAIM_NAVIDENT = "NAVident";
 
 	@Configuration
 	public static class TestConfig {
@@ -110,7 +106,6 @@ public class AbstractTest {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setBearerAuth(getHeaderToken(SERVICE_USER_ID));
-		headers.add(MDC_USER_ID, "userId");
 		//headers.add(NAV_CONSUMER_TOKEN, BEARER + getHeaderToken(SERVICE_USER_ID));
 		return headers;
 	}

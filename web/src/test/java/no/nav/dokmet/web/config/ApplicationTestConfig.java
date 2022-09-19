@@ -1,16 +1,11 @@
 package no.nav.dokmet.web.config;
 
-import no.nav.dokmet.core.config.DokmetProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
+import no.nav.dokmet.CoreConfig;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
 
 @Configuration
-@Profile("itest")
-@EnableConfigurationProperties({
-		DokmetProperties.class
-})
-@ComponentScan(basePackages = "no.nav.dokmet")
+@Import(CoreConfig.class)
 public class ApplicationTestConfig {
 }
+

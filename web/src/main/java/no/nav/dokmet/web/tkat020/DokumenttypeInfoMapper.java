@@ -44,12 +44,12 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 @SuppressWarnings("Duplicates")
 public class DokumenttypeInfoMapper {
 
-	public DokumenttypeInfo mapToDokumentTypeInfo(DokumenttypeInfoTo dokumentTypeInfo) {
+	public DokumenttypeInfo mapToDokumentTypeInfo(DokumenttypeInfoTo dokumenttypeInfoTo) {
 		DokumenttypeInfo dokumenttypeInfo = new DokumenttypeInfo();
-		dokumenttypeInfo.setDokumentType(DokumentTypeKode.valueOf(dokumentTypeInfo.getDokumentType()));
+		dokumenttypeInfo.setDokumentType(DokumentTypeKode.valueOf(dokumenttypeInfoTo.getDokumentType()));
 
-		DokumenttypeInfo mappedDokumenttypeInfo = mapToDokumentTypeInfo(dokumentTypeInfo, dokumenttypeInfo);
-		mappedDokumenttypeInfo.setDokumenttypeId(dokumentTypeInfo.getDokumenttypeId());
+		DokumenttypeInfo mappedDokumenttypeInfo = mapToDokumentTypeInfo(dokumenttypeInfoTo, dokumenttypeInfo);
+		mappedDokumenttypeInfo.setDokumenttypeId(dokumenttypeInfoTo.getDokumenttypeId());
 
 		return dokumenttypeInfo;
 	}
@@ -59,10 +59,10 @@ public class DokumenttypeInfoMapper {
 			return new HashSet<>();
 		}
 		return toList.stream()
-				.map(this::createEksternDokumenType).collect(Collectors.toSet());
+				.map(this::createEksternDokumentType).collect(Collectors.toSet());
 	}
 
-	public EksternDokumentType createEksternDokumenType(EksternDokumentTypeTo eksternDokumentType) {
+	public EksternDokumentType createEksternDokumentType(EksternDokumentTypeTo eksternDokumentType) {
 		return EksternDokumentType.builder()
 				.eksternIdType(EksternIdTypeKode.valueOf(eksternDokumentType.getEksternIdType()))
 				.eksternDokumentTypeId(eksternDokumentType.getEksternDokumentTypeId()).build();
@@ -96,7 +96,7 @@ public class DokumenttypeInfoMapper {
 		to.setArkivSystem(enumToString(domain.getArkivSystem()));
 		to.setBehandlingstema(domain.getBehandlingstema());
 		to.setArtifaktId(domain.getArtifaktId());
-		to.setChangeStamp(map(domain.getChangeStamp()));
+		to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}
 
@@ -111,7 +111,7 @@ public class DokumenttypeInfoMapper {
 	public List<EksternDokumentTypeTo> mapToEksternDokumentTyperTo(Set<EksternDokumentType> eksternDokTypeSet) {
 		return eksternDokTypeSet.stream()
 				.map(e -> new EksternDokumentTypeTo(e.getEksternDokumentTypeId(), e.getEksternIdType().toString()))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private void mapArkivSystem(DokumenttypeInfoTo to, DokumenttypeInfo dokumentTypeInfo) {
@@ -143,10 +143,7 @@ public class DokumenttypeInfoMapper {
 			dokumentTypeInfo.setDokumentMottakInfo(mapToDokumentMottakInfo(to.getDokumentMottakInfo(),
 					dokumentTypeInfo.getDokumentMottakInfo()));
 			dokumentTypeInfo.getDokumentMottakInfo().setDokumenttypeInfo(dokumentTypeInfo);
-
-			dokumentTypeInfo.setEksternDokumentType(
-
-					mapToEksternDokumentType(to.getDokumentMottakInfo().getEksternDokumentTyper()));
+			dokumentTypeInfo.setEksternDokumentType(mapToEksternDokumentType(to.getDokumentMottakInfo().getEksternDokumentTyper()));
 			dokumentTypeInfo.getEksternDokumentType().forEach(e -> e.setDokumenttypeInfo(dokumentTypeInfo));
 
 		}
@@ -214,7 +211,7 @@ public class DokumenttypeInfoMapper {
 		return distribusjonInfo;
 	}
 
-	private ChangeStampTo map(ChangeStamp domain) {
+	private ChangeStampTo mapChangeStampTo(ChangeStamp domain) {
 		ChangeStampTo to = new ChangeStampTo();
 
 		to.setEndretAv(domain.getEndretAv());
@@ -224,15 +221,15 @@ public class DokumenttypeInfoMapper {
 		return to;
 	}
 
-	private DistribusjonInfoTo map(DistribusjonInfo domain) {
+	private DistribusjonInfoTo mapDistribusjonInfoTo(DistribusjonInfo domain) {
 		DistribusjonInfoTo to = null;
 		if (domain != null) {
 			to = new DistribusjonInfoTo();
 			to.setPortoklasse(domain.getPortoklasse());
 			to.setPredefinertDistKanal(enumToString(domain.getPredefinertDistKanal()));
 			to.setSikkerhetsnivaa(domain.getSikkerhetsnivaa());
-			to.setChangeStamp(map(domain.getChangeStamp()));
-			to.getDistribusjonVarsels().addAll(map(domain.getDistribusjonVarsels()));
+			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
+			to.getDistribusjonVarsels().addAll(mapDistribusjonVarselTos(domain.getDistribusjonVarsels()));
 			to.setTosidigPrint(domain.getTosidigPrint());
 			to.setSentralPrintDokumentType(domain.getSentralPrintDokumentType().name());
 			to.setKonvoluttvinduType(domain.getKonvoluttvinduType().name());
@@ -240,11 +237,11 @@ public class DokumenttypeInfoMapper {
 		return to;
 	}
 
-	private Set<DistribusjonVarselTo> map(Set<DistribusjonVarsel> distribusjonVarsels) {
+	private Set<DistribusjonVarselTo> mapDistribusjonVarselTos(Set<DistribusjonVarsel> distribusjonVarsels) {
 		Set<DistribusjonVarselTo> to = new HashSet<>();
 		for (DistribusjonVarsel domain : distribusjonVarsels) {
 			DistribusjonVarselTo varselTo = new DistribusjonVarselTo();
-			varselTo.setChangeStamp(map(domain.getChangeStamp()));
+			varselTo.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
 			varselTo.setVarselForDistribusjonKanal(enumToString(domain.getVarselForDistribusjonKanal()));
 			varselTo.setVarseltypeId(domain.getVarseltypeId());
 			to.add(varselTo);
@@ -256,7 +253,7 @@ public class DokumenttypeInfoMapper {
 		Set<SpraakInfoTo> to = new HashSet<>();
 		for (SpraakInfo domain : spraakInfos) {
 			SpraakInfoTo spraakInfoTo = new SpraakInfoTo();
-			spraakInfoTo.setChangeStamp(map(domain.getChangeStamp()));
+			spraakInfoTo.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
 			spraakInfoTo.setSpraaklag(domain.getSpraaklag());
 			to.add(spraakInfoTo);
 		}
@@ -270,7 +267,7 @@ public class DokumenttypeInfoMapper {
 			to = new DokumentMottakInfoTo();
 			to.setArkivBehandling(enumToString(domain.getArkivBehandling()));
 			to.setKonverteringsBehandling(enumToString(domain.getKonverteringBehandling()));
-			to.setChangeStamp(map(domain.getChangeStamp()));
+			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
 		}
 		return to;
 	}
@@ -285,8 +282,8 @@ public class DokumenttypeInfoMapper {
 			to.setRedigerbarMalId(domain.getRedigerbarMalId());
 			to.setMalLogikkFil(domain.getMalLogikkFil());
 			to.setMalXsdReferanse(domain.getMalXsdReferanse());
-			to.setDistribusjonInfo(map(domain.getDistribusjonInfo()));
-			to.setChangeStamp(map(domain.getChangeStamp()));
+			to.setDistribusjonInfo(mapDistribusjonInfoTo(domain.getDistribusjonInfo()));
+			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
 			to.getSpraakInfos().addAll(mapSpraakInfo(domain.getSpraakInfos()));
 		}
 		return to;

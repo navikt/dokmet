@@ -27,6 +27,7 @@ import no.nav.dokmet.web.to.DokumenttypeInfoTo;
 import no.nav.dokmet.web.to.EksternDokumentTypeTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.MDC;
@@ -34,6 +35,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import wiremock.org.apache.commons.io.IOUtils;
 
 import java.util.ArrayList;
@@ -79,7 +81,7 @@ public class Tkat020Itest extends AbstractTest {
 	private static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
 	private static final String DOKUMENTTYPE_ID_UTGAAENDE = "010002";
 	private static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
-	private static final String USER_ID = "userId";
+	private static final String USER_ID = "gosys-clientid";
 
 	protected static final String DOKMET_BASE_URL = "/rest/dokumenttypeinfo/";
 	private static final DokumentTypeKode INNGAAENDE = DokumentTypeKode.I;
