@@ -10,6 +10,10 @@
   "NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL": "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration",
   "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet",
   "AZURE_IAC_RULES": [
-
+    {
+      "app": "dokdistfordeling-q1",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    }
   ]
 }
