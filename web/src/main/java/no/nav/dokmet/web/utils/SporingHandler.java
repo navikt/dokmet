@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import static no.nav.dokmet.core.util.MDCConstants.MDC_CALL_ID;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
+import static no.nav.dokmet.core.util.MDCConstants.NAV_CALLID;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -35,7 +36,7 @@ public class SporingHandler {
 	public void handleMdc(){
 		try {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-			final String navCallId = request.getHeader(MDC_CALL_ID);
+			final String navCallId = request.getHeader(NAV_CALLID);
 			if (!isEmpty(navCallId)) {
 				MDC.put(MDC_CALL_ID, navCallId);
 			}
