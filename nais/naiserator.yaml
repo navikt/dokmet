@@ -45,6 +45,8 @@ spec:
         mountPath: "/secrets/serviceuser/dokmet"
       - kvPath: {{ DOKMET_DS }}
         mountPath: "/var/run/secrets/nais.io/dokmetDS"
+      - name: NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL
+        value: {{ NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL }}
 azure:
   application:
     enabled: true
