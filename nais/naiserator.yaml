@@ -47,6 +47,7 @@ spec:
         mountPath: "/secrets/serviceuser/dokmet"
       - kvPath: {{ DOKMET_DS }}
         mountPath: "/var/run/secrets/nais.io/dokmetDS"
+  webproxy: true
 azure:
   application:
     enabled: true
