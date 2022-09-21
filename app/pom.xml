@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>no.nav.dokmet</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>web</artifactId>
 		</dependency>
 
 		<dependency>
