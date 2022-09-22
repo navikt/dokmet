@@ -23,9 +23,9 @@ public interface DokumenttypeInfoRepository extends CrudRepository<DokumenttypeI
 	@Query(value = "DELETE from SPRAAK_INFO where fk_dokumentproduksjon_info = :dokprodInfo", nativeQuery = true)
 	void deleteSpraakInfosBydokProdInfoId(long dokprodInfo);
 
-	@Query(value = "SELECT distinct dokumentProdInfo.malXsdReferanse from DokumentProduksjonsInfo dokumentProdInfo", nativeQuery = true)
+	@Query(value = "SELECT distinct DOKUMENT_PRODUKSJON_INFO.mal_xsd_referanse from DOKUMENT_PRODUKSJON_INFO", nativeQuery = true)
 	List<String> findAllXsds();
 
-	@Query(value = "SELECT distinct dokumentProdInfo.malLogikkFil from DokumentProduksjonsInfo dokumentProdInfo", nativeQuery = true)
+	@Query(value = "SELECT distinct DOKUMENT_PRODUKSJON_INFO.mal_logikk_fil from DOKUMENT_PRODUKSJON_INFO", nativeQuery = true)
 	List<String> findAllMalFiler();
 }

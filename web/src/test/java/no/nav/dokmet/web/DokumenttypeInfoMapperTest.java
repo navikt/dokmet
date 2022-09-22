@@ -502,6 +502,4 @@ public class DokumenttypeInfoMapperTest {
 		to.setDistribusjonInfo(distribusjonInfo);
 		return to;
 	}
-
-
 }
