@@ -27,7 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = {ApplicationTestConfig.class})
+@SpringBootTest(classes = {ApplicationTestConfig.class},
+		properties = {"spring.main.allow-bean-definition-overriding=true"},
+		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AbstractTest {
 
 	@Autowired

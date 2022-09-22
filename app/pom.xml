@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>no.nav.dokmet</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -25,6 +25,23 @@
 		<dependency>
 			<groupId>no.nav.security</groupId>
 			<artifactId>token-validation-spring</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- test -->
+		<dependency>
+			<groupId>no.nav.security</groupId>
+			<artifactId>token-validation-spring-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

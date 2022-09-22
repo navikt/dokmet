@@ -134,6 +134,3 @@ public class EksternDokumentTypeRepositoryTest extends AbstractTest {
 						.build()).build();
 	}
 }
-
-	
-	

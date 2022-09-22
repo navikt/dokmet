@@ -40,14 +40,10 @@ public class RepositoryConfig {
 	DataSource dataSource(final DataSourceProperties dataSourceProperties,
 						  final DokmetProperties dokmetProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
-		log.info("Setter driverclassname");
 		//poolDataSource.setConnectionFactoryClassName(dataSourceProperties.getDriverClassName());
 		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
-		log.info("Setter db url");
 		poolDataSource.setURL(dataSourceProperties.getUrl());
-		log.info("Setter db username");
 		poolDataSource.setUser(dataSourceProperties.getUsername());
-		log.info("Setter db pwd");
 		poolDataSource.setPassword(dataSourceProperties.getPassword());
 
 		Properties connProperties = new Properties();

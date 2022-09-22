@@ -11,6 +11,10 @@ spec:
       value: "webproxy.nais"
     - name: DOKMET_PROXY_PORT
       value: "8088"
+    - name: NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL
+      value: {{ NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL }}
+    - name: SPRING_DATASOURCE_URL
+      value: {{ SPRING_DATASOURCE_URL }}
   image: {{ image }}
   ingresses:
     {{#each INGRESSES}}
@@ -45,12 +49,13 @@ spec:
         mountPath: "/secrets/serviceuser/dokmet"
       - kvPath: {{ DOKMET_DS }}
         mountPath: "/var/run/secrets/nais.io/dokmetDS"
-azure:
-  application:
-    enabled: true
-    claims:
-      extra:
-        - "azp_name"
+  webproxy: true
+  azure:
+    application:
+      enabled: true
+      claims:
+        extra:
+          - "azp_name"
   accessPolicy:
     inbound:
       rules:

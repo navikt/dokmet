@@ -44,6 +44,7 @@ public class VarselInfoRepositoryTest extends AbstractTest{
 	public static final String MAL_VERSION = "1.14.1";
 	public static final String VARSEL_NAVN = "varselNavn";
 	public static final String VARSEL_URL = "VARSEL_URL";
+	protected static final String REPO_USER_ID = "repoTest";
 
 	@BeforeEach
 	public void setUp(){
@@ -51,11 +52,11 @@ public class VarselInfoRepositoryTest extends AbstractTest{
 			MDC.put(MDC_USER_ID, REPO_USER_ID);
 		}
 		super.emptyDatabases();
-		super.emptyDatabases();
+		commitAndBeginNewTransaction();
 	}
 
 	@Test
-	public void findAll() throws Exception {
+	public void findAll() {
 		varselInfoRepository.save(createDomainVarselInfo().build());
 		varselInfoRepository.save(createDomainVarselInfo().varseltypeId("varseltypeId2").build());
 
