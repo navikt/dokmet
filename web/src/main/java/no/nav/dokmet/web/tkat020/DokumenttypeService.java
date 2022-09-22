@@ -15,7 +15,6 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Transactional
 public class DokumenttypeService {
 
 	private final DokumenttypeInfoMapper dokumenttypeInfoMapper;
@@ -28,6 +27,7 @@ public class DokumenttypeService {
 		this.dokumenttypeInfoMapper = dokumenttypeInfoMapper;
 	}
 
+	@Transactional
 	public DokumenttypeInfoTo updateDokumenttypeInfo(DokumenttypeInfoTo dokumenttypeInfoUpdateTo,
 													 String dokumenttypeId) {
 
@@ -45,6 +45,7 @@ public class DokumenttypeService {
 		return dokumenttypeInfoMapper.mapToDokumentTypeInfoTo(updatedDokumenttypeInfo);
 	}
 
+	@Transactional
 	public DokumenttypeInfoTo saveNewDokumenttypeInfo(DokumenttypeInfoTo dokumentTypeInfoTo) {
 		DokumenttypeInfo newDokumenttypeInfo = dokumenttypeInfoMapper
 				.mapToDokumentTypeInfo(dokumentTypeInfoTo);
@@ -54,10 +55,12 @@ public class DokumenttypeService {
 		return dokumenttypeInfoMapper.mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
 	}
 
+	@Transactional
 	public void deleteDokumenttypeInfo(String dokumenttypeId) {
 		dokumenttypeInfoRepository.deleteBydokumenttypeId(dokumenttypeId);
 	}
 
+	@Transactional(readOnly = true)
 	public DokumenttypeInfoTo findDokumenttypeInfoByDokumentTypeId(String dokumenttypeId) {
 		DokumenttypeInfo dokumentTypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumenttypeId);
 
@@ -65,6 +68,7 @@ public class DokumenttypeService {
 		return createDokumentTypeInfoTo(dokumentTypeInfo);
 	}
 
+	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findDokumenttypeInfoByBrevpakke(String navn) {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(navn)) {
@@ -77,6 +81,7 @@ public class DokumenttypeService {
 		return returnValue;
 	}
 
+	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findAllDokumenttypeInfo() {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAll()) {
@@ -89,9 +94,9 @@ public class DokumenttypeService {
 		return returnValue;
 	}
 
+	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findAllByDokumentType(DokumentTypeKode dokumentType) {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
-		;
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAllByDokumentType(dokumentType)) {
 			try {
 				returnValue.add(createDokumentTypeInfoTo(dokumentTypeInfo));

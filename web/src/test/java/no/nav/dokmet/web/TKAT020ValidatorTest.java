@@ -220,23 +220,6 @@ public class TKAT020ValidatorTest {
 		assertValidationOfThrowsExceptionWithMessage(to, "ArkiverBehandling er påkrevd", true);
 	}
 
-	//Currently the difference between V3 and - gammel kommentar fra dokkat
-	/*
-	*	Denne testen fantes i gamle dokumentkatalog, men da ble validate aldri kjørt.
-	*	Testen kjørte derfor grønt selv om den ikke burde det, i følge testnavnet.
-	*	Om man faktisk gjør at testen validerer i gamle koden feiler den.
-	*/
-	@Test
-	@Disabled
-	public void shouldNotFailForMissingArkivSystem()  {
-		DokumenttypeInfoTo to = TestUtils.createDokumentMottakInfoTo(DokumentTypeKode.I);
-
-		to.setArkivSystem(null);
-		to.getDokumentMottakInfo().setArkivBehandling(ARKIVER_FRA_MOTTAK.name());
-		tkat020Validator.validate(to, true);
-
-	}
-
 	@Test
 	public void shouldThrowExceptionOnMissingArkivSystemForArkivBehandlingFellesDokumentmottak()  {
 		DokumenttypeInfoTo to = TestUtils.createDokumentMottakInfoTo(DokumentTypeKode.I);
