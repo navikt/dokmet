@@ -40,11 +40,11 @@ public class RepositoryConfig {
 	DataSource dataSource(final DataSourceProperties dataSourceProperties,
 						  final DokmetProperties dokmetProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
-		//poolDataSource.setConnectionFactoryClassName(dataSourceProperties.getDriverClassName());
 		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
 		poolDataSource.setURL(dataSourceProperties.getUrl());
 		poolDataSource.setUser(dataSourceProperties.getUsername());
 		poolDataSource.setPassword(dataSourceProperties.getPassword());
+		poolDataSource.registerConnectionInitializationCallback(connection -> connection.setSchema("dokkat"));
 
 		Properties connProperties = new Properties();
 		connProperties.setProperty(SQLnetDef.TCP_CONNTIMEOUT_STR, "3000");
