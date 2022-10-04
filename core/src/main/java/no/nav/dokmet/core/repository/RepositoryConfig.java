@@ -44,7 +44,7 @@ public class RepositoryConfig {
 		poolDataSource.setURL(dataSourceProperties.getUrl());
 		poolDataSource.setUser(dataSourceProperties.getUsername());
 		poolDataSource.setPassword(dataSourceProperties.getPassword());
-		//poolDataSource.registerConnectionInitializationCallback(connection -> connection.setSchema("dokkat"));
+		poolDataSource.registerConnectionInitializationCallback(connection -> connection.setSchema("dokkat"));
 
 		Properties connProperties = new Properties();
 		connProperties.setProperty(SQLnetDef.TCP_CONNTIMEOUT_STR, "3000");
