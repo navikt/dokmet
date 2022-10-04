@@ -27,7 +27,6 @@ import no.nav.dokmet.web.to.DokumenttypeInfoTo;
 import no.nav.dokmet.web.to.EksternDokumentTypeTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.MDC;
@@ -35,7 +34,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import wiremock.org.apache.commons.io.IOUtils;
 
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-public class Tkat020Itest extends AbstractTest {
+public class Tkat020ITest extends AbstractTest {
 
 	private static final String SDP = "SDP";
 	private static final String VARSELTYPE_ID = "varseltypeId";
