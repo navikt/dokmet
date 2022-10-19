@@ -24,6 +24,11 @@
       "app": "dokdistkanal",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
+    },
+    {
+      "app": "dokprod",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
     }
   ]
 }

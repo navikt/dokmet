@@ -16,7 +16,17 @@
       "cluster": "dev-fss"
     },
     {
+      "app": "dokdistdpi-2",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
       "app": "dokdistkanal-q1",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "dokprod-q1",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     }
