@@ -21,7 +21,7 @@
       "cluster": "dev-fss"
     },
     {
-      "app": "dokdistkanal-q2",
+      "app": "dokdistkanal",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     }
