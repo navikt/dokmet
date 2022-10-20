@@ -1,6 +1,9 @@
 package no.nav.dokmet.web;
 
+import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
+import no.nav.dokmet.core.domain.kode.KanalKode;
+import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 
 public class TestDataUtils {
 	
@@ -47,5 +50,17 @@ public class TestDataUtils {
 	public static final EksternIdTypeKode EKSTERN_ID_TYPE_KODE = EksternIdTypeKode.SERVICE_CODE;
 	public static final String BREVPAKKE = "brevpakke";
 	
-	
+
+	public static final VarselKategoriKode VARSEL_KATEGORI = VarselKategoriKode.DISTRIBUSJON;
+	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = DistribusjonKanalKode.VED_DITT_NAV_OGSA_PRINT;
+	public static final boolean INAKTIV = false;
+	public static final int REVARSLING_INTERVALL = 5;
+	public static final int ANTALL_REVARSLINGER = 2;
+	public static final String TITTEL = "tittel";
+	public static final KanalKode KANAL = KanalKode.EPOST;
+	public static final String FOERSTEGANGSVARSEL_TEKST = "forestagang tekst";
+	public static final String REVARSLING_TEKST = "revarseltekst";
+	public static final String MAL_VERSION = "1.14.1";
+	public static final String VARSEL_NAVN = "varselNavn";
+	public static final String VARSEL_URL = "VARSEL_URL";
 }
