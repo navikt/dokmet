@@ -1,7 +1,10 @@
 package no.nav.dokmet.web;
 
+import no.nav.dokmet.core.builders.builder.VarselInfoBuilder;
+import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.EksternDokumentType;
+import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.web.to.DistribusjonInfoTo;
 import no.nav.dokmet.web.to.DistribusjonVarselTo;
@@ -9,10 +12,26 @@ import no.nav.dokmet.web.to.DokumentMottakInfoTo;
 import no.nav.dokmet.web.to.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.web.to.DokumenttypeInfoTo;
 import no.nav.dokmet.web.to.EksternDokumentTypeTo;
+import no.nav.dokmet.web.to.VarselInfoTo;
+import no.nav.dokmet.web.to.VarselMalTo;
+
+import java.util.Collections;
 
 import static java.util.Arrays.asList;
 import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
+import static no.nav.dokmet.web.TestDataUtils.ANTALL_REVARSLINGER;
+import static no.nav.dokmet.web.TestDataUtils.FOERSTEGANGSVARSEL_TEKST;
+import static no.nav.dokmet.web.TestDataUtils.INAKTIV;
+import static no.nav.dokmet.web.TestDataUtils.KANAL;
+import static no.nav.dokmet.web.TestDataUtils.REVARSLING_INTERVALL;
+import static no.nav.dokmet.web.TestDataUtils.REVARSLING_TEKST;
+import static no.nav.dokmet.web.TestDataUtils.TITTEL;
+import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID;
+import static no.nav.dokmet.web.TestDataUtils.VARSEL_FOR_DISTRIBUSJON_KANAL;
+import static no.nav.dokmet.web.TestDataUtils.VARSEL_KATEGORI;
+import static no.nav.dokmet.web.TestDataUtils.VARSEL_NAVN;
+import static no.nav.dokmet.web.TestDataUtils.VARSEL_URL;
 
 public class TestUtils {
 	
@@ -56,7 +75,7 @@ public class TestUtils {
 		distribusjonInfo.setSikkerhetsnivaa(5);
 		DistribusjonVarselTo distribusjonVarsel = new DistribusjonVarselTo();
 		distribusjonVarsel.setVarselForDistribusjonKanal(TestDataUtils.SDP);
-		distribusjonVarsel.setVarseltypeId(TestDataUtils.VARSELTYPE_ID);
+		distribusjonVarsel.setVarseltypeId(VARSELTYPE_ID);
 		distribusjonInfo.getDistribusjonVarsels().add(distribusjonVarsel);
 		
 		prodTo.setDistribusjonInfo(distribusjonInfo);
@@ -87,4 +106,54 @@ public class TestUtils {
 		eksternDokumentType.setDokumenttypeInfo(dokumenttypeInfo);
 		return eksternDokumentType;
 	}
+
+	public static VarselInfo createVarselInfo() {
+		return createVarselInfoWithVarseltypeId(VARSELTYPE_ID);
+	}
+
+	public static VarselInfo createVarselInfoWithVarseltypeId(String varseltypeId) {
+		return VarselInfoBuilder.aVarselInfo()
+				.varseltypeId(varseltypeId)
+				.varselNavn(VARSEL_NAVN)
+				.varselKategori(VARSEL_KATEGORI)
+				.varselForDistribusjonKanal(VARSEL_FOR_DISTRIBUSJON_KANAL)
+				.inaktiv(INAKTIV)
+				.revarslingIntervall(REVARSLING_INTERVALL)
+				.antallRevarslinger(ANTALL_REVARSLINGER)
+				.varselURL(VARSEL_URL)
+				.preferertKanal(Collections.singleton(KANAL))
+				.varselmals(Collections.singleton(
+						VarselMalBuilder.aVarselMal()
+								.kanal(KANAL)
+								.varselTittel(TITTEL)
+								.foerstegangsvarselTekst(FOERSTEGANGSVARSEL_TEKST)
+								.revarslingTekst(REVARSLING_TEKST)
+								.build()))
+				.build();
+	}
+
+	public static VarselInfoTo createVarselInfoTo() {
+		return createVarselInfoToWithVarseltypeId(VARSELTYPE_ID);
+	}
+	public static VarselInfoTo createVarselInfoToWithVarseltypeId(String varseltypeId) {
+		return VarselInfoTo.builder()
+				.varseltypeId(varseltypeId)
+				.varselNavn(VARSEL_NAVN)
+				.varselKategori(VARSEL_KATEGORI.name())
+				.varselForDistribusjonKanal(VARSEL_FOR_DISTRIBUSJON_KANAL.name())
+				.inaktiv(INAKTIV)
+				.revarslingIntervall(REVARSLING_INTERVALL)
+				.antallRevarslinger(ANTALL_REVARSLINGER)
+				.varselURL(VARSEL_URL)
+				.preferertKanal(Collections.singleton(KANAL.name()))
+				.varselmals(Collections.singleton(
+						VarselMalTo.builder()
+								.kanal(KANAL.name())
+								.varselTittel(TITTEL)
+								.foerstegangsvarselTekst(FOERSTEGANGSVARSEL_TEKST)
+								.revarslingTekst(REVARSLING_TEKST)
+								.build()))
+				.build();
+	}
+
 }
