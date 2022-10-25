@@ -1,6 +1,5 @@
 package no.nav.dokmet.web.to;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,9 +13,6 @@ public class VarselInfoTo {
 	private String varselKategori;
 	private String varselForDistribusjonKanal;
 	private Boolean inaktiv;
-	@Deprecated
-	@JsonIgnore
-	private String malVersion;
 	private Integer revarslingIntervall;
 	private Integer antallRevarslinger;
 	private String varselURL;
