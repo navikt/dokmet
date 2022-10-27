@@ -8,7 +8,6 @@ import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
