@@ -10,11 +10,9 @@ import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.transaction.TransactionSystemException;
 import repository.config.AbstractTest;
 
-import javax.validation.ConstraintViolationException;
 import java.util.Collections;
 
 import static no.nav.dokmet.core.builders.builder.VarselMalBuilder.aVarselMal;
@@ -24,10 +22,8 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static repository.itest.DokumenttypeInfoRepositoryTest.REPO_USER_ID;
 
 public class VarselInfoRepositoryTest extends AbstractTest{
 
