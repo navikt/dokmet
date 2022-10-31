@@ -29,6 +29,11 @@
       "app": "dokprod-q1",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-q1",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
     }
   ]
 }
