@@ -2,11 +2,12 @@ package no.nav.dokmet.core.domain.entities;
 
 import javax.validation.constraints.Pattern;
 
+import lombok.Getter;
+import lombok.Setter;
 import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -29,6 +30,8 @@ import java.util.Set;
 
 import static java.lang.String.format;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "VARSEL_INFO", uniqueConstraints = @UniqueConstraint(columnNames = "varseltype_id"))
 public class VarselInfo extends AbstractDomainObject {
@@ -82,84 +85,12 @@ public class VarselInfo extends AbstractDomainObject {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "varselInfo")
 	private Set<VarselMal> varselmals = new HashSet<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getVarseltypeId() {
-		return varseltypeId;
-	}
-
-	public void setVarseltypeId(String varseltypeId) {
-		this.varseltypeId = varseltypeId;
-	}
-
-	public String getVarselNavn() {
-		return varselNavn;
-	}
-
-	public void setVarselNavn(String varselNavn) {
-		this.varselNavn = varselNavn;
-	}
-
-	public VarselKategoriKode getVarselKategori() {
-		return varselKategori;
-	}
-
-	public void setVarselKategori(VarselKategoriKode varselKategori) {
-		this.varselKategori = varselKategori;
-	}
-
-	public DistribusjonKanalKode getVarselForDistribusjonKanal() {
-		return varselForDistribusjonKanal;
-	}
-
-	public void setVarselForDistribusjonKanal(DistribusjonKanalKode varselForDistribusjonKanal) {
-		this.varselForDistribusjonKanal = varselForDistribusjonKanal;
-	}
-
-	public Boolean getInaktiv() {
-		return inaktiv;
-	}
-
-	public void setInaktiv(Boolean inaktiv) {
-		this.inaktiv = inaktiv;
-	}
-
-	public Integer getRevarslingIntervall() {
-		return revarslingIntervall;
-	}
-
-	public void setRevarslingIntervall(Integer revarslingIntervall) {
-		this.revarslingIntervall = revarslingIntervall;
-	}
-
-	public Integer getAntallRevarslinger() {
-		return antallRevarslinger;
-	}
-
-	public void setAntallRevarslinger(Integer antallRevarslinger) {
-		this.antallRevarslinger = antallRevarslinger;
-	}
-
 	public Set<KanalKode> getPreferertKanal() {
 		return new HashSet<>(preferertKanal);
 	}
 
 	public void setPreferertKanal(Set<KanalKode> preferertKanal) {
 		this.preferertKanal = new HashSet<>(preferertKanal);
-	}
-
-	public String getVarselURL() {
-		return varselURL;
-	}
-
-	public void setVarselURL(String varselURL) {
-		this.varselURL = varselURL;
 	}
 
 	public Set<VarselMal> getVarselmals() {
