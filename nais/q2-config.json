@@ -59,6 +59,51 @@
       "app": "dokdistsentralprint",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-q0",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-q2",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-q4",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-q5",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-t0",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-t3",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-t4",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
+      "app": "regoppslag-t5",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
     }
   ]
 }
