@@ -36,6 +36,11 @@
       "cluster": "prod-fss"
     },
     {
+      "app": "foerstesidegenerator",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "prod-fss"
+    },
+    {
       "app": "regoppslag",
       "namespace": "teamdokumenthandtering",
       "cluster": "prod-fss"
