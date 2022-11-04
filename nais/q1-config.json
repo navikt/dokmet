@@ -36,6 +36,11 @@
       "cluster": "dev-fss"
     },
     {
+      "app": "foerstesidegenerator-q1",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    },
+    {
       "app": "regoppslag-q1",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
