@@ -134,11 +134,6 @@
       "app": "regoppslag-t5",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
-    },
-    {
-      "app": "varsel2",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
     }
   ]
 }

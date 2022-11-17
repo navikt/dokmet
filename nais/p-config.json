@@ -44,11 +44,6 @@
       "app": "regoppslag",
       "namespace": "teamdokumenthandtering",
       "cluster": "prod-fss"
-    },
-    {
-      "app": "varsel2",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
     }
   ]
 }
