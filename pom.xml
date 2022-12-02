@@ -18,6 +18,7 @@
 		<module>app</module>
 		<module>core</module>
 		<module>web</module>
+		<module>frontend</module>
 	</modules>
 
 	<properties>
