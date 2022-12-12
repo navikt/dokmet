@@ -4,21 +4,26 @@ import VarseltypePage from './pages/VarseltypePage';
 import VarseltestPage from './pages/VarseltestPage';
 import LoginPage from './pages/LoginPage';
 
-const MyRoutes: React.FC = () => (
+interface MyRoutesProps {
+    loginAction: (name: string) => void,
+    username?: string
+}
+
+const MyRoutes: React.FC<MyRoutesProps> = ({loginAction, username}) => (
     <Suspense fallback={<div/>}>
         <Router>
             <Routes>
                 <Route
                     path="/"
-                    element={<VarseltypePage/>}
+                    element={<VarseltypePage username={username} onLogoutAction={loginAction}/>}
                 />
                 <Route
                     path="/varseltest"
-                    element={<VarseltestPage/>}
+                    element={<VarseltestPage username={username} onLogoutAction={loginAction}/>}
                 />
                 <Route
                     path="/login"
-                    element={<LoginPage/>}
+                    element={<LoginPage loginAction={loginAction}  loggedinUser={username}/>}
                 />
             </Routes>
         </Router>

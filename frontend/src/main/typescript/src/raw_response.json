@@ -1,0 +1,1932 @@
+[ {
+  "varseltypeId" : "SDP_000001",
+  "varselNavn" : "Innkalling til møte",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg innkalling til et møte. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg innkalling til et møte. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000002",
+  "varselNavn" : "Brev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et brev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et brev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000003",
+  "varselNavn" : "Informasjon om saksbehandlingstid",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg informasjon om saksbehandlingstiden vår. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg informasjon om saksbehandlingstiden vår. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000004",
+  "varselNavn" : "Vedtaksbrev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et vedtaksbrev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et vedtaksbrev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000005",
+  "varselNavn" : "Vedtaksbrev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt et vedtaksbrev. Logg inn i postkassen for å lese det.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt et vedtaksbrev. Logg inn i postkassen for å lese det.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000006",
+  "varselNavn" : "Viktig brev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et viktig brev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg et viktig brev. Logg deg inn i postkassen din for å lese det.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SDP_000007",
+  "varselNavn" : "Informasjonsmøte",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "SDP",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg innkalling til et informasjonsmøte. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt deg innkalling til et informasjonsmøte. Logg deg inn i postkassen din for å lese den.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000001",
+  "varselNavn" : "Innkalling til møte",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Innkalling til møte med NAV",
+    "foerstegangsvarselTekst" : "Hei! NAV har innkalt deg til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du er innkalt til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet innkallingen, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! NAV har innkalt deg til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du er innkalt til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet innkallingen, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi har innkalt deg til et møte.",
+    "revarslingTekst" : "Vi minner om at vi har innkalt deg til et møte."
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000002",
+  "varselNavn" : "Brev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et brev.",
+    "revarslingTekst" : "Vi minner om at du har fått et brev."
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått et brev fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et brev fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000003",
+  "varselNavn" : "Informasjon om saksbehandlingstid",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått brev fra NAV med informasjon om saksbehandlingstiden for søknaden din. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått brev med informasjon om saksbehandlingstiden for søknaden din. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et brev med informasjon om saksbehandlingstiden for søknaden din.",
+    "revarslingTekst" : "Vi minner om at du har fått brev med informasjon om saksbehandlingstiden for søknaden din."
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått brev fra NAV med informasjon om saksbehandlingstiden for søknaden din. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått brev med informasjon om saksbehandlingstiden for søknaden din. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000004",
+  "varselNavn" : "Vedtaksbrev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et vedtak fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et vedtak. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet vedtaket, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et vedtak.",
+    "revarslingTekst" : "Vi minner om at du har fått et vedtak."
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått et vedtak fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "NAV minner om at du har fått et vedtak. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet vedtaket, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000005",
+  "varselNavn" : "Vedtaksbrev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt et brev.",
+    "revarslingTekst" : "Vi minner om at NAV har sendt et brev."
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har sendt et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "NAV har sendt et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Se bort fra denne meldingen hvis brevet allerede er åpnet. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "NAV har sendt et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Vi minner om at NAV har sendt et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Se bort fra denne henvendelsen hvis brevet allerede er åpnet. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "SyfoMotebekreftelse",
+  "varselNavn" : "SyfoMotebekreftelse",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Møtebekreftelse",
+    "foerstegangsvarselTekst" : "Hei! Vi bekrefter møtetidspunkt {tidsted}. Du vil om kort tid få en innkalling i posten med mer informasjon om møtet. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi bekrefter møtetidspunkt {tidsted}. Du vil om kort tid få en innkalling i posten med mer informasjon om møtet. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møtebekreftelse. Gå til meldingen {url}.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoMoteAvbrutt",
+  "varselNavn" : "SyfoMoteAvbrutt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Forespørsel om dialogmøte – kansellert. \nGå til meldingen {url}.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Møte med NAV- forespørselen er kansellert",
+    "foerstegangsvarselTekst" : "Du har tidligere mottatt en forespørsel om møte med NAV. Du kan se bort fra forespørselen. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har tidligere mottatt en forespørsel om møte med NAV. Du kan se bort fra forespørselen.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfomoteNyetidspunkt",
+  "varselNavn" : "syfomoteNyetidspunkt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Ingen av tidspunktene som ble foreslått for møtet passet. Vi har foreslått nye tidspunkt som vi ber deg svare på. Logg inn på Ditt NAV, eller følg denne lenken: {url}. \n\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Nye tidspunkt for møte: Hvilke tidspunkt passer?",
+    "foerstegangsvarselTekst" : "Ingen av tidspunktene som ble foreslått for møtet passet. Vi har foreslått nye tidspunkt som vi ber deg svare på. Logg inn på Ditt NAV, eller følg denne lenken: {url}.\n \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi har foreslått nye tidspunkt for dialogmøte som vi ber deg svare på. \nGå til meldingen {url}.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoMoteforesporsel",
+  "varselNavn" : "SyfoMoteforesporsel",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 2,
+  "antallRevarslinger" : 2,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi ønsker å avtale et møte med deg. Logg inn på Ditt NAV, eller følg denne lenken: {url} Vennlig hilsen NAV",
+    "revarslingTekst" : "Vi venter på svar fra deg om passende møtetidspunkt. Oppgi hvilke tidspunkt som passer ved å følge lenken: {url} Har du spørsmål, kan du kontakte oss på 55 55 33 33. Vennlig hilsen NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Forespørsel om møte med NAV",
+    "foerstegangsvarselTekst" : "Hei! Vi ønsker å avtale et møte med deg. Logg inn på Ditt NAV eller følg denne lenken: {url} Vennlig hilsen NAV",
+    "revarslingTekst" : "Vi venter på svar fra deg om passende møtetidspunkt. Oppgi hvilke tidspunkt som passer ved å følge lenken: {url} Har du spørsmål, kan du kontakte oss på 55 55 33 33. Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi ønsker å avtale tidspunkt for et dialogmøte med deg.",
+    "revarslingTekst" : "Vi ønsker å avtale et dialogmøte med deg."
+  } ]
+}, {
+  "varseltypeId" : "RettTil4UkerFerie",
+  "varselNavn" : "RettTil4UkerFerie",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://www.nav.no/feriemedytelser",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi vil informere deg om at du kan ta ferie i inntil fire uker og samtidig få dagpenger. Dersom du ønsker å ta ferie, må du oppgi hvilke dager du tar ferie på meldekortet. Du kan lese mer om ferie og dagpenger på https://www.nav.no/feriemedytelser. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på nav.no. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny beskjed",
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på nav.no. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "RettTil4UkerFerieOppbrukt",
+  "varselNavn" : "RettTil4UkerFerieOppbrukt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://www.nav.no/feriemedytelser",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på nav.no. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny beskjed",
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på nav.no. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har brukt opp de fire ukene dine med ferie mens du har fått utbetalt dagpenger. Hvis du tar mer ferie må du krysse av for ferie på meldekortene. Når du nå tar ferie vil du få trekk i dagpengene dine. Du kan lese om ferie og dagpenger på nav.no/ferie. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SVAR",
+  "varselNavn" : "SVAR",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et svar fra NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Du har fått et svar fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et svar fra NAV på henvendelsen din. Du får se svaret ved å logge deg inn i Innboks på Ditt NAV eller følge denne lenken {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått svar fra NAV. Se svaret på Ditt NAV: {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "Gruppeaktivitet",
+  "varselNavn" : "Gruppeaktivitet",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Dette er en beskjed om at du har et møte på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Påminnelse om møte",
+    "foerstegangsvarselTekst" : "Hei! Dette er en beskjed om at du har et møte på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har et møte i regi av NAV på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "IndividuellSamtale",
+  "varselNavn" : "IndividuellSamtale",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har et møte i regi av NAV på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Påminnelse om møte",
+    "foerstegangsvarselTekst" : "Hei! Dette er en beskjed om at du har et møte på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Dette er en beskjed om at du har et møte på {sted} {tid:dd.MM.yyyy} klokken {tid:HH:mm}",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "1.GangVarselBrevPensj",
+  "varselNavn" : "1.GangVarselBrevPensj",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Vi har sendt deg et brev. Logg inn på nav.no og les brevet i Din pensjon. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har mottatt et brev i Din Pensjon. Gå til Din pensjon og les brevet i innboksen",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi har sendt deg et brev. Logg inn på nav.no og les brevet i Din pensjon. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "2.GangVarselBrevPensj",
+  "varselNavn" : "2.GangVarselBrevPensj",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Vi minner om at du har et ulest brev i Din pensjon. Brevet blir ikke sendt til deg i posten. Logg inn på nav.no og les brevet i Din pensjon. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi minner om at du har et ulest brev i Din pensjon. Gå til Din pensjon og les brevet i innboksen. Brevet blir ikke sendt til deg i posten.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi minner om at du har et ulest brev i Din pensjon. Brevet blir ikke sendt til deg i posten. Logg inn på nav.no og les brevet i Din pensjon. \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SPORSMAL",
+  "varselNavn" : "SPORSMAL",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et spørsmål fra NAV  ",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått et spørsmål fra NAV. Se spørsmålet på Ditt NAV: {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Du har fått et spørsmål fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et spørsmål fra NAV. Du får se spørsmålet ved å logge deg inn i Innboks på Ditt NAV eller følge denne lenken {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "PermitteringSnartOppbrukt",
+  "varselNavn" : "PermitteringSnartOppbrukt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på Ditt NAV. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny beskjed",
+    "foerstegangsvarselTekst" : "NAV har en beskjed til deg. Logg inn på Ditt NAV. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du kan motta dagpenger under permittering i inntil 49 uker i løpet av en periode på 18 måneder. Etter 30 uker med dagpenger, har arbeidsgiveren din en lønnspliktperiode på 5 arbeidsdager. Derfor stanses dagpengene dine etter 30 uker. Hvis du fortsatt er permittert når lønnspliktperioden på 5 arbeidsdager er over, må du søke om gjenopptak av dagpengene dine. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoTredjepart",
+  "varselNavn" : "SyfoTredjepart",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NA",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Sykmeldt arbeidstaker",
+    "foerstegangsvarselTekst" : "Hei. En av dine ansatte er sykmeldt. For å se sykmeldingen, logg inn på: {url}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. En av dine ansatte er sykmeldt. For å se sykmeldingen, logg inn på: {url}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoOppgave",
+  "varselNavn" : "SyfoOppgave",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har mottatt en ny sykmelding.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Det ligger en melding til deg på nav.no. Logg inn på Ditt NAV eller følg denne lenken {url} Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoOppgave</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Det ligger en melding til deg på nav.no.</p>\n<p>Logg inn på Ditt NAV eller følg denne lenken {url}</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoAktivitetskrav",
+  "varselNavn" : "SyfoAktivitetskrav",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoAktivitetskrav</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Det ligger en viktig melding til deg på nav.no.</p>\n<p>Logg inn på Ditt NAV, eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Det ligger en viktig melding til deg på nav.no. Logg inn på Ditt NAV, eller følg denne lenken {url}. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV skal nå vurdere aktivitetsplikten din",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederNySykmelding",
+  "varselNavn" : "syfoNaermesteLederNySykmelding",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Sykmeldt arbeidstaker",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederNySykmelding</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Du har fått tilgang til sykmeldingen til en av dine ansatte fordi du er meldt inn som nærmeste leder med personalansvar.</p>\n<p>Følg denne lenken for å se sykmeldingen: {url}</p>\n<p>Du kan også gå til www.nav.no/dinesykmeldte.</p>\n<p>Du må logge inn med BankID eller tilsvarende for at vi skal være sikre på at sykmeldingen kommer fram til rett person.</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. Du har fått tilgang til sykmeldingen til en av dine ansatte.\nFølg denne lenken for å se sykmeldingen: \n{url} \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NA",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederNySykepengesoknad",
+  "varselNavn" : "syfoNaermesteLederNySykepengesoknad",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "URL",
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny søknad om sykepenger",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederNySykepengesoknad</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>En søknad om sykepenger for en av dine ansatte er nå tilgjengelig på nav.no.</p>\n<p>Logg deg inn på www.nav.no/minesykmeldte eller følg denne lenken: {url}.</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. En søknad om sykepenger for en av dine ansatte er nå tilgjengelig på nav.no. Logg deg inn på www.nav.no/minesykmeldte eller følg denne lenken: {url}.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "NaermesteLederMoteAvbrutt",
+  "varselNavn" : "NaermesteLederMoteAvbrutt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møteforespørsel avbrutt",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har tidligere mottatt en bekreftelse på et tidspunkt for et dialogmøte med NAV og din arbeidsgiver. Møteforespørselen er avbrutt, og du kan se bort fra denne forespørselen. Er det fortsatt aktuelt med et møte, vil du få en ny forespørsel. Har du spørsmål, kan du kontakte oss på 55 55 33 33. Med vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Møteforespørsel avbrutt",
+    "foerstegangsvarselTekst" : "Du har tidligere mottatt en bekreftelse på et tidspunkt for et dialogmøte med NAV og din arbeidsgiver. Møteforespørselen er avbrutt, og du kan se bort fra denne forespørselen. Er det fortsatt aktuelt med et møte, vil du få en ny forespørsel. Har du spørsmål, kan du kontakte oss på 55 55 33 33. Med vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoSykepengesoknad",
+  "varselNavn" : "SyfoSykepengesoknad",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny oppgave",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html><html><head><title>SyfoSykepengesoknad</title></head><body><p>Hei!</p><p>Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder.</p><p>Vennlig hilsen</p><p>NAV</p></body></html>",
+    "revarslingTekst" : "<!DOCTYPE html><html><head><title>SyfoSykepengesoknad</title></head><body><p>Hei!</p><p>Påminnelse: Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder.</p><p>Vennlig hilsen</p><p>NAV</p></body></html>"
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder. Vennlig hilsen NAV",
+    "revarslingTekst" : "Påminnelse: Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder. Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "SyfoplangodkjenningSyk",
+  "varselNavn" : "SyfoplangodkjenningSyk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{dittnavUrl}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, Du har fått noe som venter på godkjenning av deg.\nLogg deg inn på nav.no eller følg denne lenken: {url}.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har 1 oppfølgingsplan som venter på godkjenning av deg",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplangodkjenningSyk</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Du har fått noe som venter på godkjenning av deg.</p>\n<p>Logg inn på nav.no eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000004_temp",
+  "varselNavn" : "Vedtaksbrev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått et vedtak fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Vennlig hilsen NAV",
+    "revarslingTekst" : "NAV minner om at du har fått et vedtak. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet vedtaket, kan du se bort fra denne meldingen. Vennlig hilsen NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et vedtak fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et vedtak. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet vedtaket, kan du se bort fra denne meldingen. Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et vedtak.",
+    "revarslingTekst" : "Vi minner om at du har fått et vedtak."
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000001_temp",
+  "varselNavn" : "Innkalling til møte",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi har innkalt deg til et møte.",
+    "revarslingTekst" : "Vi minner om at vi har innkalt deg til et møte."
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Innkalling til møte med NAV",
+    "foerstegangsvarselTekst" : "Hei! NAV har innkalt deg til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du er innkalt til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet innkallingen, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! NAV har innkalt deg til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du er innkalt til et møte. Les møteinnkallingen i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet innkallingen, kan du se bort fra denne meldingen. Dette brevet blir ikke sendt i posten. Les mer på nav.no/digitalebrev Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "IkkeMeldtSegFristNY",
+  "varselNavn" : "Informasjon om for sen melding uten inaktivering Nynorsk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://nav.no/meldekort",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny beskjed",
+    "foerstegangsvarselTekst" : "NAV har ein viktig beskjed til deg. Logg inn på Ditt NAV eller følg denne lenka: https://nav.no/meldekort Venleg helsing NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har eit meldekort som du ikkje har sendt!",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har ein viktig beskjed til deg. Logg inn på Ditt NAV eller følg denne lenka: https://nav.no/meldekort Venleg helsing NAV.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "EessiPenVarsleBrukerUfore",
+  "varselNavn" : "EØS-opplysninger",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny elektronisk løsning fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du kan nå prøve en ny elektronisk løsning fra NAV i stedet for å sende inn informasjon på papir. Logg inn på Ditt NAV på nav.no og se meldingen på varselbjella for mer informasjon. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi trenger flere opplysninger fra deg for å behandle søknaden din om uføretrygd til et EØS-land. Følg lenken under og legg inn opplysningene dine. Vi vil videresende søknaden din til utlandet.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du kan nå prøve en ny elektronisk løsning fra NAV i stedet for å sende inn informasjon på papir. Logg inn på Ditt NAV på nav.no og se meldingen på varselbjella for mer informasjon. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "NySykmeldingUtenLenke",
+  "varselNavn" : "NySykmeldingUtenLenke",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 0,
+  "antallRevarslinger" : 0,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått en ny sykmelding.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny oppgave",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html><html><head><title>Sykmelding</title></head><body><p>Hei!</p><p>Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder.</p><p>Vennlig hilsen</p><p>NAV</p></body></html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoDialogmoteInnkalt",
+  "varselNavn" : "syfoDialogmoteInnkalt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "URL",
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møte med NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Innkalling til dialogmøte med NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoDialogmoteInnkalt</title>\n</head>\n<p>Til {navn},</p> \n<p>NAV innkaller deg til et dialogmøte i forbindelse med en av dine ansatte sitt sykefravær. Av hensyn til personvernet kan vi ikke oppgi navnet i e-posten.</p> \n<p>Du kan lese og svare på møteinnkallingen ved å logge inn på \"Min side - arbeidsgiver\" og trykke på \"Sykmeldte\". Da vil du også se hvem det gjelder.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen NAV</p> \n<p>Du kan ikke svare på denne meldingen.</p> \n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoDialogmoteNytid",
+  "varselNavn" : "syfoDialogmoteNytid",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "URL",
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møte med NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Nytt tidspunkt for dialogmøte med NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoDialogmoteNytid</title>\n</head>\n<p>Til {navn},</p> \n<p>Du er innkalt til et dialogmøte med NAV i forbindelse med en av dine ansatte sitt sykefravær. Tidspunktet eller stedet for et dialogmøte har blitt endret.</p>\n<p>Du kan lese og svare på endringen ved å logge inn på \"Min side – arbeidsgiver\" og trykke på \"Sykmeldte\". Da vil du også se hvem det gjelder.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen NAV</p> \n<p>Du kan ikke svare på denne meldingen.</p> \n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoDialogmoteAvlyst",
+  "varselNavn" : "syfoDialogmoteAvlyst",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "URL",
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møte med NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Dialogmøte med NAV er avlyst",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoDialogmoteAvlyst</title>\n</head>\n<body>\n<p>Til {navn},</p>\n<p>Dialogmøtet er avlyst.</p><p>Du har tidligere fått en innkalling til et dialogmøte. Dette møtet vil likevel ikke bli avholdt. Du kan lese avlysningen ved å logge inn på \"Min side – arbeidsgiver\" og trykke på \"Sykmeldte\". Der kan du også lese begrunnelsen.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen NAV</p> \n<p>Du kan ikke svare på denne meldingen.</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000010",
+  "varselNavn" : "Årsoppgave RAY",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 0,
+  "antallRevarslinger" : 0,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei, vi minner om at du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021",
+    "revarslingTekst" : "Vi minner om at du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Årsoppgave fra NAV",
+    "foerstegangsvarselTekst" : "Hei, du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei, vi minner om at du har fått årsoppgave fra NAV over dine utbetalinger og trekk i 2021. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "servicemelding_for_foreldrepenger",
+  "varselNavn" : "ForeldrepengerSoknadsvarsel_ikke-i-bruk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : true,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{URL}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Vi har mottatt søknaden din",
+    "foerstegangsvarselTekst" : "Hei. Vi mottok søknaden din {DATO}. Du kan logge inn på Ditt NAV på nav.no for å se flere detaljer. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, {FORNAVN}. Vi mottok søknaden din {DATO}. Du kan følge med på statusen i Dine foreldrepenger. Det kan ta opptil 3 uker før søknaden er synlig.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! NAV har en melding til deg. Logg inn på Ditt NAV for å lese meldingen. Du behøver ikke å foreta deg noe.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "PAM_SYNLIGHET_01",
+  "varselNavn" : "PAM_SYNLIGHET_01",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://arbeidsplassen.nav.no/minside",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon om CV på Ditt NAV",
+    "foerstegangsvarselTekst" : "Hei! CV-en din er ikke synlig for arbeidsgivere. Logg inn på Ditt NAV hvis du vil endre på dette. Der finner du vår nye og forbedrede CV-løsning. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! CV-en din er ikke synlig for arbeidsgivere. Logg inn på Ditt NAV hvis du vil endre på dette. Der finner du vår nye og forbedrede CV-løsning. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! CV-en din er ikke synlig for arbeidsgivere. Logg inn på Ditt NAV hvis du vil endre på dette. Der finner du vår nye og forbedrede CV-løsning. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "AktivitetsplanMoteVarsel",
+  "varselNavn" : "AktivitetsplanMoteVarsel",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{aktiviteturl}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi minner om at du har et {motetype} {motedato}.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! \nVi minner om at du har et {motetype} {motedato}. \nHilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Påminnelse om møte",
+    "foerstegangsvarselTekst" : "Hei!\n\nVi minner om at du har et {motetype} {motedato}.\n\nHilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "INFOMELDING",
+  "varselNavn" : "INFOMELDING",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Beskjed fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått en melding fra NAV. Se meldingen på Ditt NAV: {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått en melding fra NAV. Se meldingen på Ditt NAV: {url}\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått en melding fra NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoMoteForesporsel",
+  "varselNavn" : "SyfoMoteForesporsel",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi ønsker å avtale et møte med deg. Logg inn på Ditt NAV, eller følg denne lenken: {url} Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Forespørsel om møte med NAV",
+    "foerstegangsvarselTekst" : "Hei! Vi ønsker å avtale et møte med deg. Logg inn på Ditt NAV eller følg denne lenken: {url} Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi ønsker å avtale tidspunkt for et dialogmøte med deg.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000008",
+  "varselNavn" : "Aktivitetsplan_§8",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/oppgave/varselid/{varselbestillingId}",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi har sendt deg en viktig oppgave som du må gjøre. Følg denne lenken $navnobaseurl$/innloggingsinfo/type/oppgave/varselid/{varselbestillingId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Dette er en påminnelse om en viktig oppgave som du må gjøre. Følg denne lenken $navnobaseurl$/innloggingsinfo/type/oppgave/varselid/{varselbestillingId} Vennlig hilsen NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Se viktig oppgave",
+    "foerstegangsvarselTekst" : "Vi har sendt deg en oppgave som du må gjøre. Følg denne lenken $navnobaseurl$/innloggingsinfo/type/oppgave/varselid/{varselbestillingId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Vi minner deg om en viktig oppgave som du må gjøre. Følg denne lenken $navnobaseurl$/innloggingsinfo/type/oppgave/varselid/{varselbestillingId} Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått en viktig oppgave du må gjøre. ",
+    "revarslingTekst" : "Dette er en påminnelse om en viktig oppgave som du må gjøre."
+  } ]
+}, {
+  "varseltypeId" : "GodkjentAMO",
+  "varselNavn" : "Aktivitetsplan_plass_på_AMO/Jobbklubb",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://aktivitetsplan.nav.no/",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Du har fått plass på tiltak",
+    "foerstegangsvarselTekst" : "Du har fått plass på kurset {tiltaksnavn}. Logg deg på nav.no for mer informasjon\nhttps://aktivitetsplan.nav.no/",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått plass på kurset {tiltaksnavn}. Logg deg på nav.no for mer informasjon\nhttps://aktivitetsplan.nav.no/",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått plass på kurset {tiltaksnavn}.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000007",
+  "varselNavn" : "Aktivitetsplan_nye_henvendelser",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "http://www.nav.no/arbeid/dialog/",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Det er en ny melding til deg. Logg inn på Ditt NAV eller følg denne lenken.\nhttp://www.nav.no/arbeid/dialog/\n\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Ny melding i dialogen med veilederen din",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny melding",
+    "foerstegangsvarselTekst" : "Det er en ny melding til deg. Logg inn på Ditt NAV eller følg denne lenken.\nhttp://www.nav.no/arbeid/dialog/\n \nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000011",
+  "varselNavn" : "Endringsoppgave RAY",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått endringsoppgave til årsoppgave fra NAV",
+    "revarslingTekst" : "Vi minner om at du har fått endringsoppgave til årsoppgave fra NAV"
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Endringsoppgave fra NAV",
+    "foerstegangsvarselTekst" : "Hei, du har fått endringsoppgave til årsoppgave fra NAV. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei, vi minner om at du har fått endringsoppgave til årsoppgave fra NAV. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV"
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, du har fått endringsoppgave til årsoppgave fra NAV. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei, vi minner om at du har fått endringsoppgave til årsoppgave fra NAV. Les den i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId} Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "NySykmelding",
+  "varselNavn" : "NySykmelding",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 0,
+  "antallRevarslinger" : 0,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått en ny sykmelding.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Det ligger en oppgave til deg på nav.no. Logg inn på Ditt NAV eller følg denne lenken: {url} Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny oppgave",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html><html><head><title>SyfoSykepengesoknad</title></head><body><p>Hei!</p><p>Det ligger en oppgave til deg på nav.no.</p><p>Logg inn på Ditt NAV eller følg denne lenken: <a href='{url}'>https://nav.no/beskjed/melding/ny</a></p><p>Vennlig hilsen</p><p>NAV</p></body></html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "PAM_KONV01",
+  "varselNavn" : "PAM_KONV01",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://arbeidsplassen.nav.no/minside",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Vi har fått en ny og forbedret CV-løsning og jobbprofil. Du bør gå inn i CV-en og jobbprofilen din, sjekke at alt er riktig, og fylle ut de nye feltene. Det vil øke synligheten din overfor arbeidsgivere. Du får denne meldingen fordi du ikke har vært inne i CV-en din etter at vi forbedret løsningen.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Vi har fått en ny og forbedret CV-løsning og jobbprofil. Du bør gå inn i CV-en og jobbprofilen din, sjekke at alt er riktig, og fylle ut de nye feltene. Det vil øke synligheten din overfor arbeidsgivere. Logg deg inn på Ditt NAV. Du får denne meldingen fordi du ikke har vært inne i CV-en din etter at vi forbedret løsningen. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny og forbedret CV-løsning",
+    "foerstegangsvarselTekst" : "Hei! Vi har fått en ny og forbedret CV-løsning og jobbprofil. Du bør gå inn i CV-en og jobbprofilen din, sjekke at alt er riktig, og fylle ut de nye feltene. Det vil øke synligheten din overfor arbeidsgivere. Logg deg inn på Ditt NAV. Du får denne meldingen fordi du ikke har vært inne i CV-en din etter at vi forbedret løsningen. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktOpprettet",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktOpprettet",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møte med NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Forespørsel om dialogmøte med NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktOpprettet</title>\n</head>\n<p>Til {navn},</p> \n<p>NAV ønsker å avtale et dialogmøte med deg i forbindelse med at \nen av dine ansatte er sykmeldt. Av hensyn til personvernet kan vi ikke oppgi navnet i en e-post.</p> \n<p>Du kan svare på hvilke tidspunkt som passer ved å logge inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}. Da vil du også se hvem det gjelder.</p> \n<p>Vi ønsker svar så raskt som mulig og senest innen tre virkedager.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen {veiledernavn}</p> \n<p>Du kan ikke svare på denne meldingen.</p> \n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktAvbrutt",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktAvbrutt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Dialogmøte med NAV er avlyst",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktAvbrutt</title>\n</head>\n<body>\n<p>Til {navn},</p>\n<p>Du har tidligere fått en forespørsel om dialogmøte. Dette møtet vil likevel ikke bli avholdt. Ta gjerne kontakt hvis du trenger å vite mer om grunnen.</p> \n<p><b>Opprinnelig tidspunkt for møtet:</b></p> \n<p>{tidspunkt}</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen {veiledernavn}</p> \n<p>Du kan ikke svare på denne meldingen.</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktPaaminnelse",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktPaaminnelse",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Påminnelse om dialogmøte med NAV - hvilke tidspunkt passer?",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktPaaminnelse</title>\n</head>\n<body>\n<p>Til {navn},</p>\n<p>Vi venter på svar fra deg om tidspunkt for dialogmøte.</p> \n<p>Du kan svare på hvilke tidspunkt som passer ved å logge inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}. Da vil du også se hvem det gjelder.</p> \n<p>Vennligst svar så raskt som mulig.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen {veiledernavn}</p> \n<p>Du kan ikke svare på denne meldingen.</p> \n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "NyttSykepengevedtak",
+  "varselNavn" : "NyttSykepengevedtak",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 0,
+  "antallRevarslinger" : 0,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny melding",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html><html><head><title>Sykepengevedtak</title></head><body><p>Hei!</p><p>Du har fått en ny melding på Ditt NAV. Logg inn og se hva meldingen gjelder.</p><p>Vennlig hilsen</p><p>NAV</p></body></html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederIkkeSendtSykepengesoknad",
+  "varselNavn" : "syfoNaermesteLederIkkeSendtSykepengesoknad",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Vi mangler en søknad fra en av dine ansatte",
+    "foerstegangsvarselTekst" : "<html>\n<head>\n<title>syfoNaermesteLederIkkeSendtSykepengesoknad</title>\n</head>\n<body>\n<p>Hei,</p>\n<p>En av dine ansatte har mottatt en digital søknad om sykepenger, men har ikke sendt den inn ennå.</p>\n<p>Dersom søknaden ikke allerede er sendt på papir, bør du be den ansatte sende den digitale søknaden nå.</p>\n<p>Følg denne lenken for å se hvem det gjelder: {url}.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "En av dine ansatte har mottatt en digital søknad om sykepenger, men har ikke sendt den inn ennå. Dersom søknaden ikke allerede er sendt på papir, bør du be den ansatte sende den digitale søknaden nå. Følg denne lenken for å se hvem det gjelder: {url}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoplanOpprettetSyk",
+  "varselNavn" : "SyfoplanOpprettetSyk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{dittnavUrl}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Lederen din har begynt på oppfølgingsplanen dere skal skrive sammen.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. Du har fått en ny oppgave fra NAV. \nLogg inn på nav.no for å se hva oppgaven gjelder, eller følg denne lenken {url}.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplanOpprettetSyk</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Du har fått en ny oppgave fra NAV.</p>\n<p>Logg inn på nav.no for å se hva oppgaven gjelder, eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoplanOpprettetNL",
+  "varselNavn" : "SyfoplanOpprettetNL",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "En av dine ansatte har opprettet en oppfølgingsplan på nav.no.\nLogg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}. Der kan du begynne å fylle ut feltene i oppfølgingsplanene som er aktuelle for deg.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "En ny oppfølgingsplan er blitt opprettet",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplanOpprettetNL </title>\n</head>\n<body>\n<p>En av dine ansatte har opprettet en oppfølgingsplan på nav.no.</p>\n<p>Logg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}. Der kan du begynne å fylle ut feltene som er aktuelle for deg.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoplangodkjenningNl",
+  "varselNavn" : "SyfoplangodkjenningNl",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "En oppfølgingsplan venter på godkjenning fra deg",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplangodkjenningNl</title>\n</head>\n<body>\n<p>En av dine ansatte har sendt en oppfølgingsplan som venter på godkjenning fra deg.</p>\n<p>Du finner den på nav.no.</p>\n<p>Logg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "En av dine ansatte har sendt en oppfølgingsplan som venter på godkjenning fra deg.\nDu finner den på nav.no.\nLogg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederNyttAktivitetskrav",
+  "varselNavn" : "syfoNaermesteLederNyttAktivitetskrav",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "En av dine medarbeidere har snart vært sykmeldt i åtte uker. Følg denne lenken for å lese om aktivitetsplikten: {url}",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Varsel om nytt aktivitetskrav",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederNyttAktivitetskrav</title>\n</head>\n<body>\n<p>En av dine medarbeidere har snart vært sykmeldt i åtte uker. Følg denne lenken for å lese om aktivitetsplikten: {url}</p>\n<p>Du kan også gå til www.nav.no/dinesykmeldte.</p>\n<p>Er du ikke lenger leder for denne medarbeideren, kan du melde fra om det ved å følge lenken.</p>\n<p>Vi ber deg logge inn med BankID eller tilsvarende for at vi skal være sikre på at informasjonen kommer fram til rett person.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "DittNAV_000002_temp",
+  "varselNavn" : "Brev",
+  "varselKategori" : "DISTRIBUSJON",
+  "varselForDistribusjonKanal" : "DITT_NAV",
+  "inaktiv" : false,
+  "revarslingIntervall" : 7,
+  "antallRevarslinger" : 1,
+  "varselURL" : "$navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Brev fra NAV",
+    "foerstegangsvarselTekst" : "Hei! Du har fått et brev fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Vennlig hilsen NAV"
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har fått et brev.",
+    "revarslingTekst" : "Vi minner om at du har fått et brev."
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Du har fått et brev fra NAV. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Vennlig hilsen NAV",
+    "revarslingTekst" : "Hei! NAV minner om at du har fått et brev. Les det i innboksen på Ditt NAV: $navnobaseurl$/innloggingsinfo/type/dokument/varselid/{VarselbestillingsId}. Hvis du allerede har åpnet brevet, kan du se bort fra denne meldingen. Vennlig hilsen NAV"
+  } ]
+}, {
+  "varseltypeId" : "IkkeMeldtSegFristNO",
+  "varselNavn" : "Informasjon om for sen melding uten inaktivering Bokmål",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://nav.no/meldekort",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Ny beskjed",
+    "foerstegangsvarselTekst" : "NAV har en viktig beskjed til deg. Logg inn på Ditt NAV eller følg denne lenken: https://nav.no/meldekort Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "NAV har en viktig beskjed til deg. Logg inn på Ditt NAV eller følg denne lenken: https://nav.no/meldekort Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Du har et meldekort som du ikke har sendt!",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "IkkeLevMeldekortNO",
+  "varselNavn" : "Påminnelse om å sende meldekort Bokmål",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://nav.no/meldekort",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Husk å sende meldekort!",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Har du glemt å sende inn meldekortet ditt?",
+    "foerstegangsvarselTekst" : "Hei! Har du glemt å sende inn meldekortet ditt? Siste frist for å sende det inn nærmer seg. Logg inn på nav.no for å sende meldekortet ditt. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Har du glemt å sende inn meldekortet ditt? Siste frist for å sende det inn nærmer seg. Logg inn på nav.no for å sende meldekortet ditt. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "IkkeLevMeldekortNY",
+  "varselNavn" : "Påminnelse om å sende meldekort Nynorsk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "https://nav.no/meldekort",
+  "preferertKanal" : [ "DITT_NAV", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Har du gløymt å sende inn meldekortet ditt? Siste frist for å sende det inn nærmar seg. Logg inn på nav.no for å sende meldekortet ditt. Venleg helsing NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Har du gløymt å sende inn meldekortet ditt?",
+    "foerstegangsvarselTekst" : "Hei! Har du gløymt å sende inn meldekortet ditt? Siste frist for å sende det inn nærmar seg. Logg inn på nav.no for å sende meldekortet ditt. Venleg helsing NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hugs å sende meldekort!",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoplanRevideringSyk",
+  "varselNavn" : "SyfoplanRevideringSyk",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{dittnavUrl}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Lederen din ønsker at du reviderer oppfølgingsplanen før den sendes til godkjenning.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplanRevideringSyk</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Det ligger en oppgave til deg på nav.no.</p>\n<p>Logg inn på Ditt NAV eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. \nDet ligger en oppgave til deg på nav.no.\nLogg inn på Ditt NAV eller følg denne lenken {url}.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoplanRevideringNL",
+  "varselNavn" : "SyfoplanRevideringNL",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "En ny oppfølgingsplan er blitt revidert",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoplanRevideringNL</title>\n</head>\n<body>\n<p>En av dine ansatte har revidert en oppfølgingsplan på nav.no.</p>\n<p>Logg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}</p>\n<p>Vennlig hilsen</p>\n<p>NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "En av dine ansatte har revidert en oppfølgingsplan på nav.no.\nLogg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken: {url}. Der kan du begynne å fylle ut feltene i oppfølgingsplanene som er aktuelle for deg.\nVennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederSvarMotebehov",
+  "varselNavn" : "syfoNaermesteLederSvarMotebehov",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, vi trenger din vurdering av behovet for dialogmøte. Logg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Behov for dialogmøte?",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederSvarMotebehov</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Vi trenger din vurdering av behovet for dialogmøte.</p>\n<p>Logg deg inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoSvarMotebehov",
+  "varselNavn" : "SyfoSvarMotebehov",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! Det ligger en viktig melding til deg på nav.no. Logg inn på Ditt NAV, eller følg denne lenken {url}. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Svar på om du har behov for dialogmøte.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>Ny melding på nav.no</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Det ligger en viktig melding til deg på nav.no.</p>\n<p>Logg inn på Ditt NAV, eller følg denne lenken {url}.</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "SyfoMerVeiledning",
+  "varselNavn" : "Mer veiledning",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{url}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST", "SMS" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Informasjon fra NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>SyfoOppgave</title>\n</head>\n<body>\n<p>Hei.</p>\n<p>Det ligger en melding til deg på nav.no.</p>\n<p>Logg inn på Ditt NAV eller følg denne lenken {url}</p>\n<p>Vennlig hilsen</p>\n<p> NAV</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Det begynner å nærme seg datoen da du ikke lenger kan få sykepenger. Gå til Ditt Sykefravær og se hva du kan gjøre.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei. Det ligger en viktig melding til deg på nav.no. Logg inn på Ditt NAV, eller følg denne lenken {url}. Vennlig hilsen NAV.",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "ForeldrepengerSoknadsvarsel",
+  "varselNavn" : "ForeldrepengerSoknadsvarsel",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "{URL}",
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei, {FORNAVN}. Vi mottok søknaden din {DATO}. Du kan følge med på statusen i Dine foreldrepenger.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Hei! NAV har en melding til deg. Logg inn på Ditt NAV for å lese meldingen. Du behøver ikke å foreta deg noe.",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Vi har mottatt søknaden din",
+    "foerstegangsvarselTekst" : "Hei. Vi mottok søknaden din {DATO}. Du kan logge inn på Ditt NAV på nav.no for å se flere detaljer. Vennlig hilsen NAV",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktAvbruttBekreftet",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktAvbruttBekreftet",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "DITT_NAV", "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Dialogmøte med NAV er avlyst",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktAvbruttBekreftet</title>\n</head>\n<p>Til {navn},</p>\n<p>Du har tidligere fått bekreftelse på tidspunktet for dialogmøte med en av dine sykmeldte. Møtet vil likevel ikke bli avholdt, og du kan se bort fra henvendelsen. Ta gjerne kontakt hvis du trenger å vite mer om grunnen.</p>\n<p><b>Opprinnelig tidspunkt for møte:</b></p>\n<p>{tidspunkt}</p>\n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p>\n<p>Vennlig hilsen {veiledernavn}</p>\n<p>Du kan ikke svare på denne meldingen.</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktBekreftet",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktBekreftet",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Bekreftelse på møte med NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktBekreftet</title>\n</head>\n<body>\n<p>Til {navn},</p>\n</p>Vi bekrefter tidspunkt for dialogmøte med NAV. Av hensyn til personvernet kan vi ikke oppgi navnet til arbeidstakeren i en e-post. Ønsker du å se hvem det gjelder, kan du logge inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}.</p> \n<p><b>Møtetidspunkt</b></p>\n<p>{dato}.</p>\n<p><b>Møtested</b></p>\n<p>{sted}</p>\n<p>Du vil om kort tid få en innkalling i posten med mer informasjon om dialogmøtet.</p>\n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p>\n<p>Vennlig hilsen {veiledernavn}</p>\n<p>Du kan ikke svare på denne meldingen.</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoNaermesteLederMotetidspunktNyeTidspunkt",
+  "varselNavn" : "syfoNaermesteLederMotetidspunktNyeTidspunkt",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : null,
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "EPOST",
+    "varselTittel" : "Nye tidspunkt for dialogmøte med NAV",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoNaermesteLederMotetidspunktNyeTidspunkt</title>\n</head>\n<p>Til {navn},</p> \n<p>Vi har foreslått nytt tidspunkt for dialogmøte.</p> \n<p>Oppgi hvilke tidspunkt som passer ved å logge inn på www.nav.no/dinesykmeldte eller følg denne lenken {url}. Da vil du også se hvem det gjelder.</p> \n<p>Vi ønsker svar så raskt som mulig og senest innen tre virkedager.</p> \n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen {veiledernavn}</p> \n<p>Du kan ikke svare på denne meldingen.</p> \n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  } ]
+}, {
+  "varseltypeId" : "syfoDialogmoteReferat",
+  "varselNavn" : "syfoDialogmoteReferat",
+  "varselKategori" : "SERVICEMELDING",
+  "varselForDistribusjonKanal" : null,
+  "inaktiv" : false,
+  "revarslingIntervall" : null,
+  "antallRevarslinger" : null,
+  "varselURL" : "URL",
+  "preferertKanal" : [ "EPOST" ],
+  "varselmals" : [ {
+    "kanal" : "EPOST",
+    "varselTittel" : "Referat fra dialogmøte med NAV er blitt tilgjengelig",
+    "foerstegangsvarselTekst" : "<!DOCTYPE html>\n<html>\n<head>\n<title>syfoDialogmoteReferat</title>\n</head>\n<body>\n<p>Til {navn},</p>\n<p>Et referat fra dialogmøte med NAV er blitt tilgjengelig.</p>\n<p>Du kan lese referatet ved å logge inn på \"Min side – arbeidsgiver\" og trykke på \"Sykmeldte\". Da vil du også se hvem det gjelder.</p>\n<p>Har du spørsmål, kan du kontakte oss på 55 55 33 36.</p> \n<p>Vennlig hilsen NAV</p> \n<p>Du kan ikke svare på denne meldingen.</p>\n</body>\n</html>",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "SMS",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "Møte med NAV",
+    "revarslingTekst" : null
+  }, {
+    "kanal" : "DITT_NAV",
+    "varselTittel" : null,
+    "foerstegangsvarselTekst" : "N/A",
+    "revarslingTekst" : null
+  } ]
+} ]
