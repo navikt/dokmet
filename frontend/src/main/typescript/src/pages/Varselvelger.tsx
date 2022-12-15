@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Label, Select} from "@navikt/ds-react";
+import {Label, Select} from "@navikt/ds-react";
 import VarselInfo from "../VarselInfo";
 
 interface VarselvelgerProps {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Heading, Label, Switch, TextField, Textarea, Button, Panel} from "@navikt/ds-react";
-import VarselInfo, {VarselMal} from "../VarselInfo";
+import VarselInfo from "../VarselInfo";
 import {useEffect, useState} from "react";
 
 interface VarselTypeProps {
@@ -31,6 +31,8 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
     const [navNoPreferertKanal, setNavNoPreferertKanal] = useState<boolean>(false);
 
     const resetFormToCurrentSelectedVarsel = () => {
+        console.log('Reset form to current selected varsel');
+
         const currentVarsel = varselinfos.find((varselinfo) => varselinfo.varseltypeId?.toLowerCase() === currentVarselTypeId.toLowerCase());
         const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
         const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
@@ -83,6 +85,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
                     ]
                 }
         );
+        console.log(save);
     }
 
     useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos]);

@@ -61,8 +61,8 @@
                                     <arguments>
                                         <!--OK-->
                                         <argument>run</argument>
-                                        <argument>build</argument>
-                                        <argument>--registry=https://repo.adeo.no/repository/npm-public/</argument>
+                                        <argument>fullbuild</argument>
+										<!-- <argument> - -registry=https://repo.adeo.no/repository/npm-public/</argument> -->
                                         <!--OK end-->
                                     </arguments>
                                     <workingDirectory>${basedir}/src/main/typescript</workingDirectory>

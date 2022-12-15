@@ -71,6 +71,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "fullbuild":"npm ci -q && node scripts/build.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
