@@ -70,6 +70,7 @@
                             </execution>
                         </executions>
                     </plugin>
+					<!--
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -92,6 +93,7 @@
 							</execution>
 						</executions>
 					</plugin>
+					-->
 				</plugins>
 			</build>
 		</profile>
@@ -105,13 +107,13 @@
 						<configuration>
 							<filesets>
 								<fileset>
-									<directory>src/main/web_src/node</directory>
+									<directory>src/main/typescript/node</directory>
 								</fileset>
 								<fileset>
-									<directory>src/main/web_src/node_modules</directory>
+									<directory>src/main/typescript/node_modules</directory>
 								</fileset>
 								<fileset>
-									<directory>src/main/web_src/build</directory>
+									<directory>src/main/typescript/build</directory>
 								</fileset>
 								<fileset>
 									<directory>src/main/resources/public</directory>

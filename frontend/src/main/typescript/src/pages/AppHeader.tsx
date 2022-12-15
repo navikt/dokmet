@@ -10,9 +10,9 @@ interface AppHeaderProps {
 const AppHeader: React.FC<AppHeaderProps> = ({username, onLogoutAction}) => {
     const isLoggedIn = !!username;
     return (<Header>
-        <Header.Title as="h1" href='/'>Varseladmin</Header.Title>
-        <Header.Button><Link to={'/'}>Varseltekst</Link></Header.Button>
-        <Header.Button><Link to={'/varseltest'}>Varseltest</Link></Header.Button>
+        <Header.Title as="h1" href='/dokmet/varseladmin/'>Varseladmin</Header.Title>
+        <Header.Button><Link to={'/dokmet/varseladmin/'}>Varseltekst</Link></Header.Button>
+        <Header.Button><Link to={'/dokmet/varseladmin/varseltest'}>Varseltest</Link></Header.Button>
         {
             isLoggedIn ?
                     (<Dropdown>
@@ -27,7 +27,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({username, onLogoutAction}) => {
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>) :
-                    (<Header.Button><Link to={'/login'}>Logg inn</Link></Header.Button>)
+                    (<Header.Button><Link to={'/dokmet/varseladmin/login'}>Logg inn</Link></Header.Button>)
         }
     </Header>);
 }
