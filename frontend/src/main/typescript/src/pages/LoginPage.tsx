@@ -1,4 +1,4 @@
-import {Button, Heading, Label, TextField} from '@navikt/ds-react';
+import {Button, Heading, Label, Link, TextField} from '@navikt/ds-react';
 import * as React from 'react';
 import AppHeader from "./AppHeader";
 import {simulateLoginPromise} from "../ExampleData";
@@ -24,7 +24,8 @@ const LoginPage: React.FC<LoginPageProps> = ({loggedinUser, loginAction}) => {
                     <Heading size={'medium'}>Logg inn</Heading>
                     <TextField onChange={e => setUsername(e.target.value)} label={<Label>Brukerident</Label>}></TextField>
                     <TextField onChange={e => setPassword(e.target.value)} type={'password'} label={<Label>Passord</Label>}></TextField>
-                    <Button onClick={doLogin}>Logg inn</Button>
+                    <Button onClick={doLogin}>Logg inn</Button><br/>
+                    <Link href={'/'}>Fortsett med lesetilgang uten å logge inn</Link>
                 </div>
             </>);
 };
