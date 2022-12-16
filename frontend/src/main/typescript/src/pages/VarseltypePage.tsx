@@ -4,9 +4,9 @@ import {Heading} from "@navikt/ds-react";
 import Varselvelger from "./Varselvelger";
 import AppHeader from "./AppHeader";
 import {useEffect, useState} from "react";
-import {createRealisticVarselinfoPromise} from "../ExampleData";
 import VarselInfo from "../VarselInfo";
 import VarselCreate from "./VarselCreate";
+import {getVarselInfos} from "../Api";
 
 interface VarseltypePageProps {
     username?: string,
@@ -18,7 +18,7 @@ const VarseltypePage: React.FC<VarseltypePageProps> = ({username, onLogoutAction
     const [varselInfos, setVarselInfos] = useState<VarselInfo[]>([])
 
     useEffect(() => {
-        createRealisticVarselinfoPromise()
+        getVarselInfos()
                 .then(varselinfos => varselinfos.filter(varselinfo => varselinfo.varselKategori === 'SERVICEMELDING'))
                 .then(setVarselInfos);
     }, []);

@@ -1,5 +1,7 @@
 import VarselInfo from "./VarselInfo";
 
 const getVarselInfos = (): Promise<VarselInfo[]> => {
-    return fetch('/varselinfo/v1/').then(response => response.json());
+    return fetch('/rest/varselinfo/').then(response => response.json());
 }
+
+export {getVarselInfos};
