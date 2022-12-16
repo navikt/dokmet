@@ -8,6 +8,7 @@
     "@navikt/ds-css-internal": "^2.0.6",
     "@navikt/ds-react": "^2.0.5",
     "@navikt/ds-react-internal": "^2.0.6",
+    "@navikt/ds-tokens": "^2.0.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -71,7 +72,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "fullbuild":"npm ci -q && node scripts/build.js",
+    "fullbuild": "npm ci -q && node scripts/build.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },

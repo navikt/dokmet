@@ -1,0 +1,5 @@
+@import "@navikt/ds-tokens";
+
+.headerlink {
+  color: var(--a-text-on-inverted);
+}

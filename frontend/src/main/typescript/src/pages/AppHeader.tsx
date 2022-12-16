@@ -1,6 +1,7 @@
 import {Dropdown, Header} from "@navikt/ds-react-internal";
 import {Link} from "react-router-dom";
 import React from "react";
+import '../App.css';
 
 interface AppHeaderProps {
     username?: string,
@@ -11,8 +12,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({username, onLogoutAction}) => {
     const isLoggedIn = !!username;
     return (<Header>
         <Header.Title as="h1" href='/dokmet/varseladmin/'>Varseladmin</Header.Title>
-        <Header.Button><Link to={'/dokmet/varseladmin/'}>Varseltekst</Link></Header.Button>
-        <Header.Button><Link to={'/dokmet/varseladmin/varseltest'}>Varseltest</Link></Header.Button>
+        <Header.Button><Link className={'headerlink'} to={'/dokmet/varseladmin/'}>Varseltekst</Link></Header.Button>
+        <Header.Button><Link className={'headerlink'} to={'/dokmet/varseladmin/varseltest'}>Varseltest</Link></Header.Button>
         {
             isLoggedIn ?
                     (<Dropdown>
@@ -27,7 +28,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({username, onLogoutAction}) => {
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>) :
-                    (<Header.Button><Link to={'/dokmet/varseladmin/login'}>Logg inn</Link></Header.Button>)
+                    (<Header.Button><Link className={'headerlink'} to={'/dokmet/varseladmin/login'}>Logg inn</Link></Header.Button>)
         }
     </Header>);
 }
