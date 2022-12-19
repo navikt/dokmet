@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {Heading, Label, Switch, TextField, Textarea, Button, Panel} from "@navikt/ds-react";
+import {useEffect, useState} from 'react';
+import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
 import VarselInfo from "../VarselInfo";
-import {useEffect, useState} from "react";
+import {getSingleVarselInfo} from "../Api";
 
 interface VarselTypeProps {
     loggedOut: boolean,
@@ -29,38 +30,38 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
     const [navNoTekst, setNavNoTekst] = useState<string>("");
     const [navNoUrl, setNavNoUrl] = useState<string>("");
     const [navNoPreferertKanal, setNavNoPreferertKanal] = useState<boolean>(false);
+    const [currentVarselType, setCurrentVarselType] = useState<VarselInfo>();
 
     const resetFormToCurrentSelectedVarsel = () => {
-        console.log('Reset form to current selected varsel');
+        getSingleVarselInfo(currentVarselTypeId).then(currentVarsel => {
+            setCurrentVarselType(currentVarsel);
+            const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
+            const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
+            const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
 
-        const currentVarsel = varselinfos.find((varselinfo) => varselinfo.varseltypeId?.toLowerCase() === currentVarselTypeId.toLowerCase());
-        const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
-        const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
-        const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
-
-        setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
-        setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
-        setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
-        setVarselNavn(currentVarsel?.varselNavn || "")
-        setSmsTekst(currentVarselSms?.foerstegangsvarselTekst || "");
-        setEpostEmne(currentVarselEpost?.varselTittel || "");
-        setEpostTekst(currentVarselEpost?.foerstegangsvarselTekst || "");
-        setNavNoTekst(currentVarselNavNo?.foerstegangsvarselTekst || "");
-        setNavNoUrl(currentVarsel?.varselURL || "");
-        setUnsavedChanges(false);
+            setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
+            setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
+            setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
+            setVarselNavn(currentVarsel?.varselNavn || "")
+            setSmsTekst(currentVarselSms?.foerstegangsvarselTekst || "");
+            setEpostEmne(currentVarselEpost?.varselTittel || "");
+            setEpostTekst(currentVarselEpost?.foerstegangsvarselTekst || "");
+            setNavNoTekst(currentVarselNavNo?.foerstegangsvarselTekst || "");
+            setNavNoUrl(currentVarsel?.varselURL || "");
+            setUnsavedChanges(false);
+        });
     };
 
     const saveForm = () => {
-        const currentVarsel = varselinfos.find((varselinfo) => varselinfo.varseltypeId?.toLowerCase() === currentVarselTypeId.toLowerCase());
         const save: VarselInfo = (
                 {
                     varseltypeId: currentVarselTypeId,
                     varselNavn: varselNavn,
-                    varselKategori: currentVarsel.varselKategori,
-                    varselForDistribusjonKanal: currentVarsel.varselForDistribusjonKanal,
-                    inaktiv: currentVarsel.inaktiv,
-                    revarslingIntervall: currentVarsel.revarslingIntervall,
-                    antallRevarslinger: currentVarsel.antallRevarslinger,
+                    varselKategori: currentVarselType.varselKategori,
+                    varselForDistribusjonKanal: currentVarselType.varselForDistribusjonKanal,
+                    inaktiv: currentVarselType.inaktiv,
+                    revarslingIntervall: currentVarselType.revarslingIntervall,
+                    antallRevarslinger: currentVarselType.antallRevarslinger,
                     varselURL: navNoUrl,
                     preferertKanal: mapPrefertKanal(smsPreferertKanal, epostPreferertKanal, navNoPreferertKanal),
                     varselmals: [
@@ -86,6 +87,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
                 }
         );
         console.log(save);
+        // updateVarselInfo(save)
     }
 
     useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos]);
