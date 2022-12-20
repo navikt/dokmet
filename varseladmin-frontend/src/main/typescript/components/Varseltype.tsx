@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
-import VarselInfo from "../VarselInfo";
+import VarselInfo from "../domain/VarselInfo";
 import {getSingleVarselInfo} from "../Api";
 
 interface VarselTypeProps {

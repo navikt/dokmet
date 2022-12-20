@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Label, Select} from "@navikt/ds-react";
-import VarselInfo from "../VarselInfo";
+import VarselInfo from "../domain/VarselInfo";
 
 interface VarselvelgerProps {
     loggedOut: boolean,

@@ -1,6 +1,6 @@
 import {Button, Heading, Label, Link, TextField} from '@navikt/ds-react';
 import * as React from 'react';
-import AppHeader from "./AppHeader";
+import AppHeader from "../components/AppHeader";
 import {simulateLoginPromise} from "../ExampleData";
 import {useState} from "react";
 

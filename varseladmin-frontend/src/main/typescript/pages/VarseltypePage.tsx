@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Varseltype from "./Varseltype";
+import Varseltype from "../components/Varseltype";
 import {Heading} from "@navikt/ds-react";
-import Varselvelger from "./Varselvelger";
-import AppHeader from "./AppHeader";
+import Varselvelger from "../components/Varselvelger";
+import AppHeader from "../components/AppHeader";
 import {useEffect, useState} from "react";
-import VarselInfo from "../VarselInfo";
-import VarselCreate from "./VarselCreate";
+import VarselInfo from "../domain/VarselInfo";
+import VarselCreate from "../components/VarselCreate";
 import {getVarselInfos} from "../Api";
 
 interface VarseltypePageProps {

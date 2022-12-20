@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {BodyLong, Button, Heading, Label, Modal, TextField} from "@navikt/ds-react";
-import Varselvelger from "./Varselvelger";
-import VarselPreview from "./VarselPreview";
-import AppHeader from "./AppHeader";
-import VarselInfo from "../VarselInfo";
+import Varselvelger from "../components/Varselvelger";
+import VarselPreview from "../components/VarselPreview";
+import AppHeader from "../components/AppHeader";
+import VarselInfo from "../domain/VarselInfo";
 import {Navigate} from "react-router";
 
 interface varseltestpageProps {
