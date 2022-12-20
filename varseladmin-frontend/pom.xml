@@ -56,14 +56,10 @@
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
-									<!-- sjekk toolchains her: -->
 									<executable>npm${script.extension}</executable>
 									<arguments>
-										<!--OK-->
 										<argument>run</argument>
 										<argument>fullbuild</argument>
-										<!-- <argument> - -registry=https://repo.adeo.no/repository/npm-public/</argument> -->
-										<!--OK end-->
 									</arguments>
 									<workingDirectory>${basedir}</workingDirectory>
 								</configuration>
