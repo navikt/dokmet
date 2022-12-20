@@ -1,7 +1,7 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import {BodyLong, Heading, Modal, Panel} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
-import {useEffect} from "react";
 
 interface VarselPreviewProps {
     open: boolean,

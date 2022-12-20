@@ -13,7 +13,7 @@ interface varseltestpageProps {
 
 const VarseltestPage: React.FC<varseltestpageProps> = ({username, onLogoutAction}) => {
     const [openPreviewModal, setOpenPreviewModal] = useState(false);
-    const [varselInfos, ] = useState<VarselInfo[]>([])
+    const [varselInfos,] = useState<VarselInfo[]>([])
     const [currentVarselId, setCurrentVarselId] = useState<string>("");
     const [showPageDeactivatedModal, setShowPageDeactivatedModal] = useState<boolean>(true);
     const closeModal = () => setShowPageDeactivatedModal(false);

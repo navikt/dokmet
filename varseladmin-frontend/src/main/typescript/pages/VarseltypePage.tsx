@@ -1,9 +1,9 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Varseltype from "../components/Varseltype";
 import {Heading} from "@navikt/ds-react";
 import Varselvelger from "../components/Varselvelger";
 import AppHeader from "../components/AppHeader";
-import {useEffect, useState} from "react";
 import VarselInfo from "../domain/VarselInfo";
 import VarselCreate from "../components/VarselCreate";
 import {getVarselInfos} from "../Api";

@@ -1,13 +1,13 @@
 import * as React from 'react';
+import {useState} from 'react';
 import MyRoutes from "./Routes";
-import {useState} from "react";
 
 const App: React.FC = () => {
     const [user, setUser] = useState<string>(null);
 
     return (
             <>
-                <MyRoutes username={user} loginAction={setUser} />
+                <MyRoutes username={user} loginAction={setUser}/>
             </>
     );
 }

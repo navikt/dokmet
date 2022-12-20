@@ -1,8 +1,8 @@
 import {Button, Heading, Label, Link, TextField} from '@navikt/ds-react';
 import * as React from 'react';
+import {useState} from 'react';
 import AppHeader from "../components/AppHeader";
 import {simulateLoginPromise} from "../ExampleData";
-import {useState} from "react";
 
 interface LoginPageProps {
     loggedinUser?: string,
@@ -22,8 +22,10 @@ const LoginPage: React.FC<LoginPageProps> = ({loggedinUser, loginAction}) => {
                 <AppHeader username={loggedinUser} onLogoutAction={loginAction}/>
                 <div style={{maxWidth: '40em', margin: 'auto'}}>
                     <Heading size={'medium'}>Logg inn</Heading>
-                    <TextField onChange={e => setUsername(e.target.value)} value={username} label={<Label>Brukerident</Label>}></TextField>
-                    <TextField onChange={e => setPassword(e.target.value)} value={password} type={'password'} label={<Label>Passord</Label>}></TextField>
+                    <TextField onChange={e => setUsername(e.target.value)} value={username}
+                               label={<Label>Brukerident</Label>}></TextField>
+                    <TextField onChange={e => setPassword(e.target.value)} value={password} type={'password'}
+                               label={<Label>Passord</Label>}></TextField>
                     <Button onClick={doLogin}>Logg inn</Button><br/>
                     <Link href={'/'}>Fortsett med lesetilgang uten å logge inn</Link>
                 </div>

@@ -12,7 +12,7 @@
 // men å heller tenke litt på å bruke VarselFletter.java fra navikt/varsel2
 
 // steg 1 og 2
-const parseParametersFromText = (text: string): Map<string,string[]> => {
+const parseParametersFromText = (text: string): Map<string, string[]> => {
     const matcher = /\{[^}]+\}/;
     const matches = new Map<string, string[]>();
     var i = 0;
@@ -45,20 +45,22 @@ function processWithDirective(directive: string, value: string): string {
 }
 
 // steg 3 og 4
-const buildDataForReplacement = (keysAndDirectives: Map<string,string[]>, content: Map<string, string>): {key: string, value: string}[] => {
+const buildDataForReplacement = (keysAndDirectives: Map<string, string[]>, content: Map<string, string>): { key: string, value: string }[] => {
     const result = [];
     const entries = keysAndDirectives.entries();
     let keyDirectiveIterator = entries.next();
-    while (!keyDirectiveIterator.done){
+    while (!keyDirectiveIterator.done) {
         const keyDirectives = keyDirectiveIterator.value;
         if (keyDirectives.value) {
-           keyDirectives.value.forEach((directive: string) =>{
-               result.push(
-               {key: `${keyDirectives.key} ${directive}`, value:
-                       processWithDirective(directive, content.get(keyDirectives.key))
-                   })});
+            keyDirectives.value.forEach((directive: string) => {
+                result.push(
+                    {
+                        key: `${keyDirectives.key} ${directive}`, value:
+                            processWithDirective(directive, content.get(keyDirectives.key))
+                    })
+            });
         } else {
-           result.push({key: keyDirectives.key, value: content.get(keyDirectives.key)});
+            result.push({key: keyDirectives.key, value: content.get(keyDirectives.key)});
         }
         keyDirectiveIterator = entries.next();
     }
@@ -66,7 +68,7 @@ const buildDataForReplacement = (keysAndDirectives: Map<string,string[]>, conten
 }
 
 // steg 5
-const replaceParametersForTextNaively = (text: string, params: {key: string, value: string}[]): string => {
+const replaceParametersForTextNaively = (text: string, params: { key: string, value: string }[]): string => {
     return params.reduce(
         (accumulator, currentValue) => {
             return accumulator.replace(new RegExp(`\{${currentValue.key}( [^}])?\}`, 'g'), currentValue.value)
