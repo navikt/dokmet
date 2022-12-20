@@ -9,7 +9,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-    <artifactId>frontend</artifactId>
+    <artifactId>varseladmin-frontend</artifactId>
 
     <profiles>
         <profile>
@@ -65,35 +65,11 @@
 										<!-- <argument> - -registry=https://repo.adeo.no/repository/npm-public/</argument> -->
                                         <!--OK end-->
                                     </arguments>
-                                    <workingDirectory>${basedir}/src/main/typescript</workingDirectory>
+                                    <workingDirectory>${basedir}</workingDirectory>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-					<!--
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>default-copy-resources</id>
-								<phase>process-resources</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<overwrite>true</overwrite>
-									<outputDirectory>target/classes/public</outputDirectory>
-									<resources>
-										<resource>
-											<directory>${project.basedir}/src/main/typescript/build</directory>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					-->
 				</plugins>
 			</build>
 		</profile>
@@ -107,13 +83,13 @@
 						<configuration>
 							<filesets>
 								<fileset>
-									<directory>src/main/typescript/node</directory>
+									<directory>node</directory>
 								</fileset>
 								<fileset>
-									<directory>src/main/typescript/node_modules</directory>
+									<directory>node_modules</directory>
 								</fileset>
 								<fileset>
-									<directory>src/main/typescript/build</directory>
+									<directory>build</directory>
 								</fileset>
 								<fileset>
 									<directory>src/main/resources/public</directory>

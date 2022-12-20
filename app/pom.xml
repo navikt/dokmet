@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>no.nav.dokmet</groupId>
-			<artifactId>frontend</artifactId>
+			<artifactId>varseladmin-frontend</artifactId>
 		</dependency>
 
 		<dependency>
