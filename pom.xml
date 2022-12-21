@@ -19,6 +19,7 @@
 		<module>core</module>
 		<module>web</module>
 		<module>varseladmin-frontend</module>
+		<module>varseladmin-bff</module>
 	</modules>
 
 	<properties>
@@ -57,6 +58,11 @@
 			<dependency>
 				<groupId>no.nav.dokmet</groupId>
 				<artifactId>varseladmin-frontend</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>no.nav.dokmet</groupId>
+				<artifactId>varseladmin-bff</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
