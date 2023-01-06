@@ -172,6 +172,8 @@ public class VarselAdminBFFController {
 
 		if (!tokenResponse.indicatesSuccess()) {
 			//TODO
+			var tokenErrorResponse = tokenResponse.toErrorResponse();
+			log.error("Something went wrong when authenticating user: {}", tokenErrorResponse.getErrorObject().getDescription());
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 
