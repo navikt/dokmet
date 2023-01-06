@@ -57,6 +57,10 @@ spec:
   azure:
     application:
       enabled: true
+      replyURLs:
+          {{#each AZURE_REPLYURLS}}
+          - "{{this}}"
+          {{/each}}
       claims:
         extra:
           - "azp_name"
