@@ -7,11 +7,11 @@ import VarselInfo from "../domain/VarselInfo";
 import {Navigate} from "react-router";
 
 interface varseltestpageProps {
-    username?: string,
+    user?: User,
     onLogoutAction: (x?: string) => void
 }
 
-const VarseltestPage: React.FC<varseltestpageProps> = ({username, onLogoutAction}) => {
+const VarseltestPage: React.FC<varseltestpageProps> = ({user, onLogoutAction}) => {
     const [openPreviewModal, setOpenPreviewModal] = useState(false);
     const [varselInfos,] = useState<VarselInfo[]>([])
     const [currentVarselId, setCurrentVarselId] = useState<string>("");
@@ -22,10 +22,10 @@ const VarseltestPage: React.FC<varseltestpageProps> = ({username, onLogoutAction
     if (showPageDeactivatedModal) {
         return (
                 <div id={"__next"}>
-                    <AppHeader username={username} onLogoutAction={onLogoutAction}/>
+                    <AppHeader user={user} onLogoutAction={onLogoutAction}/>
                     <div style={{maxWidth: '40em', margin: 'auto'}}>
                         <Heading size={'medium'}>Varseltest</Heading>
-                        <Varselvelger loggedOut={!username} onChooseVarsel={setCurrentVarselId}
+                        <Varselvelger loggedOut={!user} onChooseVarsel={setCurrentVarselId}
                                       varselinfos={varselInfos}/>
                         <div className={'actions-on-varsel'}>
                             {/* TODO: Den nåværende angular-appen parser ut en liste med parametre som må settes fra teksten

@@ -22,4 +22,8 @@ const createNewVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
     }).then(response => response.text());
 }
 
-export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createNewVarselInfo};
+const getUserInfo = (): Promise<User> => {
+    return fetch('/rest/varseladmin/oauth/me').then(response => response.json());
+}
+
+export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createNewVarselInfo, getUserInfo};

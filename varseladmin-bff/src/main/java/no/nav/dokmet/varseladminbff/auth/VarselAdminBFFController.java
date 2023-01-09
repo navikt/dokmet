@@ -1,6 +1,8 @@
 package no.nav.dokmet.varseladminbff.auth;
 
 
+import com.nimbusds.jose.util.JSONObjectUtils;
+import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.oauth2.sdk.AccessTokenResponse;
 import com.nimbusds.oauth2.sdk.AuthorizationCodeGrant;
 import com.nimbusds.oauth2.sdk.AuthorizationGrant;
@@ -26,6 +28,7 @@ import com.nimbusds.oauth2.sdk.token.AccessToken;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 import com.nimbusds.oauth2.sdk.token.RefreshToken;
 import lombok.extern.slf4j.Slf4j;
+import net.minidev.json.JSONObject;
 import no.nav.dokmet.AzureProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
 import org.apache.http.conn.HttpClientConnectionManager;
@@ -49,6 +52,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -180,7 +185,7 @@ public class VarselAdminBFFController {
 		AccessTokenResponse accessTokenResponse = tokenResponse.toSuccessResponse();
 
 		// kall mot azure for access / refreshtoken ++
-		var accessToken =  Optional.ofNullable(accessTokenResponse.getTokens().getAccessToken());
+		var accessToken = Optional.ofNullable(accessTokenResponse.getTokens().getAccessToken());
 		var refreshToken = Optional.ofNullable(accessTokenResponse.getTokens().getRefreshToken());
 
 		// store in session
@@ -188,7 +193,7 @@ public class VarselAdminBFFController {
 		refreshToken.map(Identifier::toJSONString).ifPresent(token -> session.setAttribute(REFRESH_TOKEN, token));
 
 		// return 200 OK on success
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(URI.create("/?loggedin=success")).build();
 	}
 
 	@GetMapping(path = OAUTH_BASE_PATH + "/logout")
@@ -202,13 +207,23 @@ public class VarselAdminBFFController {
 		return ResponseEntity.ok("Logged out");
 	}
 
-	@GetMapping(path = VARSELADMIN_BFF_BASE_PATH + "/me")
+	@GetMapping(path = OAUTH_BASE_PATH + "/me")
 	public ResponseEntity<String> whoami(HttpSession session) {
-		if (session.getAttribute(ACCESS_TOKEN) != null) {
-			// TODO: gjør prosessering her - er en jwt, ikke en accesstoken vel??
-			return ResponseEntity.ok("{}");
-		}
-		return ResponseEntity.ok("Logged out");
+		return getOAuth2AuthorizationFromSession(session)
+				.map(AccessToken::getValue)
+				.map(s -> {
+					try {
+						return SignedJWT.parse(s).getJWTClaimsSet();
+					} catch (java.text.ParseException e) {
+						return null;
+					}
+				})
+				.map(jwtClaimsSet -> "{" +
+						"\"NAVident\":\"" + jwtClaimsSet.getClaim("NAVident") + "\"," +
+						"\"name\":\"" + jwtClaimsSet.getClaim("name") + "\"" +
+						"}")
+				.map(ResponseEntity::ok)
+				.orElseGet(() -> ResponseEntity.ok("{}"));
 	}
 
 	@RequestMapping(path = VARSELADMIN_BFF_BASE_PATH + "/**", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PATCH, RequestMethod.PUT, RequestMethod.DELETE})
@@ -228,11 +243,11 @@ public class VarselAdminBFFController {
 				.method(httpMethod, rewriteRequestPath(requestPath));
 
 		// 2. finn oauth-greier som ev. er lagret i session
-		getOAuth2AuthorizationFromSession(session).map(AccessToken::getValue).ifPresent(
-				authorization ->
+		getOAuth2AuthorizationFromSession(session).map(AccessToken::toAuthorizationHeader).ifPresent(
+				authorizationHeader ->
 						requestBuilder.header(
 								"Authorization",
-								"Bearer " + authorization)
+								authorizationHeader)
 		);
 
 		// 3. forward og rewrite request
@@ -255,11 +270,16 @@ public class VarselAdminBFFController {
 		if (rawAccessToken == null) {
 			return Optional.empty();
 		}
-		var accessToken = new BearerAccessToken(rawAccessToken);
-		if (validateAccessToken(accessToken)) {
-			return Optional.of(accessToken);
-		} else {
-			return refreshAccessToken(session);
+		try {
+			var accessToken = BearerAccessToken.parse(new JSONObject(JSONObjectUtils.parse(rawAccessToken))) ;
+			if (validateAccessToken(accessToken)) {
+				return Optional.of(accessToken);
+			} else {
+				return refreshAccessToken(session);
+			}
+		} catch (java.text.ParseException | ParseException e) {
+			log.error("wtf {}", e);
+			return Optional.empty();
 		}
 	}
 
@@ -291,8 +311,12 @@ public class VarselAdminBFFController {
 	}
 
 	private boolean validateAccessToken(AccessToken accesstoken) {
-		// sjekk expiry her 🤔
-		return true;
+		try {
+			SignedJWT jwt = SignedJWT.parse(accesstoken.getValue());
+			return jwt.getJWTClaimsSet().getExpirationTime().after(Date.from(Instant.now()));
+		} catch (java.text.ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private String rewriteRequestPath(String path) {
