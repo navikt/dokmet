@@ -53,7 +53,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -241,6 +244,14 @@ public class VarselAdminBFFController {
 
 		var requestBuilder = RequestEntity
 				.method(httpMethod, rewriteRequestPath(requestPath));
+
+		Enumeration<String> xyzzy = incomingRequest.getHeaderNames();
+		while (xyzzy.hasMoreElements()) {
+			String header = xyzzy.nextElement();
+			if (!header.equalsIgnoreCase("Cookie")) {
+				requestBuilder.header(header, Collections.list(incomingRequest.getHeaders(header)).toArray(String[]::new));
+			}
+		}
 
 		// 2. finn oauth-greier som ev. er lagret i session
 		getOAuth2AuthorizationFromSession(session).map(AccessToken::toAuthorizationHeader).ifPresent(
