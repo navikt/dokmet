@@ -11,6 +11,7 @@ const getSingleVarselInfo = (varselInfoId: string): Promise<VarselInfo> => {
 const updateVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
     return fetch(`/rest/varseladmin/bff/rest/varselinfo/${varselInfo.varseltypeId}`, {
         method: 'PUT',
+        headers: {'Content-type':'application/json'},
         body: JSON.stringify(varselInfo)
     }).then(response => response.text());
 }
@@ -18,6 +19,7 @@ const updateVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
 const createNewVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
     return fetch('/rest/varseladmin/bff/rest/varselinfo/', {
         method: 'POST',
+        headers: {'Content-type':'application/json'},
         body: JSON.stringify(varselInfo)
     }).then(response => response.text());
 }
