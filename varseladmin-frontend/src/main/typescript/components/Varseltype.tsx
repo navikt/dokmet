@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
-import {getSingleVarselInfo} from "../Api";
+import {getSingleVarselInfo, updateVarselInfo} from "../Api";
 
 interface VarselTypeProps {
     loggedOut: boolean,
@@ -86,8 +86,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
                     ]
                 }
         );
-        console.log(save);
-        // updateVarselInfo(save)
+        updateVarselInfo(save).then(() => resetFormToCurrentSelectedVarsel())
     }
 
     useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos]);
