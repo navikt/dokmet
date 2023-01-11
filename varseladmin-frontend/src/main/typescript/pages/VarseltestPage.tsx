@@ -25,7 +25,7 @@ const VarseltestPage: React.FC<varseltestpageProps> = ({user, onLogoutAction}) =
                     <AppHeader user={user} onLogoutAction={onLogoutAction}/>
                     <div style={{maxWidth: '40em', margin: 'auto'}}>
                         <Heading size={'medium'}>Varseltest</Heading>
-                        <Varselvelger loggedOut={!user} onChooseVarsel={setCurrentVarselId}
+                        <Varselvelger disabled={!user} onChooseVarsel={setCurrentVarselId}
                                       varselinfos={varselInfos}/>
                         <div className={'actions-on-varsel'}>
                             {/* TODO: Den nåværende angular-appen parser ut en liste med parametre som må settes fra teksten
