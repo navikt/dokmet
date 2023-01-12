@@ -38,10 +38,13 @@ const VarseltypePage: React.FC<VarseltypePageProps> = ({user, onLogoutAction}) =
         <AppHeader user={user} onLogoutAction={onLogoutAction}/>
         <div style={{maxWidth: '40em', margin: 'auto'}}>
             <Heading size={'medium'}>Varseltype</Heading>
-            <Varselvelger disabled={!user} selectedVarseltypeId={currentVarselId} onChooseVarsel={chooseExistingVarsel}
+            <Varselvelger disabled={!user}
+                          selectedVarseltypeId={currentVarselId}
+                          onChooseVarsel={chooseExistingVarsel}
                           varselinfos={varselInfos}/>
             <VarselCreate disabled={!user} performVarselCreate={setupForVarselCreate}/>
-            <Varseltype editDisabled={!user} varselinfos={varselInfos}
+            <Varseltype editDisabled={!user}
+                        varselinfos={varselInfos}
                         currentVarselTypeId={currentVarselId} setCurrentVarselTypeId={setCurrentVarselId}
                         editingNew={editingNew} setEditingNew={setEditingNew}
             />

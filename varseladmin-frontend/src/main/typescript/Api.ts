@@ -16,7 +16,7 @@ const updateVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
     }).then(response => response.text());
 }
 
-const createNewVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
+const createVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
     return fetch('/rest/varseladmin/bff/rest/varselinfo/', {
         method: 'POST',
         headers: {'Content-type':'application/json'},
@@ -28,4 +28,4 @@ const getUserInfo = (): Promise<User> => {
     return fetch('/rest/varseladmin/oauth/me').then(response => response.json());
 }
 
-export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createNewVarselInfo, getUserInfo};
+export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createVarselInfo, getUserInfo};

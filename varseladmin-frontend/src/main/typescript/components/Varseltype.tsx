@@ -2,7 +2,8 @@ import * as React from 'react';
 import {useEffect, useState} from 'react';
 import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
-import {createNewVarselInfo, getSingleVarselInfo, updateVarselInfo} from "../Api";
+import {createVarselInfo, getSingleVarselInfo, updateVarselInfo} from "../Api";
+import {createNewVarselInfo, updateExistingVarselInfo} from "../domain/VarselInfoAntiCorruptionLayer";
 
 interface VarselTypeProps {
     editDisabled: boolean,
@@ -11,14 +12,6 @@ interface VarselTypeProps {
     setCurrentVarselTypeId: (id: string) => void,
     editingNew: boolean,
     setEditingNew: (b: boolean) => void
-}
-
-function mapPrefertKanal(smsPreferertKanal: boolean, epostPreferertKanal: boolean, navNoPreferertKanal: boolean): string[] {
-    const kanaler: string[] = [];
-    if (smsPreferertKanal) kanaler.push('SMS');
-    if (epostPreferertKanal) kanaler.push('EPOST');
-    if (navNoPreferertKanal) kanaler.push('DITT_NAV');
-    return kanaler;
 }
 
 const Varseltype: React.FC<VarselTypeProps> = ({
@@ -46,35 +39,38 @@ const Varseltype: React.FC<VarselTypeProps> = ({
     const resetFormToCurrentSelectedVarsel = () => {
         if (editingNew && !currentVarselTypeId) {
             setCurrentVarselType(null);
-            setNavNoPreferertKanal(false)
-            setEpostPreferertKanal(false)
-            setSmsPreferertKanal(false)
             setVarselNavn("")
+            setDeaktivert(true);
+            setSmsPreferertKanal(false)
             setSmsTekst("");
+            setEpostPreferertKanal(false)
             setEpostEmne("");
             setEpostTekst("");
+            setNavNoPreferertKanal(false)
             setNavNoTekst("");
             setNavNoUrl("");
             setUnsavedChanges(false);
-            setDeaktivert(true);
         } else if (!editingNew) {
             getSingleVarselInfo(currentVarselTypeId).then(currentVarsel => {
                 setCurrentVarselType(currentVarsel);
-                const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
-                const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
-                const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
-
-                setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
-                setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
-                setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
                 setVarselNavn(currentVarsel?.varselNavn || "")
+                setDeaktivert(currentVarsel?.inaktiv)
+
+                const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
+                setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
                 setSmsTekst(currentVarselSms?.foerstegangsvarselTekst || "");
+
+                const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
+                setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
                 setEpostEmne(currentVarselEpost?.varselTittel || "");
                 setEpostTekst(currentVarselEpost?.foerstegangsvarselTekst || "");
+
+                const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
+                setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
                 setNavNoTekst(currentVarselNavNo?.foerstegangsvarselTekst || "");
                 setNavNoUrl(currentVarsel?.varselURL || "");
+
                 setUnsavedChanges(false);
-                setDeaktivert(currentVarsel?.inaktiv)
             });
         }
     };
@@ -84,46 +80,15 @@ const Varseltype: React.FC<VarselTypeProps> = ({
             // TODO: feilhåndtering her
             return;
         }
-        const save: VarselInfo = (
-                {
-                    varseltypeId: currentVarselTypeId,
-                    varselNavn: varselNavn,
-                    varselKategori: currentVarselType?.varselKategori,
-                    varselForDistribusjonKanal: currentVarselType?.varselForDistribusjonKanal,
-                    inaktiv: deaktivert,
-                    revarslingIntervall: currentVarselType?.revarslingIntervall,
-                    antallRevarslinger: currentVarselType?.antallRevarslinger,
-                    varselURL: navNoUrl,
-                    preferertKanal: mapPrefertKanal(smsPreferertKanal, epostPreferertKanal, navNoPreferertKanal),
-                    varselmals: [
-                        {
-                            kanal: 'EPOST',
-                            varselTittel: epostEmne,
-                            foerstegangsvarselTekst: epostTekst,
-                            revarslingTekst: null
-                        },
-                        {
-                            kanal: 'SMS',
-                            varselTittel: null,
-                            foerstegangsvarselTekst: smsTekst,
-                            revarslingTekst: null
-                        },
-                        {
-                            kanal: 'DITT_NAV',
-                            varselTittel: null,
-                            foerstegangsvarselTekst: navNoTekst,
-                            revarslingTekst: null
-                        }
-                    ].filter(varselmal => !editingNew || !!varselmal.foerstegangsvarselTekst)
-                }
-        );
         if (editingNew) {
-            save.varselKategori = 'SERVICEMELDING';
-            createNewVarselInfo(save).then(() => setEditingNew(false)).then(() => resetFormToCurrentSelectedVarsel())
+            const newVarselInfo = createNewVarselInfo(currentVarselTypeId, varselNavn, smsPreferertKanal, smsTekst,
+                    epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst);
+            createVarselInfo(newVarselInfo).then(() => setEditingNew(false)).then(() => resetFormToCurrentSelectedVarsel())
         } else {
-            updateVarselInfo(save).then(() => resetFormToCurrentSelectedVarsel())
+            const updatedVarselInfo = updateExistingVarselInfo(currentVarselType, currentVarselTypeId, varselNavn, deaktivert,
+                    smsPreferertKanal, smsTekst, epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst);
+            updateVarselInfo(updatedVarselInfo).then(() => resetFormToCurrentSelectedVarsel())
         }
-
     }
 
     useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos, editingNew]);
