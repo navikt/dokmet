@@ -109,7 +109,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                     }
                 }} label={<Label>Varselnavn</Label>}/>
                 <Heading size={'small'}>Varselkanal</Heading>
-                <Panel border>
+                <Panel className={'varsel-section'} border>
                     <Switch disabled={editDisabled} checked={smsPreferertKanal}
                             onClick={() => {
                                 setUnsavedChanges(true);
@@ -123,7 +123,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                     }} label={<Label>SMS</Label>}></Textarea>
                     <span>Antall tegn: {count}</span>
                 </Panel>
-                <Panel border>
+                <Panel className={'varsel-section'} border>
                     <Switch disabled={editDisabled} checked={epostPreferertKanal}
                             onClick={() => {
                                 setUnsavedChanges(true);
@@ -140,7 +140,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                         setEpostTekst(event.target.value);
                     }} label={<Label>Epost</Label>}></Textarea>
                 </Panel>
-                <Panel border>
+                <Panel className={'varsel-section'} border>
                     <Switch disabled={editDisabled} checked={navNoPreferertKanal}
                             onClick={() => {
                                 setUnsavedChanges(true);
@@ -159,11 +159,11 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                 </Panel>
                 {editDisabled ? '' :
                         (<>
-                            <Button disabled={!unsavedChanges} variant={'secondary'}
+                            <Button className={'varseltype-button'} disabled={!unsavedChanges} variant={'secondary'}
                                     onClick={resetFormToCurrentSelectedVarsel}>Avbryt</Button>
-                            <Button disabled={!unsavedChanges}
+                            <Button className={'varseltype-button'} disabled={!unsavedChanges}
                                     onClick={saveForm}>{editingNew ? 'Opprett' : 'Oppdater'}</Button>
-                            <Button variant={'danger'}
+                            <Button className={'varseltype-button'} variant={'danger'}
                                     onClick={() => setDeaktivert(!deaktivert)}>{deaktivert ? 'Aktiver' : 'Deaktiver'}</Button>
                         </>)
                 }
