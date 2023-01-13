@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BodyLong, Button, Heading, Label, Modal, TextField} from "@navikt/ds-react";
 import Varselvelger from "../components/Varselvelger";
 import VarselPreview from "../components/VarselPreview";
@@ -17,7 +17,7 @@ const VarseltestPage: React.FC<varseltestpageProps> = ({user, onLogoutAction}) =
     const [currentVarselId, setCurrentVarselId] = useState<string>("");
     const [showPageDeactivatedModal, setShowPageDeactivatedModal] = useState<boolean>(true);
     const closeModal = () => setShowPageDeactivatedModal(false);
-    const loggedOut = false;
+    useEffect(() => Modal.setAppElement('#__next'), []);
 
     if (showPageDeactivatedModal) {
         return (
@@ -33,7 +33,7 @@ const VarseltestPage: React.FC<varseltestpageProps> = ({user, onLogoutAction}) =
                             i varselmalen, og viser tekstbokser her for de parametrene */}
                             <Button disabled={currentVarselId === ""}
                                     onClick={() => setOpenPreviewModal(true)}>Forhåndsvisning</Button>
-                            {!loggedOut && (<>
+                            {!!user && (<>
                                 <TextField label={<Label>Fødselsnummer</Label>}></TextField>
                                 <Button variant={'danger'}>Send varsel</Button>
                             </>)}

@@ -1,9 +1,10 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
+import {useCallback, useEffect, useState} from 'react';
+import {BodyShort, Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
 import {createVarselInfo, getSingleVarselInfo, updateVarselInfo} from "../Api";
 import {createNewVarselInfo, updateExistingVarselInfo} from "../domain/VarselInfoAntiCorruptionLayer";
+import ConfirmModal from "./ConfirmModal";
 
 interface VarselTypeProps {
     editDisabled: boolean,
@@ -35,8 +36,10 @@ const Varseltype: React.FC<VarselTypeProps> = ({
     const [navNoPreferertKanal, setNavNoPreferertKanal] = useState<boolean>(false);
     const [currentVarselType, setCurrentVarselType] = useState<VarselInfo>();
     const [deaktivert, setDeaktivert] = useState<boolean>(false);
+    const [showConfirmModal, setConfirmModal] = useState<boolean>(false);
+    const [doSaveForm, setSaveForm] = useState<boolean>(false);
 
-    const resetFormToCurrentSelectedVarsel = () => {
+    const resetFormToCurrentSelectedVarsel = useCallback(() => {
         if (editingNew && !currentVarselTypeId) {
             setCurrentVarselType(null);
             setVarselNavn("")
@@ -73,9 +76,9 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                 setUnsavedChanges(false);
             });
         }
-    };
+    }, [editingNew, currentVarselTypeId]);
 
-    const saveForm = () => {
+    const saveForm = useCallback(() => {
         if (!currentVarselTypeId) {
             // TODO: feilhåndtering her
             return;
@@ -89,12 +92,27 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                     smsPreferertKanal, smsTekst, epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst);
             updateVarselInfo(updatedVarselInfo).then(() => resetFormToCurrentSelectedVarsel())
         }
+    }, [editingNew, setEditingNew, resetFormToCurrentSelectedVarsel, currentVarselType, currentVarselTypeId, varselNavn, deaktivert,
+        smsPreferertKanal, smsTekst, epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst])
+
+    if (doSaveForm) {
+        setSaveForm(false);
+        saveForm();
     }
 
-    useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos, editingNew]);
+    useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos, editingNew, resetFormToCurrentSelectedVarsel]);
 
-    const count = smsTekst.length;
-    return (<div className="">
+    function toggleActivation() {
+        setDeaktivert(!deaktivert);
+        setConfirmModal(false);
+        setSaveForm(true);
+    }
+
+    return (<div id={'__next'}>
+                <ConfirmModal mountpointId={'#__next'} cancelAction={() => setConfirmModal(false)}
+                              confirmAction={toggleActivation}
+                              open={showConfirmModal}><BodyShort>Er du sikker på at du
+                    vil {unsavedChanges ? 'lagre endringer og ' : ''} {deaktivert ? 'aktivere' : 'deaktivere'} varselet?</BodyShort></ConfirmModal>
                 <TextField disabled={editDisabled || !editingNew} value={currentVarselTypeId} onChange={event => {
                     if (editingNew) {
                         setUnsavedChanges(true);
@@ -121,7 +139,7 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                         setUnsavedChanges(true);
                         setSmsTekst(event.target.value);
                     }} label={<Label>SMS</Label>}></Textarea>
-                    <span>Antall tegn: {count}</span>
+                    <span>Antall tegn: {smsTekst.length}</span>
                 </Panel>
                 <Panel className={'varsel-section'} border>
                     <Switch disabled={editDisabled} checked={epostPreferertKanal}
@@ -162,9 +180,10 @@ const Varseltype: React.FC<VarselTypeProps> = ({
                             <Button className={'varseltype-button'} disabled={!unsavedChanges} variant={'secondary'}
                                     onClick={resetFormToCurrentSelectedVarsel}>Avbryt</Button>
                             <Button className={'varseltype-button'} disabled={!unsavedChanges}
-                                    onClick={saveForm}>{editingNew ? 'Opprett' : 'Oppdater'}</Button>
+                                    onClick={() => setSaveForm(true)}>{editingNew ? 'Opprett' : 'Oppdater'}</Button>
                             <Button className={'varseltype-button'} variant={'danger'}
-                                    onClick={() => setDeaktivert(!deaktivert)}>{deaktivert ? 'Aktiver' : 'Deaktiver'}</Button>
+                                    disabled={editingNew || !currentVarselTypeId}
+                                    onClick={() => setConfirmModal(true)}>{deaktivert ? 'Aktiver' : 'Deaktiver'}</Button>
                         </>)
                 }
             </div>
