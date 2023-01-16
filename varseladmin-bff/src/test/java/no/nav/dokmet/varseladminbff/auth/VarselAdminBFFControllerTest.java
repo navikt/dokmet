@@ -96,7 +96,7 @@ class VarselAdminBFFControllerTest {
 
 		// hent redirect
 		ResponseEntity<String> initialAuthResponse = restTemplate.exchange(
-				VarselAdminBFFController.OAUTH_BASE_PATH + "/login", HttpMethod.GET, new HttpEntity<String>(""), String.class);
+				OauthController.OAUTH_BASE_PATH + "/login", HttpMethod.GET, new HttpEntity<String>(""), String.class);
 
 		final String sessionCookie = initialAuthResponse.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
 		HttpEntity<String> sessionedHttpEntity = new HttpEntity<>("", new MultiValueMapAdapter<>(Map.of("Cookie", List.of(sessionCookie))));
@@ -123,7 +123,7 @@ class VarselAdminBFFControllerTest {
 
 		// hent redirect
 		ResponseEntity<String> initialAuthResponse = restTemplate.exchange(
-				VarselAdminBFFController.OAUTH_BASE_PATH + "/login", HttpMethod.GET, new HttpEntity<String>(""), String.class);
+				OauthController.OAUTH_BASE_PATH + "/login", HttpMethod.GET, new HttpEntity<String>(""), String.class);
 
 		final String sessionCookie = initialAuthResponse.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
 		HttpEntity<String> sessionedHttpEntity = new HttpEntity<>("", new MultiValueMapAdapter<>(Map.of("Cookie", List.of(sessionCookie))));
@@ -139,7 +139,7 @@ class VarselAdminBFFControllerTest {
 				returnUri.substring(22) + "?state=" + returnState + "&code=" + authorizationCode, HttpMethod.GET, sessionedHttpEntity, String.class);
 
 		ResponseEntity<String> response = restTemplate.exchange(
-				VarselAdminBFFController.OAUTH_BASE_PATH + "/me", HttpMethod.GET, sessionedHttpEntity, String.class);
+				OauthController.OAUTH_BASE_PATH + "/me", HttpMethod.GET, sessionedHttpEntity, String.class);
 
 		assertThat(response.getStatusCode(), is(OK));
 		assertThat(response.getBody(), is(USERINFO_EXAMPLE));

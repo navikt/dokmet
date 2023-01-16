@@ -80,7 +80,6 @@ const Varseltype: React.FC<VarselTypeProps> = ({
 
     const saveForm = useCallback(() => {
         if (!currentVarselTypeId) {
-            // TODO: feilhåndtering her
             return;
         }
         if (editingNew) {
