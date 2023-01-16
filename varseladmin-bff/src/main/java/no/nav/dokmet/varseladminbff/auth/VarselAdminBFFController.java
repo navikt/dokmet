@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import no.nav.dokmet.AzureProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -51,9 +52,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
@@ -117,7 +118,7 @@ public class VarselAdminBFFController {
 		Scope scope = new Scope(dokmetProperties.getScopesForBff());
 		State state = new State();
 		URI redirectEndpoint = URI.create(dokmetProperties.getBaseUrl() + OAUTH_CALLBACK_PATH);
-		URI oauthEndpoint = URI.create(azureProperties.openidConfig().tokenEndpoint().replace("/token", "/authorize")); // URI.create("/oauth2/authorization/azure");
+		URI oauthEndpoint = URI.create(azureProperties.openidConfig().getLoginEndpoint());
 
 		httpSession.setAttribute(LOGIN_STATE, state.getValue());
 		httpSession.setAttribute(LOGIN_NONCE, codeVerifier.getValue());
@@ -205,9 +206,17 @@ public class VarselAdminBFFController {
 			session.removeAttribute(ACCESS_TOKEN);
 			session.removeAttribute(REFRESH_TOKEN);
 
-			// TODO: gjør logout-kall mot microsoft her
+			String postLogoutRedirect = dokmetProperties.getBaseUrl() + "?loggedout=success";
+			try {
+				URI microsoftLogoutUri = new URIBuilder(URI.create(azureProperties.openidConfig().getLogoutEndpoint()))
+						.setParameter("post_logout_redirect_uri", postLogoutRedirect)
+						.build();
+				return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(microsoftLogoutUri).build();
+			} catch (URISyntaxException e) {
+				throw new RuntimeException(e);
+			}
 		}
-		return ResponseEntity.ok("Logged out");
+		return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(URI.create("/?loggedout=success")).build();
 	}
 
 	@GetMapping(path = OAUTH_BASE_PATH + "/me")
@@ -282,7 +291,7 @@ public class VarselAdminBFFController {
 			return Optional.empty();
 		}
 		try {
-			var accessToken = BearerAccessToken.parse(new JSONObject(JSONObjectUtils.parse(rawAccessToken))) ;
+			var accessToken = BearerAccessToken.parse(new JSONObject(JSONObjectUtils.parse(rawAccessToken)));
 			if (validateAccessToken(accessToken)) {
 				return Optional.of(accessToken);
 			} else {

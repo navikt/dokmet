@@ -24,8 +24,9 @@ const AppHeader: React.FC<AppHeaderProps> = ({user, onLogoutAction}) => {
                         />
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
-                                <Dropdown.Menu.List.Item onClick={() => onLogoutAction(null)}>Logg
-                                    ut</Dropdown.Menu.List.Item>
+                                <Dropdown.Menu.List.Item>
+                                    <a href={'/rest/varseladmin/oauth/logout/'}>Logg ut</a>
+                                </Dropdown.Menu.List.Item>
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>) :
