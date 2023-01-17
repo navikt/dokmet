@@ -1,4 +1,4 @@
-package no.nav.dokmet.core.config;
+package no.nav.dokmet.varseladminbff.config;
 
 import no.nav.security.token.support.core.api.Unprotected;
 import org.springframework.stereotype.Controller;

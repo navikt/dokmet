@@ -38,8 +38,8 @@ public class OauthController {
 	public ResponseEntity<String> whoami(HttpSession session) {
 		return oauthService.getJwtClaimsSet(session)
 				.map(jwtClaimsSet -> "{" +
-						"\"NAVident\":\"" + jwtClaimsSet.getClaim("NAVident") + "\"," +
-						"\"name\":\"" + jwtClaimsSet.getClaim("name") + "\"" +
+						"\"NAVident\":\"" + jwtClaimsSet.getNavIdent() + "\"," +
+						"\"name\":\"" + jwtClaimsSet.getName() + "\"" +
 						"}")
 				.map(ResponseEntity::ok)
 				.orElseGet(() -> ResponseEntity.ok("{}"));

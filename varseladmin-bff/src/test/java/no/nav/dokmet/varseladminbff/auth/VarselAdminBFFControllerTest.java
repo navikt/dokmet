@@ -1,7 +1,5 @@
 package no.nav.dokmet.varseladminbff.auth;
 
-import no.nav.dokmet.AzureProperties;
-import no.nav.dokmet.core.config.DokmetProperties;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,11 +63,6 @@ class VarselAdminBFFControllerTest {
 
 	@Autowired
 	private TestRestTemplate restTemplate;
-
-	@Autowired
-	private AzureProperties azureProperties;
-	@Autowired
-	private DokmetProperties dokmetProperties;
 
 	@BeforeEach
 	public void setup() {

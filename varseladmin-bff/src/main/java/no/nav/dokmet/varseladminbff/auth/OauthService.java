@@ -1,7 +1,6 @@
 package no.nav.dokmet.varseladminbff.auth;
 
 import com.nimbusds.jose.util.JSONObjectUtils;
-import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.nimbusds.oauth2.sdk.AccessTokenResponse;
 import com.nimbusds.oauth2.sdk.AuthorizationCodeGrant;
@@ -104,7 +103,7 @@ public class OauthService {
 			AccessTokenResponse accessTokenResponse = tokenResponse.toSuccessResponse();
 
 			AccessToken newAccessToken = accessTokenResponse.getTokens().getAccessToken();
-			session.setAttribute(ACCESS_TOKEN, newAccessToken.getValue());
+			session.setAttribute(ACCESS_TOKEN, newAccessToken.toJSONString());
 			return Optional.of(newAccessToken);
 		} catch (IOException | ParseException e) {
 			return Optional.empty();
@@ -120,7 +119,7 @@ public class OauthService {
 		}
 	}
 
-	Optional<JWTClaimsSet> getJwtClaimsSet(HttpSession session) {
+	public Optional<NavJwtClaimSet> getJwtClaimsSet(HttpSession session) {
 		return getOAuth2AuthorizationFromSession(session)
 				.map(AccessToken::getValue)
 				.map(s -> {
@@ -129,7 +128,8 @@ public class OauthService {
 					} catch (java.text.ParseException e) {
 						return null;
 					}
-				});
+				})
+				.map(NavJwtClaimSet::new);
 	}
 
 	URI createAuthorizationUri(HttpSession httpSession) {
