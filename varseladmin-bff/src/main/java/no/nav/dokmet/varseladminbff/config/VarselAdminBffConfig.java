@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableAutoConfiguration
 @EnableConfigurationProperties(value = {DokmetProperties.class, AzureAppProperties.class, AzureOpenIdProperties.class})
-// @EnableAspectJAutoProxy
-// @EnableRetry
 public class VarselAdminBffConfig {
 
 	@Bean
