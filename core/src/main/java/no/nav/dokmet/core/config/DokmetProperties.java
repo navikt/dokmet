@@ -8,6 +8,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
+import java.net.InetSocketAddress;
+import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -21,8 +23,17 @@ public class DokmetProperties {
     private final Endpoints endpoints = new Endpoints();
     private final Serviceuser serviceuser = new Serviceuser();
 
+	@NotEmpty
+	private String baseUrl;
 
-    @Data
+	@NotEmpty
+	private String scopesForBff;
+
+	public String[] getScopesForBff() {
+		return scopesForBff.split(",");
+	}
+
+	@Data
     @Validated
     public static class Endpoints {
 
@@ -77,5 +88,9 @@ public class DokmetProperties {
         public boolean isSet() {
             return isNotBlank(host);
         }
+
+		public java.net.Proxy toJavaProxy() {
+			return new java.net.Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(host, port));
+		}
     }
 }

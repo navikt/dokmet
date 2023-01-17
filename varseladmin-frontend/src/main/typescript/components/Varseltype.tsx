@@ -1,24 +1,28 @@
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
+import {useCallback, useEffect, useState} from 'react';
+import {BodyShort, Button, Heading, Label, Panel, Switch, Textarea, TextField} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
-import {getSingleVarselInfo} from "../Api";
+import {createVarselInfo, getSingleVarselInfo, updateVarselInfo} from "../Api";
+import {createNewVarselInfo, updateExistingVarselInfo} from "../domain/VarselInfoAntiCorruptionLayer";
+import ConfirmModal from "./ConfirmModal";
 
 interface VarselTypeProps {
-    loggedOut: boolean,
+    editDisabled: boolean,
     varselinfos: VarselInfo[],
-    currentVarselTypeId: string
+    currentVarselTypeId: string,
+    setCurrentVarselTypeId: (id: string) => void,
+    editingNew: boolean,
+    setEditingNew: (b: boolean) => void
 }
 
-function mapPrefertKanal(smsPreferertKanal: boolean, epostPreferertKanal: boolean, navNoPreferertKanal: boolean): string[] {
-    const kanaler: string[] = [];
-    if (smsPreferertKanal) kanaler.push('SMS');
-    if (epostPreferertKanal) kanaler.push('EPOST');
-    if (navNoPreferertKanal) kanaler.push('DITT_NAV');
-    return kanaler;
-}
-
-const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentVarselTypeId}) => {
+const Varseltype: React.FC<VarselTypeProps> = ({
+                                                   editDisabled,
+                                                   varselinfos,
+                                                   currentVarselTypeId,
+                                                   setCurrentVarselTypeId,
+                                                   editingNew,
+                                                   setEditingNew
+                                               }) => {
 
     const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
     const [varselNavn, setVarselNavn] = useState<string>("");
@@ -31,86 +35,117 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
     const [navNoUrl, setNavNoUrl] = useState<string>("");
     const [navNoPreferertKanal, setNavNoPreferertKanal] = useState<boolean>(false);
     const [currentVarselType, setCurrentVarselType] = useState<VarselInfo>();
+    const [deaktivert, setDeaktivert] = useState<boolean>(false);
+    const [showConfirmModal, setConfirmModal] = useState<boolean>(false);
+    const [doSaveForm, setSaveForm] = useState<boolean>(false);
 
-    const resetFormToCurrentSelectedVarsel = () => {
-        getSingleVarselInfo(currentVarselTypeId).then(currentVarsel => {
-            setCurrentVarselType(currentVarsel);
-            const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
-            const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
-            const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
-
-            setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
-            setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
-            setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
-            setVarselNavn(currentVarsel?.varselNavn || "")
-            setSmsTekst(currentVarselSms?.foerstegangsvarselTekst || "");
-            setEpostEmne(currentVarselEpost?.varselTittel || "");
-            setEpostTekst(currentVarselEpost?.foerstegangsvarselTekst || "");
-            setNavNoTekst(currentVarselNavNo?.foerstegangsvarselTekst || "");
-            setNavNoUrl(currentVarsel?.varselURL || "");
+    const resetFormToCurrentSelectedVarsel = useCallback(() => {
+        if (editingNew && !currentVarselTypeId) {
+            setCurrentVarselType(null);
+            setVarselNavn("")
+            setDeaktivert(true);
+            setSmsPreferertKanal(false)
+            setSmsTekst("");
+            setEpostPreferertKanal(false)
+            setEpostEmne("");
+            setEpostTekst("");
+            setNavNoPreferertKanal(false)
+            setNavNoTekst("");
+            setNavNoUrl("");
             setUnsavedChanges(false);
-        });
-    };
+        } else if (!editingNew) {
+            getSingleVarselInfo(currentVarselTypeId).then(currentVarsel => {
+                setCurrentVarselType(currentVarsel);
+                setVarselNavn(currentVarsel?.varselNavn || "")
+                setDeaktivert(currentVarsel?.inaktiv)
 
-    const saveForm = () => {
-        const save: VarselInfo = (
-                {
-                    varseltypeId: currentVarselTypeId,
-                    varselNavn: varselNavn,
-                    varselKategori: currentVarselType.varselKategori,
-                    varselForDistribusjonKanal: currentVarselType.varselForDistribusjonKanal,
-                    inaktiv: currentVarselType.inaktiv,
-                    revarslingIntervall: currentVarselType.revarslingIntervall,
-                    antallRevarslinger: currentVarselType.antallRevarslinger,
-                    varselURL: navNoUrl,
-                    preferertKanal: mapPrefertKanal(smsPreferertKanal, epostPreferertKanal, navNoPreferertKanal),
-                    varselmals: [
-                        {
-                            kanal: 'EPOST',
-                            varselTittel: epostEmne,
-                            foerstegangsvarselTekst: epostTekst,
-                            revarslingTekst: null
-                        },
-                        {
-                            kanal: 'SMS',
-                            varselTittel: null,
-                            foerstegangsvarselTekst: smsTekst,
-                            revarslingTekst: null
-                        },
-                        {
-                            kanal: 'DITT_NAV',
-                            varselTittel: null,
-                            foerstegangsvarselTekst: navNoTekst,
-                            revarslingTekst: null
-                        }
-                    ]
-                }
-        );
-        console.log(save);
-        // updateVarselInfo(save)
+                const currentVarselSms = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'SMS');
+                setSmsPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'SMS') !== undefined)
+                setSmsTekst(currentVarselSms?.foerstegangsvarselTekst || "");
+
+                const currentVarselEpost = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'EPOST');
+                setEpostPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'EPOST') !== undefined)
+                setEpostEmne(currentVarselEpost?.varselTittel || "");
+                setEpostTekst(currentVarselEpost?.foerstegangsvarselTekst || "");
+
+                const currentVarselNavNo = currentVarsel?.varselmals?.find((mal) => mal.kanal === 'DITT_NAV');
+                setNavNoPreferertKanal(currentVarsel?.preferertKanal?.find(item => item === 'DITT_NAV') !== undefined)
+                setNavNoTekst(currentVarselNavNo?.foerstegangsvarselTekst || "");
+                setNavNoUrl(currentVarsel?.varselURL || "");
+
+                setUnsavedChanges(false);
+            });
+        }
+    }, [editingNew, currentVarselTypeId]);
+
+    const saveForm = useCallback(() => {
+        if (!currentVarselTypeId) {
+            return;
+        }
+        if (editingNew) {
+            const newVarselInfo = createNewVarselInfo(currentVarselTypeId, varselNavn, smsPreferertKanal, smsTekst,
+                    epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst);
+            createVarselInfo(newVarselInfo).then(() => setEditingNew(false)).then(() => resetFormToCurrentSelectedVarsel())
+        } else {
+            const updatedVarselInfo = updateExistingVarselInfo(currentVarselType, currentVarselTypeId, varselNavn, deaktivert,
+                    smsPreferertKanal, smsTekst, epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst);
+            updateVarselInfo(updatedVarselInfo).then(() => resetFormToCurrentSelectedVarsel())
+        }
+    }, [editingNew, setEditingNew, resetFormToCurrentSelectedVarsel, currentVarselType, currentVarselTypeId, varselNavn, deaktivert,
+        smsPreferertKanal, smsTekst, epostPreferertKanal, epostEmne, epostTekst, navNoPreferertKanal, navNoUrl, navNoTekst])
+
+    if (doSaveForm) {
+        setSaveForm(false);
+        saveForm();
     }
 
-    useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos]);
+    useEffect(resetFormToCurrentSelectedVarsel, [currentVarselTypeId, varselinfos, editingNew, resetFormToCurrentSelectedVarsel]);
 
-    const count = smsTekst.length;
-    return (<div className="">
-                <TextField disabled={loggedOut} defaultValue={currentVarselTypeId} label={<Label>VarseltypeId</Label>}/>
-                <TextField disabled={loggedOut} defaultValue={varselNavn} label={<Label>Varselnavn</Label>}/>
+    function toggleActivation() {
+        setDeaktivert(!deaktivert);
+        setConfirmModal(false);
+        setSaveForm(true);
+    }
+
+    return (<div id={'__next'}>
+                <ConfirmModal mountpointId={'#__next'} cancelAction={() => setConfirmModal(false)}
+                              confirmAction={toggleActivation}
+                              open={showConfirmModal}><BodyShort>Er du sikker på at du
+                    vil {unsavedChanges ? 'lagre endringer og ' : ''} {deaktivert ? 'aktivere' : 'deaktivere'} varselet?</BodyShort></ConfirmModal>
+                <TextField disabled={editDisabled || !editingNew} value={currentVarselTypeId} onChange={event => {
+                    if (editingNew) {
+                        setUnsavedChanges(true);
+                        setCurrentVarselTypeId(event.target.value);
+                    }
+                }}
+                           label={<Label>VarseltypeId</Label>}/>
+                <TextField disabled={editDisabled} value={varselNavn} onChange={event => {
+                    if (editingNew) {
+                        setUnsavedChanges(true);
+                        setVarselNavn(event.target.value);
+                    }
+                }} label={<Label>Varselnavn</Label>}/>
                 <Heading size={'small'}>Varselkanal</Heading>
-                <Panel border>
-                    <Switch disabled={loggedOut} checked={smsPreferertKanal}
-                            onClick={() => setSmsPreferertKanal(!smsPreferertKanal)}>
+                <Panel className={'varsel-section'} border>
+                    <Switch disabled={editDisabled} checked={smsPreferertKanal}
+                            onClick={() => {
+                                setUnsavedChanges(true);
+                                setSmsPreferertKanal(!smsPreferertKanal);
+                            }}>
                         <Label>SMS som preferert kanal</Label>
                     </Switch>
                     <Textarea value={smsTekst} onChange={event => {
                         setUnsavedChanges(true);
                         setSmsTekst(event.target.value);
                     }} label={<Label>SMS</Label>}></Textarea>
-                    <span>Antall tegn: {count}</span>
+                    <span>Antall tegn: {smsTekst.length}</span>
                 </Panel>
-                <Panel border>
-                    <Switch disabled={loggedOut} checked={epostPreferertKanal}
-                            onClick={() => setEpostPreferertKanal(!epostPreferertKanal)}>
+                <Panel className={'varsel-section'} border>
+                    <Switch disabled={editDisabled} checked={epostPreferertKanal}
+                            onClick={() => {
+                                setUnsavedChanges(true);
+                                setEpostPreferertKanal(!epostPreferertKanal);
+                            }}>
                         <Label>Epost som preferert kanal</Label>
                     </Switch>
                     <TextField value={epostEmne} onChange={event => {
@@ -122,9 +157,12 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
                         setEpostTekst(event.target.value);
                     }} label={<Label>Epost</Label>}></Textarea>
                 </Panel>
-                <Panel border>
-                    <Switch disabled={loggedOut} checked={navNoPreferertKanal}
-                            onClick={() => setNavNoPreferertKanal(!navNoPreferertKanal)}>
+                <Panel className={'varsel-section'} border>
+                    <Switch disabled={editDisabled} checked={navNoPreferertKanal}
+                            onClick={() => {
+                                setUnsavedChanges(true);
+                                setNavNoPreferertKanal(!navNoPreferertKanal);
+                            }}>
                         <Label>DittNav som preferert kanal</Label>
                     </Switch>
                     <TextField value={navNoUrl} onChange={event => {
@@ -136,11 +174,15 @@ const Varseltype: React.FC<VarselTypeProps> = ({loggedOut, varselinfos, currentV
                         setNavNoTekst(event.target.value);
                     }} label={<Label>Nav.no</Label>}></Textarea>
                 </Panel>
-                {loggedOut ? '' :
+                {editDisabled ? '' :
                         (<>
-                            <Button disabled={!unsavedChanges} variant={'secondary'}
+                            <Button className={'varseltype-button'} disabled={!unsavedChanges} variant={'secondary'}
                                     onClick={resetFormToCurrentSelectedVarsel}>Avbryt</Button>
-                            <Button disabled={!unsavedChanges} onClick={saveForm}>Opprett</Button>
+                            <Button className={'varseltype-button'} disabled={!unsavedChanges}
+                                    onClick={() => setSaveForm(true)}>{editingNew ? 'Opprett' : 'Oppdater'}</Button>
+                            <Button className={'varseltype-button'} variant={'danger'}
+                                    disabled={editingNew || !currentVarselTypeId}
+                                    onClick={() => setConfirmModal(true)}>{deaktivert ? 'Aktiver' : 'Deaktiver'}</Button>
                         </>)
                 }
             </div>

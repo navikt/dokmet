@@ -3,7 +3,7 @@ interface VarselInfo {
     varselNavn: string,
     varselKategori: string,
     varselForDistribusjonKanal: string,
-    inaktiv: Boolean,
+    inaktiv: boolean,
     revarslingIntervall: Number,
     antallRevarslinger: Number,
     varselURL: string,

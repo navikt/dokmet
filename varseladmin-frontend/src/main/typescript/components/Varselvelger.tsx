@@ -3,16 +3,17 @@ import {Label, Select} from "@navikt/ds-react";
 import VarselInfo from "../domain/VarselInfo";
 
 interface VarselvelgerProps {
-    loggedOut: boolean,
+    disabled: boolean,
     onChooseVarsel: (a: string) => void,
-    varselinfos: VarselInfo[]
+    varselinfos: VarselInfo[],
+    selectedVarseltypeId: string
 }
 
-const Varselvelger: React.FC<VarselvelgerProps> = ({loggedOut, onChooseVarsel, varselinfos}) => {
+const Varselvelger: React.FC<VarselvelgerProps> = ({disabled, onChooseVarsel, varselinfos, selectedVarseltypeId}) => {
     return (<div>
                 <Select label={<Label>Varseltype</Label>} onChange={event => {
                     onChooseVarsel(event.target.value);
-                }}>
+                }} value={selectedVarseltypeId}>
                     <option value={''}>Velg varseltype</option>
                     {varselinfos
                             .sort((a, b) => a.varselNavn.localeCompare(b.varselNavn))

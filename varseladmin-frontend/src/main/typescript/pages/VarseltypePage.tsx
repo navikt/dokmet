@@ -9,13 +9,14 @@ import VarselCreate from "../components/VarselCreate";
 import {getVarselInfos} from "../Api";
 
 interface VarseltypePageProps {
-    username?: string,
+    user?: User,
     onLogoutAction: (x?: string) => void
 }
 
-const VarseltypePage: React.FC<VarseltypePageProps> = ({username, onLogoutAction}) => {
+const VarseltypePage: React.FC<VarseltypePageProps> = ({user, onLogoutAction}) => {
     const [currentVarselId, setCurrentVarselId] = useState<string>("");
     const [varselInfos, setVarselInfos] = useState<VarselInfo[]>([])
+    const [editingNew, setEditingNew] = useState(false);
 
     useEffect(() => {
         getVarselInfos()
@@ -23,15 +24,30 @@ const VarseltypePage: React.FC<VarseltypePageProps> = ({username, onLogoutAction
                 .then(setVarselInfos);
     }, []);
 
+    const setupForVarselCreate = () => {
+        setCurrentVarselId(null);
+        setEditingNew(true);
+    };
+
+    const chooseExistingVarsel = (id: string) => {
+        setCurrentVarselId(id);
+        setEditingNew(false);
+    };
+
     return (<>
-        <AppHeader username={username} onLogoutAction={onLogoutAction}/>
+        <AppHeader user={user} onLogoutAction={onLogoutAction}/>
         <div style={{maxWidth: '40em', margin: 'auto'}}>
             <Heading size={'medium'}>Varseltype</Heading>
-            <Varselvelger loggedOut={!username} onChooseVarsel={setCurrentVarselId}
+            <Varselvelger disabled={!user}
+                          selectedVarseltypeId={currentVarselId}
+                          onChooseVarsel={chooseExistingVarsel}
                           varselinfos={varselInfos}/>
-            <VarselCreate loggedOut={!username}/>
-            <Varseltype loggedOut={!username} currentVarselTypeId={currentVarselId}
-                        varselinfos={varselInfos}/>
+            <VarselCreate disabled={!user} performVarselCreate={setupForVarselCreate}/>
+            <Varseltype editDisabled={!user}
+                        varselinfos={varselInfos}
+                        currentVarselTypeId={currentVarselId} setCurrentVarselTypeId={setCurrentVarselId}
+                        editingNew={editingNew} setEditingNew={setEditingNew}
+            />
         </div>
     </>);
 };

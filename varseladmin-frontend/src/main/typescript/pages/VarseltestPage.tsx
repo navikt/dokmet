@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BodyLong, Button, Heading, Label, Modal, TextField} from "@navikt/ds-react";
 import Varselvelger from "../components/Varselvelger";
 import VarselPreview from "../components/VarselPreview";
@@ -7,32 +7,33 @@ import VarselInfo from "../domain/VarselInfo";
 import {Navigate} from "react-router";
 
 interface varseltestpageProps {
-    username?: string,
+    user?: User,
     onLogoutAction: (x?: string) => void
 }
 
-const VarseltestPage: React.FC<varseltestpageProps> = ({username, onLogoutAction}) => {
+const VarseltestPage: React.FC<varseltestpageProps> = ({user, onLogoutAction}) => {
     const [openPreviewModal, setOpenPreviewModal] = useState(false);
     const [varselInfos,] = useState<VarselInfo[]>([])
     const [currentVarselId, setCurrentVarselId] = useState<string>("");
     const [showPageDeactivatedModal, setShowPageDeactivatedModal] = useState<boolean>(true);
     const closeModal = () => setShowPageDeactivatedModal(false);
-    const loggedOut = false;
+    useEffect(() => Modal.setAppElement('#__next'), []);
 
     if (showPageDeactivatedModal) {
         return (
                 <div id={"__next"}>
-                    <AppHeader username={username} onLogoutAction={onLogoutAction}/>
+                    <AppHeader user={user} onLogoutAction={onLogoutAction}/>
                     <div style={{maxWidth: '40em', margin: 'auto'}}>
                         <Heading size={'medium'}>Varseltest</Heading>
-                        <Varselvelger loggedOut={!username} onChooseVarsel={setCurrentVarselId}
-                                      varselinfos={varselInfos}/>
+                        <Varselvelger disabled={!user} varselinfos={varselInfos}
+                                      onChooseVarsel={setCurrentVarselId} selectedVarseltypeId={currentVarselId}
+                        />
                         <div className={'actions-on-varsel'}>
                             {/* TODO: Den nåværende angular-appen parser ut en liste med parametre som må settes fra teksten
                             i varselmalen, og viser tekstbokser her for de parametrene */}
                             <Button disabled={currentVarselId === ""}
                                     onClick={() => setOpenPreviewModal(true)}>Forhåndsvisning</Button>
-                            {!loggedOut && (<>
+                            {!!user && (<>
                                 <TextField label={<Label>Fødselsnummer</Label>}></TextField>
                                 <Button variant={'danger'}>Send varsel</Button>
                             </>)}

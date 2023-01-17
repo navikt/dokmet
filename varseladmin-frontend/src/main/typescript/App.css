@@ -3,3 +3,12 @@
 .headerlink {
     color: var(--a-text-on-inverted);
 }
+
+.varseltype-button {
+    margin: 0.5em;
+}
+
+.varsel-section {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}

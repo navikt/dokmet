@@ -1,13 +1,22 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import MyRoutes from "./Routes";
+import {getUserInfo} from "./Api";
 
 const App: React.FC = () => {
-    const [user, setUser] = useState<string>(null);
+    const [user, setUser] = useState<User>(null);
+
+    useEffect(() => {
+        getUserInfo().then(user => {
+            if (user.NAVident) {
+                setUser(user);
+            }
+        })
+    }, []);
 
     return (
             <>
-                <MyRoutes username={user} loginAction={setUser}/>
+                <MyRoutes user={user} loginAction={(s: string) => setUser(null)}/>
             </>
     );
 }

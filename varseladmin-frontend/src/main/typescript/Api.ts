@@ -5,21 +5,27 @@ const getVarselInfos = (): Promise<VarselInfo[]> => {
 }
 
 const getSingleVarselInfo = (varselInfoId: string): Promise<VarselInfo> => {
-    return fetch(`/rest/varselinfo/${varselInfoId}`).then(response => response.json());
+    return fetch(`/rest/varseladmin/bff/rest/varselinfo/${varselInfoId}`).then(response => response.json());
 }
 
 const updateVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
-    return fetch(`/rest/varselinfo/${varselInfo.varseltypeId}`, {
-        method: 'patch',
+    return fetch(`/rest/varseladmin/bff/rest/varselinfo/${varselInfo.varseltypeId}`, {
+        method: 'PUT',
+        headers: {'Content-type':'application/json'},
         body: JSON.stringify(varselInfo)
     }).then(response => response.text());
 }
 
-const createNewVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
-    return fetch('/rest/varselinfo/', {
-        method: 'post',
+const createVarselInfo = (varselInfo: VarselInfo): Promise<string> => {
+    return fetch('/rest/varseladmin/bff/rest/varselinfo/', {
+        method: 'POST',
+        headers: {'Content-type':'application/json'},
         body: JSON.stringify(varselInfo)
     }).then(response => response.text());
 }
 
-export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createNewVarselInfo};
+const getUserInfo = (): Promise<User> => {
+    return fetch('/rest/varseladmin/oauth/me').then(response => response.json());
+}
+
+export {getVarselInfos, getSingleVarselInfo, updateVarselInfo, createVarselInfo, getUserInfo};

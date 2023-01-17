@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan
-@EnableConfigurationProperties(value = {DokmetProperties.class})
-@EnableJwtTokenValidation(ignore = {"org.springframework", "org.springdoc"})
+@EnableConfigurationProperties(value = {DokmetProperties.class, AzureAppProperties.class, AzureOpenIdProperties.class})
+@EnableJwtTokenValidation(ignore = {"org.springframework", "org.springdoc", "no.nav.dokmet.varseladminbff"})
 public class CoreConfig {
 
 }

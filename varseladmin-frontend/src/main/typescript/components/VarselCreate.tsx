@@ -2,12 +2,13 @@ import * as React from 'react';
 import {Button} from "@navikt/ds-react";
 
 interface VarselvelgerProps {
-    loggedOut: boolean
+    disabled: boolean,
+    performVarselCreate: () => void
 }
 
-const VarselCreate: React.FC<VarselvelgerProps> = ({loggedOut}) => {
+const VarselCreate: React.FC<VarselvelgerProps> = ({disabled, performVarselCreate}) => {
     return (<div>
-        <Button disabled={loggedOut} variant={'secondary'}>Legg til ny varseltype</Button>
+        <Button disabled={disabled} variant={'secondary'} onClick={performVarselCreate}>Legg til ny varseltype</Button>
     </div>);
 }
 
