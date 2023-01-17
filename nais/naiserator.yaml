@@ -15,6 +15,10 @@ spec:
       value: {{ NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL }}
     - name: SPRING_DATASOURCE_URL
       value: {{ SPRING_DATASOURCE_URL }}
+    - name: DOKMET_BASE_URL
+      value: {{ DOKMET_BASE_URL }}
+    - name: DOKMET_SCOPES_FOR_BFF
+      value: {{ DOKMET_SCOPES_FOR_BFF }}
   image: {{ image }}
   ingresses:
     {{#each INGRESSES}}
@@ -53,6 +57,10 @@ spec:
   azure:
     application:
       enabled: true
+      replyURLs:
+          {{#each AZURE_REPLYURLS}}
+          - "{{this}}"
+          {{/each}}
       claims:
         extra:
           - "azp_name"

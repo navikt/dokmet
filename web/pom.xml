@@ -17,9 +17,8 @@
 			<artifactId>core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
+			<groupId>no.nav.dokmet</groupId>
+			<artifactId>varseladmin-frontend</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

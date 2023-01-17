@@ -1,0 +1,9 @@
+{
+  "short_name": "Varseladmin",
+  "name": "NAV Varseladmin",
+  "icons": [],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#c30000",
+  "background_color": "#ffffff"
+}
