@@ -3,12 +3,10 @@ package repository.config;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
 import no.nav.dokmet.core.repository.EksternDokumentTypeRepository;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -21,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @AutoConfigureDataJpa
 @ActiveProfiles("itest")
-@EnableAutoConfiguration(exclude = FlywayAutoConfiguration.class)
+@EnableAutoConfiguration
 @EntityScan(basePackages = {
 		"no.nav.dokmet.core.domain.entities"
 })
@@ -42,7 +40,7 @@ public class AbstractTest {
 	@Autowired
 	protected VarselInfoRepository varselInfoRepository;
 
-	public void emptyDatabases(){
+	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
 		eksternDokumentTypeRepository.deleteAll();

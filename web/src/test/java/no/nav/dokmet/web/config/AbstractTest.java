@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
@@ -37,7 +36,7 @@ import java.util.Map;
 @AutoConfigureDataJpa
 @EnableMockOAuth2Server
 @ActiveProfiles("itest")
-@EnableAutoConfiguration(exclude = FlywayAutoConfiguration.class)
+@EnableAutoConfiguration
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
 @AutoConfigureWireMock(port = 0)
@@ -80,11 +79,11 @@ public class AbstractTest {
 	protected TestRestTemplate restTemplate;
 
 	@Before
-	public void setUp(){
+	public void setUp() {
 		mapper = new ObjectMapper();
 	}
 
-	public void emptyDatabases(){
+	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
 		eksternDokumentTypeRepository.deleteAll();
