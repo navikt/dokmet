@@ -7,12 +7,14 @@ import oracle.jdbc.pool.OracleDataSource;
 import oracle.net.ns.SQLnetDef;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
+import org.flywaydb.core.Flyway;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import static org.flywaydb.core.api.MigrationVersion.fromVersion;
 
 @Slf4j
 @Configuration
@@ -66,5 +70,14 @@ public class RepositoryConfig {
 	@Primary
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate(final DataSource dataSource) {
 		return new NamedParameterJdbcTemplate(dataSource);
+	}
+
+	@Profile("nais")
+	@Bean(initMethod = "migrate")
+	Flyway flyway420(DataSource dataSource) {
+		// Spring Boot Autokonfigurasjon av flyway funker ikke for versjon < 5.0.0 i spring boot 2.7.7
+		Flyway flyway = new Flyway();
+		flyway.setDataSource(dataSource);
+		return flyway;
 	}
 }
