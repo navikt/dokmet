@@ -7,7 +7,6 @@ import no.nav.dokmet.core.config.DokmetProperties;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @ComponentScan(basePackages = "no.nav.dokmet.varseladminbff")
 @Configuration
-@EnableAutoConfiguration(exclude = FlywayAutoConfiguration.class)
+@EnableAutoConfiguration
 @EnableConfigurationProperties(value = {DokmetProperties.class, AzureAppProperties.class, AzureOpenIdProperties.class})
 public class VarselAdminBffConfig {
 
