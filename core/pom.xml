@@ -2,16 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<artifactId>dokmet</artifactId>
 		<groupId>no.nav.dokmet</groupId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>core</artifactId>
-	<dependencies>
 
+	<dependencies>
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,21 +49,14 @@
 			<artifactId>token-validation-spring</artifactId>
 		</dependency>
 
-		<!-- div-->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- db -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc10</artifactId>
+			<artifactId>ojdbc11</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ucp</artifactId>
+			<artifactId>ucp11</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -85,24 +79,13 @@
 		<!-- micrometer -->
 		<dependency>
 			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
-
 
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.vaadin.external.google</groupId>
-					<artifactId>android-json</artifactId>
-				</exclusion>
-			</exclusions>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
