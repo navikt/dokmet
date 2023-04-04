@@ -3,9 +3,8 @@ package no.nav.dokmet.web;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
 import no.nav.dokmet.web.tkat020.TKAT020Validator;
-import no.nav.dokmet.web.to.DokumenttypeInfoTo;
-import no.nav.dokmet.web.to.EksternDokumentTypeTo;
-import org.junit.jupiter.api.Disabled;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

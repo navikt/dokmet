@@ -6,6 +6,12 @@ on:
       - published
 
 jobs:
+  publish-artifact:
+    uses: navikt/dok-workflows/.github/workflows/publish-artifact.yml@main
+    with:
+      java-version: '17'
+    secrets: inherit
   deploy-prod:
     uses: navikt/dok-workflows/.github/workflows/deploy-prod.yml@main
+    needs: publish-artifact
     secrets: inherit

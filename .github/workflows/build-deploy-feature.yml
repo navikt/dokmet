@@ -7,6 +7,12 @@ on:
       - master
 
 jobs:
+  publish-artifact-tmp:
+    uses: navikt/dok-workflows/.github/workflows/publish-artifact.yml@main
+    with:
+      java-version: '17'
+    secrets: inherit
   build:
     uses: navikt/dok-workflows/.github/workflows/build-deploy-feature.yml@main
+    needs: publish-artifact-tmp
     secrets: inherit

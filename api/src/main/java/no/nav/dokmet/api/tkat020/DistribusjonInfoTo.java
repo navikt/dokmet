@@ -1,4 +1,4 @@
-package no.nav.dokmet.web.to;
+package no.nav.dokmet.api.tkat020;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;

@@ -12,7 +12,15 @@
 
 	<artifactId>web</artifactId>
 
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
+
 	<dependencies>
+		<dependency>
+			<groupId>no.nav.dokmet</groupId>
+			<artifactId>api</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>no.nav.dokmet</groupId>
 			<artifactId>core</artifactId>

@@ -1,4 +1,4 @@
-package no.nav.dokmet.web.to;
+package no.nav.dokmet.api.tkat021;
 
 import lombok.Builder;
 import lombok.Data;

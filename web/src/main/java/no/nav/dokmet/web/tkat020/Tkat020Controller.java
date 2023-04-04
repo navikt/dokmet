@@ -2,11 +2,10 @@ package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-import no.nav.dokmet.web.to.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.web.utils.SporingHandler;
 import no.nav.security.token.support.core.api.Protected;
 import no.nav.security.token.support.core.api.Unprotected;
-import no.nav.security.token.support.core.context.TokenValidationContextHolder;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
