@@ -5,7 +5,7 @@ import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.exceptions.DokumenttypeInfoNotFoundException;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
-import no.nav.dokmet.web.to.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

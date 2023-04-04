@@ -6,14 +6,14 @@ import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-import no.nav.dokmet.web.to.DistribusjonInfoTo;
-import no.nav.dokmet.web.to.DistribusjonVarselTo;
-import no.nav.dokmet.web.to.DokumentMottakInfoTo;
-import no.nav.dokmet.web.to.DokumentProduksjonsInfoTo;
-import no.nav.dokmet.web.to.DokumenttypeInfoTo;
-import no.nav.dokmet.web.to.EksternDokumentTypeTo;
-import no.nav.dokmet.web.to.VarselInfoTo;
-import no.nav.dokmet.web.to.VarselMalTo;
+import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
+import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
+import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
+import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselMalTo;
 
 import java.util.Collections;
 

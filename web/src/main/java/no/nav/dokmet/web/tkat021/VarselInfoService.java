@@ -3,7 +3,7 @@ package no.nav.dokmet.web.tkat021;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.exceptions.VarselInfoNotFoundException;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
-import no.nav.dokmet.web.to.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

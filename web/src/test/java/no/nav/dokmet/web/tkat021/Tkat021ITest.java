@@ -4,7 +4,7 @@ import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.web.TestUtils;
 import no.nav.dokmet.web.config.AbstractTest;
-import no.nav.dokmet.web.to.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;

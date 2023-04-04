@@ -1,7 +1,7 @@
 package no.nav.dokmet.web.tkat021;
 
 import lombok.extern.slf4j.Slf4j;
-import no.nav.dokmet.web.to.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.dokmet.web.utils.SporingHandler;
 import no.nav.security.token.support.core.api.Protected;
 import no.nav.security.token.support.core.api.Unprotected;

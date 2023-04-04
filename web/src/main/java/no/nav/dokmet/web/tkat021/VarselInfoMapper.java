@@ -8,8 +8,8 @@ import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 import no.nav.dokmet.core.exceptions.IllegalValueException;
-import no.nav.dokmet.web.to.VarselInfoTo;
-import no.nav.dokmet.web.to.VarselMalTo;
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselMalTo;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;

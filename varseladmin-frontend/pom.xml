@@ -12,6 +12,10 @@
 
 	<artifactId>varseladmin-frontend</artifactId>
 
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>platform-unix</id>

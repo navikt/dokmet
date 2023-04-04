@@ -5,9 +5,9 @@ import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
-import no.nav.dokmet.web.to.DokumentProduksjonsInfoTo;
-import no.nav.dokmet.web.to.DokumenttypeInfoTo;
-import no.nav.dokmet.web.to.EksternDokumentTypeTo;
+import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
