@@ -13,5 +13,4 @@ jobs:
     secrets: inherit
   deploy-prod:
     uses: navikt/dok-workflows/.github/workflows/deploy-prod.yml@main
-    needs: publish-artifact
     secrets: inherit
