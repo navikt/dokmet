@@ -3,16 +3,18 @@
   "MIN_REPLICAS": 1,
   "MAX_REPLICAS": 2,
   "INGRESSES": [
-    "https://dokmet-q1.dev.intern.nav.no"
+    "https://dokmet-q1.dev.intern.nav.no",
+    "https://dokmet-q1.intern.dev.nav.no"
   ],
   "DOKMET_SCOPES_FOR_BFF": "api://dev-fss.teamdokumenthandtering.dokmet-q1/.default",
-  "DOKMET_BASE_URL": "https://dokmet-q1.dev.intern.nav.no",
+  "DOKMET_BASE_URL": "https://dokmet-q1.intern.dev.nav.no",
   "DOKMET_DS": "/oracle/data/dev/creds/dokkat_q1-dokmet",
   "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@a01dbfl042.adeo.no:1521/dokkat_q1",
   "NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL": "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration",
   "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet",
   "AZURE_REPLYURLS": [
-    "https://dokmet-q1.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
+    "https://dokmet-q1.dev.intern.nav.no/rest/varseladmin/oauth/authenticated",
+    "https://dokmet-q1.intern.dev.nav.no/rest/varseladmin/oauth/authenticated"
   ],
   "AZURE_IAC_RULES": [
     {
