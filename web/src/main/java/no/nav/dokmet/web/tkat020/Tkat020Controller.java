@@ -31,7 +31,6 @@ public class Tkat020Controller {
 	private final TKAT020Validator validator;
 	private final SporingHandler sporingHandler;
 
-	@Autowired
 	public Tkat020Controller(DokumenttypeService dokumentTypeAdminService, TKAT020Validator validator, SporingHandler sporingHandler){
 		this.dokumentTypeAdminService = dokumentTypeAdminService;
 		this.validator = validator;

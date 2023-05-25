@@ -13,9 +13,6 @@ import javax.validation.constraints.NotEmpty;
 @ConfigurationProperties(prefix = "azure.app")
 public record AzureAppProperties(
 		@NotEmpty String clientId,
-		@NotEmpty String clientSecret,
-		@NotEmpty String tenantId,
-		@NotEmpty String wellKnownUrl,
-		@NotEmpty String jwk
+		@NotEmpty String clientSecret
 ) {
 }

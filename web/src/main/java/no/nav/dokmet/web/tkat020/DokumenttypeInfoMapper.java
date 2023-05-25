@@ -41,7 +41,6 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 @Slf4j
 @Component
 @NoArgsConstructor
-@SuppressWarnings("Duplicates")
 public class DokumenttypeInfoMapper {
 
 	public DokumenttypeInfo mapToDokumentTypeInfo(DokumenttypeInfoTo dokumenttypeInfoTo) {
