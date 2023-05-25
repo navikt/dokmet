@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @Slf4j
 @Protected
 @RestController
@@ -42,9 +44,9 @@ public class Tkat020Controller {
 	public ResponseEntity<List<DokumenttypeInfoTo>> hentAlleDokumenttypeInfo() {
 		try {
 			sporingHandler.handleMdc();
-			log.info("HentAlleDokumenttypeInfo prøver å hente alle dokumenttypeInfoer");
+			log.info("tkat020 har mottatt kall om å hente alle dokumenttypeInfoer");
 			ResponseEntity response =  ResponseEntity.ok(dokumentTypeAdminService.findAllDokumenttypeInfo());
-			log.info("HentAlleDokumenttypeInfo har henetet alle dokumenttypeInfoer");
+			log.info("tkat020 har hentet alle dokumenttypeInfoer");
 			return response;
 		} finally {
 			MDC.clear();
@@ -57,9 +59,9 @@ public class Tkat020Controller {
 	public ResponseEntity<List<DokumenttypeInfoTo>> findAllByDokumentType(@PathVariable DokumentTypeKode dokumentTypeKode){
 		try {
 			sporingHandler.handleMdc();
-			log.info("Tkat020 prøver å hente dokumenttypeId={}", dokumentTypeKode);
+			log.info("tkat020 har mottatt kall om å hente dokumenttypeId={}", dokumentTypeKode);
 			ResponseEntity response = ResponseEntity.ok(dokumentTypeAdminService.findAllByDokumentType(dokumentTypeKode));
-			log.info("Tkat020 har hentet dokumenttypeId={}", dokumentTypeKode);
+			log.info("tkat020 har hentet dokumenttypeId={}", dokumentTypeKode);
 			return response;
 		} finally {
 			MDC.clear();
@@ -72,9 +74,9 @@ public class Tkat020Controller {
 	public ResponseEntity<List<DokumenttypeInfoTo>> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
 		try {
 			sporingHandler.handleMdc();
-			log.info("Prøver å hente alle dokumenttyper med dokumenttypeId: " + dokumenttypeId);
+			log.info("tkat020 har mottatt kall om å hente alle dokumenttyper med dokumenttypeId={}", dokumenttypeId);
 			ResponseEntity response = ResponseEntity.ok(dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId));
-			log.info("Har hentet alle dokumenttyper med dokumenttypeId:" + dokumenttypeId);
+			log.info("tkat020 har hentet alle dokumenttyper med dokumenttypeId={}", dokumenttypeId);
 			return response;
 		} finally {
 			MDC.clear();
@@ -87,9 +89,9 @@ public class Tkat020Controller {
 	public ResponseEntity<List<DokumenttypeInfoTo>> findDokumenttypeInfoByBrevpakke(@PathVariable String navn){
 		try {
 			sporingHandler.handleMdc();
-			log.info("findDokumenttypeInfoByBrevpakke prøver å brevpakke " + navn);
+			log.info("tkat020 har mottatt kall om å hente brevpakke={}", navn);
 			ResponseEntity response = ResponseEntity.ok(dokumentTypeAdminService.findDokumenttypeInfoByBrevpakke(navn));
-			log.info("findDokumenttypeInfoByBrevpakke har hentet brevpakke " + navn);
+			log.info("tkat020 har hentet brevpakke={}", navn);
 			return response;
 		} finally {
 			MDC.clear();
@@ -100,10 +102,10 @@ public class Tkat020Controller {
 	public ResponseEntity<List<DokumenttypeInfoTo>> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {
-			log.info("saveNewDokumenttypeInfo prøver å opprette ny dokumentType: " );
+			log.info("tkat020 har mottatt kall om å opprette ny dokumentType={}", request.getDokumentType());
 			validator.validate(request, true);
-			ResponseEntity response = ResponseEntity.status(HttpStatus.CREATED).body(dokumentTypeAdminService.saveNewDokumenttypeInfo(request));
-			log.info("saveNewDokumenttypeInfo har opprettet ny dokumentType: " + request.getDokumentType());
+			ResponseEntity response = ResponseEntity.status(CREATED).body(dokumentTypeAdminService.saveNewDokumenttypeInfo(request));
+			log.info("tkat020 har opprettet ny dokumentType={}", request.getDokumentType());
 			return response;
 		} finally {
 			MDC.clear();
@@ -117,9 +119,9 @@ public class Tkat020Controller {
 		sporingHandler.handleMdc();
 		try{
 			validator.validate(request, false);
-			log.info("Prøver å oppdatere dokumenttypeId: " + dokumenttypeId );
+			log.info("tkat020 har mottatt kall om å oppdatere dokumenttypeId={}", dokumenttypeId );
 			ResponseEntity response =  ResponseEntity.ok(dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId));
-			log.info("Har oppdatert dokumenttypeId: " + dokumenttypeId);
+			log.info("tkat020 har oppdatert dokumenttypeId={} ", dokumenttypeId);
 			return response;
 		} finally {
 			MDC.clear();
@@ -130,9 +132,9 @@ public class Tkat020Controller {
 	public ResponseEntity<String> deleteDokumenttypeInfo(@PathVariable String dokumenttypeId){
 		try {
 			sporingHandler.handleMdc();
-			log.info("Prøver å slette dokumenttypeId: " + dokumenttypeId);
+			log.info("tkat020 har mottatt kall om å slette dokumenttypeId={}", dokumenttypeId);
 			dokumentTypeAdminService.deleteDokumenttypeInfo(dokumenttypeId);
-			log.info("Har slettet dokumenttypeId: " + dokumenttypeId);
+			log.info("tkat020 har slettet dokumenttypeId={}", dokumenttypeId);
 			return ResponseEntity.ok("DokmuentType slettet");
 		} finally {
 			MDC.clear();

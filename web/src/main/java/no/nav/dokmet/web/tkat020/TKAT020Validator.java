@@ -20,7 +20,6 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 @Component
 public class TKAT020Validator {
 
-
 	public void validate(DokumenttypeInfoTo dokumentTypeInfoTo, boolean isPostRequest) {
 		StringBuilder message = new StringBuilder();
 		
