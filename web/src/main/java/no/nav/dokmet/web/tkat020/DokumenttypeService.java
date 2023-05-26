@@ -15,12 +15,12 @@ import java.util.List;
 
 @Slf4j
 @Component
+@Transactional(readOnly = true)
 public class DokumenttypeService {
 
 	private final DokumenttypeInfoMapper dokumenttypeInfoMapper;
 	private final DokumenttypeInfoRepository dokumenttypeInfoRepository;
 
-	@Autowired
 	public DokumenttypeService(DokumenttypeInfoRepository dokumenttypeInfoRepository,
 							   DokumenttypeInfoMapper dokumenttypeInfoMapper) {
 		this.dokumenttypeInfoRepository = dokumenttypeInfoRepository;
@@ -60,7 +60,6 @@ public class DokumenttypeService {
 		dokumenttypeInfoRepository.deleteBydokumenttypeId(dokumenttypeId);
 	}
 
-	@Transactional(readOnly = true)
 	public DokumenttypeInfoTo findDokumenttypeInfoByDokumentTypeId(String dokumenttypeId) {
 		DokumenttypeInfo dokumentTypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumenttypeId);
 
@@ -68,7 +67,6 @@ public class DokumenttypeService {
 		return createDokumentTypeInfoTo(dokumentTypeInfo);
 	}
 
-	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findDokumenttypeInfoByBrevpakke(String navn) {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(navn)) {
@@ -81,7 +79,6 @@ public class DokumenttypeService {
 		return returnValue;
 	}
 
-	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findAllDokumenttypeInfo() {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAll()) {
@@ -94,7 +91,6 @@ public class DokumenttypeService {
 		return returnValue;
 	}
 
-	@Transactional(readOnly = true)
 	public List<DokumenttypeInfoTo> findAllByDokumentType(DokumentTypeKode dokumentType) {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAllByDokumentType(dokumentType)) {

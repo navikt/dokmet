@@ -12,6 +12,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 @Component
+@Transactional(readOnly = true)
 public class VarselInfoService {
 
 	private final VarselInfoRepository varselInfoRepository;
@@ -23,7 +24,6 @@ public class VarselInfoService {
 		this.varselInfoMapper = varselInfoMapper;
 	}
 
-	@Transactional(readOnly = true)
 	public List<VarselInfoTo> findAllVarselInfo() {
 
 		return varselInfoRepository.findAll().stream()
@@ -31,7 +31,6 @@ public class VarselInfoService {
 				.toList();
 	}
 
-	@Transactional(readOnly = true)
 	public VarselInfoTo findVarselInfoByVarselTypeId(String varselTypeId) {
 
 		VarselInfo varselInfo = varselInfoRepository.findByVarseltypeId(varselTypeId);

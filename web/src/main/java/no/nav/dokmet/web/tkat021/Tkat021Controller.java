@@ -43,9 +43,9 @@ public class Tkat021Controller {
 	public ResponseEntity<List<VarselInfoTo>> findAllVarselInfo() {
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat021 Kall mottatt for å hente alle varselInfoer");
+			log.info("tkat021 har mottatt kall om å hente alle varselInfoer");
 			ResponseEntity<List<VarselInfoTo>> response = ResponseEntity.ok(varselInfoService.findAllVarselInfo());
-			log.info("tkat021 Ferdig med å hente alle varselInfoer");
+			log.info("tkat021 har hentet alle varselInfoer");
 			return response;
 		} finally {
 			MDC.clear();
@@ -57,10 +57,10 @@ public class Tkat021Controller {
 	public ResponseEntity<VarselInfoTo> findVarselInfoByVarselTypeId(@PathVariable String varseltypeId) {
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat021 Kall mottatt for å hente varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å hente varselInfo med varseltypeId={}", varseltypeId);
 			var result = varselInfoService.findVarselInfoByVarselTypeId(varseltypeId);
 			ResponseEntity<VarselInfoTo> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
-			log.info("tkat021 Ferdig med å hente varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har hentet varselInfo med varseltypeId={}", varseltypeId);
 			return response;
 		} finally {
 			MDC.clear();
@@ -72,10 +72,10 @@ public class Tkat021Controller {
 	public ResponseEntity<String> saveNewVarselInfo(@RequestBody VarselInfoTo varselInfo) {
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat021 Kall mottatt for å opprette ny varselInfo med varseltypeId={}.", varselInfo.getVarseltypeId());
+			log.info("tkat021 har mottatt kall om å opprette ny varselInfo med varseltypeId={}", varselInfo.getVarseltypeId());
 			var result = varselInfoService.saveNewVarselInfo(varselInfo);
 			ResponseEntity<String> response = ResponseEntity.status(CREATED).body(result);
-			log.info("tkat021 Ferdig med å opprette ny varselInfo med varseltypeId={}", response.getBody());
+			log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", response.getBody());
 			return response;
 		} finally {
 			MDC.clear();
@@ -88,10 +88,10 @@ public class Tkat021Controller {
 												   @RequestBody VarselInfoTo varselInfo) {
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat021 Kall mottatt for å oppdatere varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å oppdatere varseltypeId={}", varseltypeId);
 			var result = varselInfoService.updateVarselInfo(varseltypeId, varselInfo);
 			ResponseEntity<String> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
-			log.info("tkat021 Ferdig med å oppdatere varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", varseltypeId);
 			return response;
 		} finally {
 			MDC.clear();
@@ -103,9 +103,9 @@ public class Tkat021Controller {
 	public ResponseEntity<String> deleteVarselInfo(@PathVariable String varseltypeId) {
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat021 Kall mottatt for å slette varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å slette varselInfo med varseltypeId={}", varseltypeId);
 			varselInfoService.deleteVarselInfo(varseltypeId);
-			log.info("tkat021 Ferdig med å slette varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har slettet varselInfo med varseltypeId={}", varseltypeId);
 			return ResponseEntity.ok(format("VarseltypeId %s slettet", varseltypeId));
 		} finally {
 			MDC.clear();

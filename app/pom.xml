@@ -34,13 +34,6 @@
 			<groupId>net.logstash.logback</groupId>
 			<artifactId>logstash-logback-encoder</artifactId>
 		</dependency>
-
-		<!-- test -->
-		<dependency>
-			<groupId>no.nav.security</groupId>
-			<artifactId>token-validation-spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<build>

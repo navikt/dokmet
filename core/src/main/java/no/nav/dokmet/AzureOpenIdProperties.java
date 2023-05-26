@@ -13,7 +13,6 @@ import javax.validation.constraints.NotEmpty;
 @ConfigurationProperties(prefix = "azure.openid.config")
 public record AzureOpenIdProperties(
 		@NotEmpty String tokenEndpoint
-
 ) {
 
 	public String getLogoutEndpoint() {

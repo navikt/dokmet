@@ -18,9 +18,7 @@ import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.I;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 @Component
-@SuppressWarnings("Duplicates")
 public class TKAT020Validator {
-
 
 	public void validate(DokumenttypeInfoTo dokumentTypeInfoTo, boolean isPostRequest) {
 		StringBuilder message = new StringBuilder();
