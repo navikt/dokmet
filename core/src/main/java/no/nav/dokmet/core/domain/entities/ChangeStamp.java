@@ -1,7 +1,8 @@
 package no.nav.dokmet.core.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

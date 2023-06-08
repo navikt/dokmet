@@ -1,7 +1,7 @@
 package no.nav.dokmet.core.validation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
