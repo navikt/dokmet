@@ -26,19 +26,23 @@ import com.nimbusds.oauth2.sdk.pkce.CodeVerifier;
 import com.nimbusds.oauth2.sdk.token.AccessToken;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 import com.nimbusds.oauth2.sdk.token.RefreshToken;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import no.nav.dokmet.AzureProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
+
+import static com.nimbusds.oauth2.sdk.ResponseType.CODE;
+import static com.nimbusds.oauth2.sdk.pkce.CodeChallengeMethod.S256;
+import static no.nav.dokmet.varseladminbff.auth.OauthController.OAUTH_CALLBACK_PATH;
 
 @Slf4j
 @Service
@@ -137,17 +141,17 @@ public class OauthService {
 		CodeVerifier codeVerifier = new CodeVerifier();
 		Scope scope = new Scope(dokmetProperties.getScopesForBff());
 		State state = new State();
-		URI redirectEndpoint = URI.create(dokmetProperties.getBaseUrl() + OauthController.OAUTH_CALLBACK_PATH);
+		URI redirectEndpoint = URI.create(dokmetProperties.getBaseUrl() + OAUTH_CALLBACK_PATH);
 		URI oauthEndpoint = URI.create(azureProperties.openidConfig().getLoginEndpoint());
 
 		httpSession.setAttribute(LOGIN_STATE, state.getValue());
 		httpSession.setAttribute(LOGIN_NONCE, codeVerifier.getValue());
-		return new AuthorizationRequest.Builder(ResponseType.CODE, clientID)
+		return new AuthorizationRequest.Builder(CODE, clientID)
 				.scope(scope)
 				.state(state)
 				.redirectionURI(redirectEndpoint)
 				.endpointURI(oauthEndpoint)
-				.codeChallenge(codeVerifier, CodeChallengeMethod.S256)
+				.codeChallenge(codeVerifier, S256)
 				.build()
 				.toURI();
 	}
@@ -174,7 +178,7 @@ public class OauthService {
 			}
 
 			AuthorizationSuccessResponse authorizationSuccessResponse = authorizationResponse.toSuccessResponse();
-			URI redirectEndpoint = URI.create(dokmetProperties.getBaseUrl() + OauthController.OAUTH_CALLBACK_PATH);
+			URI redirectEndpoint = URI.create(dokmetProperties.getBaseUrl() + OAUTH_CALLBACK_PATH);
 			return new AuthorizationCodeGrant(
 					authorizationSuccessResponse.getAuthorizationCode(),
 					redirectEndpoint, codeVerifier);

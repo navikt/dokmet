@@ -1,9 +1,7 @@
 package no.nav.dokmet.core.builders.builder;
 
+import jakarta.persistence.EntityManager;
 import org.slf4j.MDC;
-
-import javax.persistence.EntityManager;
-
 
 /**
  * Base class for builders.

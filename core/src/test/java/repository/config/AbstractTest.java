@@ -16,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 @Transactional
 @AutoConfigureDataJpa
 @ActiveProfiles("itest")
@@ -25,10 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 })
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ApplicationTestConfig.class},
 		properties = {"spring.main.allow-bean-definition-overriding=true"},
-		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+		webEnvironment = RANDOM_PORT)
 public class AbstractTest {
 
 	@Autowired

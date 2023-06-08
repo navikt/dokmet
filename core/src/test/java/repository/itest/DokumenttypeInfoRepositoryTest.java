@@ -44,8 +44,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 
-	private static final String ARKIV_TEMA = "AAP";
-	private static final String PROPAGATION_REQUIRES_NEW = "PROPAGATION_REQUIRES_NEW";
 	private static final String DOKUMENT_TYPE_ID = "NAV-01-02-03";
 	public static final String BREVPAKKE = "Gosys";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
@@ -53,7 +51,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
 	private static final EksternIdTypeKode EKSTERN_DOKUMENT_TYPE = EksternIdTypeKode.SERVICE_CODE;
 	protected static final String REPO_USER_ID = "repoTest";
-	private static final String USER_ID = "brevOgArkivUserId";
 
 	@BeforeEach
 	public void setUp() {
@@ -79,9 +76,10 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		DokumenttypeInfo info = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
 		dokumenttypeInfoRepository.save(info);
 		commitTransaction();
-		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-		assertThat(dokumenttypeInfo, notNullValue());
 
+		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
+
+		assertThat(dokumenttypeInfo, notNullValue());
 		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID), false);
 	}
 
