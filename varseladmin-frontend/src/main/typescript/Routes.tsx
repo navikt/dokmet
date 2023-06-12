@@ -15,10 +15,10 @@ const MyRoutes: React.FC<MyRoutesProps> = ({loginAction, user}) => (
                 <Routes>
                     <Route
                             path='/'
-                            element={<Navigate to={'/dokmet/varseladmin/'}/>}
+                            element={<Navigate to={'/dokmet/varseladmin'}/>}
                     />
                     <Route
-                            path='/dokmet/varseladmin/'
+                            path='/dokmet/varseladmin'
                             element={<VarseltypePage user={user} onLogoutAction={loginAction}/>}
                     />
                     <Route
