@@ -14,6 +14,7 @@
   "AZURE_REPLYURLS": [
     "https://dokmet.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
   ],
+  "AZURE_ACCESS_GROUP" : "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
   "AZURE_IAC_RULES": [
     {
       "app": "dokdistfordeling",
@@ -46,16 +47,6 @@
       "cluster": "dev-fss"
     },
     {
-      "app": "dokdistkanal-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal-t4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
       "app": "dokprod",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
@@ -72,16 +63,6 @@
     },
     {
       "app": "dokprod-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-t4",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     },
@@ -117,26 +98,6 @@
     },
     {
       "app": "regoppslag-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t3",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t5",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     },
