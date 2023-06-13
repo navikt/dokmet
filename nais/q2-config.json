@@ -47,16 +47,6 @@
       "cluster": "dev-fss"
     },
     {
-      "app": "dokdistkanal-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal-t4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
       "app": "dokprod",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
@@ -73,16 +63,6 @@
     },
     {
       "app": "dokprod-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-t4",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     },
@@ -118,26 +98,6 @@
     },
     {
       "app": "regoppslag-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t3",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-t5",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     },
