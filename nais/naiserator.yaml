@@ -62,6 +62,8 @@ spec:
           - "{{this}}"
           {{/each}}
       claims:
+        groups:
+          - id: "{{AZURE_ACCESS_GROUP}}"
         extra:
           - "azp_name"
   accessPolicy:
