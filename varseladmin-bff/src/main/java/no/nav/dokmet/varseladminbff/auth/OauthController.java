@@ -1,26 +1,29 @@
 package no.nav.dokmet.varseladminbff.auth;
 
 import com.nimbusds.oauth2.sdk.AuthorizationGrant;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.AzureProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
-import org.apache.http.client.utils.URIBuilder;
-import org.springframework.http.HttpStatus;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.net.URISyntaxException;
 
 import static no.nav.dokmet.varseladminbff.auth.OauthService.ACCESS_TOKEN;
 import static no.nav.dokmet.varseladminbff.auth.OauthService.REFRESH_TOKEN;
+import static org.springframework.http.HttpStatus.BAD_GATEWAY;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.TEMPORARY_REDIRECT;
 
 @Slf4j
 @RestController
 public class OauthController {
+
 	static final String OAUTH_BASE_PATH = "/rest/varseladmin/oauth";
 	static final String OAUTH_CALLBACK_PATH = OAUTH_BASE_PATH + "/authenticated";
 
@@ -56,12 +59,12 @@ public class OauthController {
 				URI microsoftLogoutUri = new URIBuilder(URI.create(azureProperties.openidConfig().getLogoutEndpoint()))
 						.setParameter("post_logout_redirect_uri", postLogoutRedirect)
 						.build();
-				return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(microsoftLogoutUri).build();
+				return ResponseEntity.status(TEMPORARY_REDIRECT).location(microsoftLogoutUri).build();
 			} catch (URISyntaxException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(URI.create("/?loggedout=success")).build();
+		return ResponseEntity.status(TEMPORARY_REDIRECT).location(URI.create("/?loggedout=success")).build();
 	}
 
 	@GetMapping(path = OAUTH_CALLBACK_PATH)
@@ -72,19 +75,19 @@ public class OauthController {
 			var session = incomingRequest.getSession();
 			oauthService.getTokensFromAuthorizationGrant(session, authorizationGrant);
 
-			return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).location(URI.create("/?loggedin=success")).build();
+			return ResponseEntity.status(TEMPORARY_REDIRECT).location(URI.create("/?loggedin=success")).build();
 		} catch (UserAuthorizationException e) {
 			log.error("Something went wrong when authenticating user with Microsoft: {}", e.getMessage());
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			return ResponseEntity.status(BAD_REQUEST).build();
 		} catch (TokenAcquisitionException e) {
 			log.error("Something went wrong when acquiring access-token for authenticated user: {}", e.getMessage());
-			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+			return ResponseEntity.status(BAD_GATEWAY).build();
 		}
 	}
 
 	@GetMapping(path = OAUTH_BASE_PATH + "/login")
 	public ResponseEntity<?> initiateLogin(HttpSession httpSession) {
-		return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
+		return ResponseEntity.status(TEMPORARY_REDIRECT)
 				.location(oauthService.createAuthorizationUri(httpSession)).build();
 	}
 }

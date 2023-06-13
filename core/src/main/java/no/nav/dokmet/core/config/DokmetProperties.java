@@ -1,14 +1,13 @@
 package no.nav.dokmet.core.config;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
 import java.net.InetSocketAddress;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
