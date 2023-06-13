@@ -14,7 +14,7 @@
   "AZURE_REPLYURLS": [
     "https://dokmet.intern.nav.no/rest/varseladmin/oauth/authenticated"
   ],
-  "AZURE_ACCESS_GROUP" : "",
+  "AZURE_ACCESS_GROUP" : "58fb0f7f-3685-41ba-9702-e7225eb985d8",
   "AZURE_IAC_RULES": [
     {
       "app": "dokdistfordeling",
