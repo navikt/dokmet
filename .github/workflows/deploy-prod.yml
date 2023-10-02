@@ -5,6 +5,7 @@ on:
     types:
       - published
 
+# NB: vi publiserer en package som brukes av andre apper som kobler seg på dokmets API
 jobs:
   publish-artifact:
     uses: navikt/dok-workflows/.github/workflows/publish-artifact.yml@main
