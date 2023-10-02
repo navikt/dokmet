@@ -8,6 +8,8 @@ on:
 # NB: vi publiserer en package som brukes av andre apper som kobler seg på dokmets API
 jobs:
   publish-artifact:
+    permissions:
+      packages: write
     uses: navikt/dok-workflows/.github/workflows/publish-artifact.yml@main
     with:
       java-version: '17'
