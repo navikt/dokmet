@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.23.2",
     "@navikt/ds-css": "^2.0.5",
     "@navikt/ds-css-internal": "^2.0.6",
     "@navikt/ds-react": "^2.0.5",
