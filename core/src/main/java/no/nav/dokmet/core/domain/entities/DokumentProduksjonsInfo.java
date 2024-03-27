@@ -11,7 +11,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import no.nav.dokmet.core.domain.AbstractDomainObject;
@@ -62,7 +61,6 @@ public class DokumentProduksjonsInfo extends AbstractDomainObject {
 	@JoinColumn(name = "fk_distribusjon_info_id", unique = true)
 	private DistribusjonInfo distribusjonInfo;
 
-	@Builder.Default
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "fk_dokumentproduksjon_info", nullable = false)
 	private Set<SpraakInfo> spraakInfos = new HashSet<>();
