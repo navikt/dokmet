@@ -34,7 +34,6 @@ public class Tkat021ITest extends AbstractTest {
 	private static final String VARSELTYPEID_2 = "VARSELTYPEID_2";
 	private static final String VARSELTYPEID_3 = "VARSELTYPEID_3";
 	private static final String VARSELTYPEID_NEW = "VARSELTYPEID_NEW";
-	private static final String VARSELTYPEID_NOT_FOUND = "VARSELTYPEID_NOT_FOUND";
 
 	private static final VarselInfo VARSELINFO_1 = createVarselInfoWithVarseltypeId(VARSELTYPEID_1);
 	private static final VarselInfo VARSELINFO_2 = createVarselInfoWithVarseltypeId(VARSELTYPEID_2);
