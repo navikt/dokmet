@@ -13,8 +13,10 @@ jobs:
       contents: read
     uses: navikt/dok-workflows/.github/workflows/publish-artifact.yml@main
     with:
-      java-version: '17'
+      java-version: '21'
     secrets: inherit
   deploy-prod:
     uses: navikt/dok-workflows/.github/workflows/deploy-prod.yml@main
     secrets: inherit
+    with:
+      java-version: '21'
