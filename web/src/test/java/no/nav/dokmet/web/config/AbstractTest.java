@@ -44,8 +44,6 @@ import java.util.Map;
 @SpringBootTest(classes = {AbstractTest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AbstractTest {
 
-	private static final String NAV_CUSTOM_CLAIM_NAVIDENT = "NAVident";
-
 	@Configuration
 	public static class TestConfig {
 		@Bean
@@ -55,8 +53,6 @@ public class AbstractTest {
 		}
 	}
 
-	public static final String BEARER = "BEARER";
-	protected static final String NAV_CONSUMER_TOKEN = "Nav-Consumer-Token";
 	protected static final String SERVICE_USER_ID = "srrServiceUser";
 	protected static final String REPO_USER_ID = "repoTest";
 
@@ -97,16 +93,10 @@ public class AbstractTest {
 		TestTransaction.start();
 	}
 
-	public void commitTransaction() {
-		TestTransaction.flagForCommit();
-		TestTransaction.end();
-	}
-
 	protected HttpHeaders oidcHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setBearerAuth(getHeaderToken(SERVICE_USER_ID));
-		//headers.add(NAV_CONSUMER_TOKEN, BEARER + getHeaderToken(SERVICE_USER_ID));
 		return headers;
 	}
 

@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.Builder;
 import lombok.Setter;
 import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
@@ -63,7 +62,6 @@ public class DistribusjonInfo extends AbstractDomainObject {
 	@Column(name = "k_konvoluttvindu_type")
 	private KonvoluttvinduTypeCode konvoluttvinduType;
 
-	@Builder.Default
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@JoinColumn(name = "fk_distribusjon_info_id", nullable = false)
 	private Set<DistribusjonVarsel> distribusjonVarsels = new HashSet<>();
