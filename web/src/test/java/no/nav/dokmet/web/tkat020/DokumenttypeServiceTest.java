@@ -1,11 +1,9 @@
-package no.nav.dokmet.web;
+package no.nav.dokmet.web.tkat020;
 
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
-import no.nav.dokmet.web.tkat020.DokumenttypeInfoMapper;
-import no.nav.dokmet.web.tkat020.DokumenttypeService;
-import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
