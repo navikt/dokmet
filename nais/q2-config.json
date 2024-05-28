@@ -10,7 +10,6 @@
   "DOKMET_DS": "/oracle/data/dev/creds/dokmet_q2-user",
   "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@dmv09-scan.adeo.no:1521/dokkat_q2_ha",
   "NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL": "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration",
-  "SERVICEUSER_VAULT_PATH": "/serviceuser/data/dev/srvdokmet",
   "AZURE_REPLYURLS": [
     "https://dokmet.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
   ],

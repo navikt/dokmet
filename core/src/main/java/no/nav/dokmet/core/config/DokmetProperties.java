@@ -3,7 +3,6 @@ package no.nav.dokmet.core.config;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
-import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,7 +17,6 @@ public class DokmetProperties {
 
     private final Proxy proxy = new Proxy();
     private final Database database = new Database();
-    private final Serviceuser serviceuser = new Serviceuser();
 
 	@NotEmpty
 	private String baseUrl;
@@ -29,19 +27,6 @@ public class DokmetProperties {
 	public String[] getScopesForBff() {
 		return scopesForBff.split(",");
 	}
-
-    @Data
-    @Validated
-    public static class Serviceuser {
-
-        @NotEmpty
-        @ToString.Exclude
-        private String username;
-
-        @NotEmpty
-        @ToString.Exclude
-        private String password;
-    }
 
     @Data
     @Validated
