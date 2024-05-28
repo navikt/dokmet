@@ -19,7 +19,7 @@ import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
-import no.nav.dokmet.web.config.AbstractTest;
+import no.nav.dokmet.web.config.AbstractITest;
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
 import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
@@ -64,7 +64,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-public class Tkat020ITest extends AbstractTest {
+public class Tkat020IITest extends AbstractITest {
 
 	private static final String SDP = "SDP";
 	private static final String VARSELTYPE_ID = "varseltypeId";

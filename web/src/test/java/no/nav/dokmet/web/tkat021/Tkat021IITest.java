@@ -3,7 +3,7 @@ package no.nav.dokmet.web.tkat021;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.web.TestUtils;
-import no.nav.dokmet.web.config.AbstractTest;
+import no.nav.dokmet.web.config.AbstractITest;
 import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-public class Tkat021ITest extends AbstractTest {
+public class Tkat021IITest extends AbstractITest {
 
 	private static final String VARSELTYPEID_1 = "VARSELTYPEID_1";
 	private static final String VARSELTYPEID_2 = "VARSELTYPEID_2";
