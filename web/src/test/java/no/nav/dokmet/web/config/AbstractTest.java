@@ -1,13 +1,11 @@
 package no.nav.dokmet.web.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
 import no.nav.dokmet.core.repository.EksternDokumentTypeRepository;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -21,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Transactional
 @AutoConfigureDataJpa
@@ -44,6 +43,9 @@ import java.util.Map;
 @SpringBootTest(classes = {AbstractTest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AbstractTest {
 
+	protected static final String APP_CLAIM_SUB = "a2fb96a7-5294-48ea-a1de-a30599f95eb4";
+	protected static final String REPO_USER_ID = "repoTest";
+
 	@Configuration
 	public static class TestConfig {
 		@Bean
@@ -52,9 +54,6 @@ public class AbstractTest {
 			return new SimpleClientHttpRequestFactory();
 		}
 	}
-
-	protected static final String SERVICE_USER_ID = "srrServiceUser";
-	protected static final String REPO_USER_ID = "repoTest";
 
 	@Autowired
 	protected DokumenttypeInfoRepository dokumenttypeInfoRepository;
@@ -69,15 +68,7 @@ public class AbstractTest {
 	protected MockOAuth2Server server;
 
 	@Autowired
-	protected ObjectMapper mapper;
-
-	@Autowired
 	protected TestRestTemplate restTemplate;
-
-	@Before
-	public void setUp() {
-		mapper = new ObjectMapper();
-	}
 
 	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
@@ -95,13 +86,13 @@ public class AbstractTest {
 
 	protected HttpHeaders oidcHeaders() {
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headers.setBearerAuth(getHeaderToken(SERVICE_USER_ID));
+		headers.setContentType(APPLICATION_JSON);
+		headers.setBearerAuth(getHeaderToken(APP_CLAIM_SUB));
 		return headers;
 	}
 
-	private String getHeaderToken(String serviceUser) {
-		return jwt(serviceUser, new HashMap<>());
+	private String getHeaderToken(String appClaimSub) {
+		return jwt(appClaimSub, new HashMap<>());
 	}
 
 	protected String jwt(String subject, Map<String, Object> claims) {

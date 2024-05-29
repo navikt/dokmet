@@ -1,5 +1,6 @@
 package no.nav.dokmet.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
@@ -96,8 +97,9 @@ public class Tkat020ITest extends AbstractTest {
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "EDT_ID_2";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
 
-
 	private static final String DOKUMENTTYPE_ID_INNGAAENDE_2 = "0100012";
+
+	protected static ObjectMapper mapper = new ObjectMapper();
 
 	@BeforeEach
 	public void setUp() {
