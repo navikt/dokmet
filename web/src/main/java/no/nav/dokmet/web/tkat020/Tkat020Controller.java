@@ -71,18 +71,17 @@ public class Tkat020Controller {
 		}
 	}
 
-	// TODO: Metoden returnerer en liste, men dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId) returnerer kun ett element
 	@Unprotected
 	@GetMapping("/{dokumenttypeId}")
-	public ResponseEntity<List<DokumenttypeInfoTo>> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
+	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat020 har mottatt kall om å hente alle dokumenttyper med dokumenttypeId={}", dokumenttypeId);
+			log.info("tkat020 har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
 
-			ResponseEntity response = ResponseEntity.ok(dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId));
-			log.info("tkat020 har hentet alle dokumenttyper med dokumenttypeId={}", dokumenttypeId);
+			var dokumenttypeInfo = dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId);
+			log.info("tkat020 har hentet dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
 
-			return response;
+			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
 			MDC.clear();
 		}
@@ -104,36 +103,33 @@ public class Tkat020Controller {
 		}
 	}
 
-	// TODO: Metoden returnerer en liste, men dokumentTypeAdminService.saveNewDokumenttypeInfo(request) returnerer kun ett element
 	@PostMapping("/")
-	public ResponseEntity<List<DokumenttypeInfoTo>> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
+	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {
-			log.info("tkat020 har mottatt kall om å opprette ny dokumentType={}", request.getDokumentType());
+			log.info("tkat020 har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", request.getDokumentType());
 			validator.validate(request, true);
 
-			ResponseEntity response = ResponseEntity.status(CREATED).body(dokumentTypeAdminService.saveNewDokumenttypeInfo(request));
-			log.info("tkat020 har opprettet ny dokumentType={}", request.getDokumentType());
+			var dokumenttypeInfo = dokumentTypeAdminService.saveNewDokumenttypeInfo(request);
+			log.info("tkat020 har opprettet dokumenttypeInfo med dokumentType={}", request.getDokumentType());
 
-			return response;
+			return ResponseEntity.status(CREATED).body(dokumenttypeInfo);
 		} finally {
 			MDC.clear();
 		}
 	}
 
-	// TODO: Metoden returnerer en liste, men dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId) returnerer kun ett element
 	@PutMapping("/{dokumenttypeId}")
-	public ResponseEntity<List<DokumenttypeInfoTo>> updateDokumenttypeInfo(@PathVariable String dokumenttypeId,
-																		   @RequestBody DokumenttypeInfoTo request){
+	public ResponseEntity<DokumenttypeInfoTo> updateDokumenttypeInfo(@PathVariable String dokumenttypeId, @RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try{
 			validator.validate(request, false);
-			log.info("tkat020 har mottatt kall om å oppdatere dokumenttypeId={}", dokumenttypeId );
+			log.info("tkat020 har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
 
-			ResponseEntity response =  ResponseEntity.ok(dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId));
-			log.info("tkat020 har oppdatert dokumenttypeId={} ", dokumenttypeId);
+			var dokumenttypeInfo =  dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId);
+			log.info("tkat020 har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
 
-			return response;
+			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
 			MDC.clear();
 		}
