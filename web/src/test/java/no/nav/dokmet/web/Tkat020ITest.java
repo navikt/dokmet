@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -99,7 +100,8 @@ public class Tkat020ITest extends AbstractTest {
 
 	private static final String DOKUMENTTYPE_ID_INNGAAENDE_2 = "0100012";
 
-	protected static ObjectMapper mapper = new ObjectMapper();
+	@Autowired
+	protected ObjectMapper objectMapper;
 
 	@BeforeEach
 	public void setUp() {
@@ -578,10 +580,10 @@ public class Tkat020ITest extends AbstractTest {
 
 	private void checkResponseIllegalJson(DokumentTypeKode dokumentTypeKode) throws Exception {
 		DokumenttypeInfoTo update = createDokumenttypeInfoUpdateTo(dokumentTypeKode);
-		String valueAsString = mapper.writeValueAsString(update);
+		String valueAsString = objectMapper.writeValueAsString(update);
 		String corrupted = valueAsString.replace(REDIGERBAR_MAL_ID, "ugyldigjsonvalue");
 
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>(mapper.writeValueAsBytes(corrupted).toString(), oidcHeaders());
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>(objectMapper.writeValueAsBytes(corrupted).toString(), oidcHeaders());
 		ResponseEntity<String> response = restTemplate.exchange(
 				DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE + dokumentTypeKode, HttpMethod.PUT, requestHttpEntity, String.class);
 
