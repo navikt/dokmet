@@ -40,8 +40,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @AutoConfigureTestEntityManager
 @AutoConfigureWireMock(port = 0)
 @EntityScan(basePackages = {"no.nav.dokmet.core.domain.entities"})
-@SpringBootTest(classes = {AbstractTest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AbstractTest {
+@SpringBootTest(classes = {AbstractITest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class AbstractITest {
 
 	protected static final String APP_CLAIM_SUB = "a2fb96a7-5294-48ea-a1de-a30599f95eb4";
 	protected static final String REPO_USER_ID = "repoTest";

@@ -44,9 +44,11 @@ public class Tkat021Controller {
 		try {
 			sporingHandler.handleMdc();
 			log.info("tkat021 har mottatt kall om å hente alle varselInfoer");
-			ResponseEntity<List<VarselInfoTo>> response = ResponseEntity.ok(varselInfoService.findAllVarselInfo());
+
+			var varselinfoer = varselInfoService.findAllVarselInfo();
 			log.info("tkat021 har hentet alle varselInfoer");
-			return response;
+
+			return ResponseEntity.ok(varselinfoer);
 		} finally {
 			MDC.clear();
 		}
@@ -58,10 +60,17 @@ public class Tkat021Controller {
 		try {
 			sporingHandler.handleMdc();
 			log.info("tkat021 har mottatt kall om å hente varselInfo med varseltypeId={}", varseltypeId);
+
 			var result = varselInfoService.findVarselInfoByVarselTypeId(varseltypeId);
-			ResponseEntity<VarselInfoTo> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
+
+			if (result == null) {
+				log.info("tkat021 fant ingen varselInfo for varseltypeId={}", varseltypeId);
+				return ResponseEntity.status(NOT_FOUND).body(result);
+			}
+
 			log.info("tkat021 har hentet varselInfo med varseltypeId={}", varseltypeId);
-			return response;
+
+			return ResponseEntity.ok(result);
 		} finally {
 			MDC.clear();
 		}
@@ -73,10 +82,11 @@ public class Tkat021Controller {
 		try {
 			sporingHandler.handleMdc();
 			log.info("tkat021 har mottatt kall om å opprette ny varselInfo med varseltypeId={}", varselInfo.getVarseltypeId());
-			var result = varselInfoService.saveNewVarselInfo(varselInfo);
-			ResponseEntity<String> response = ResponseEntity.status(CREATED).body(result);
-			log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", response.getBody());
-			return response;
+
+			var varseltypeId = varselInfoService.saveNewVarselInfo(varselInfo);
+			log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", varseltypeId);
+
+			return ResponseEntity.status(CREATED).body(varseltypeId);
 		} finally {
 			MDC.clear();
 		}
@@ -84,14 +94,16 @@ public class Tkat021Controller {
 
 	@Protected
 	@PutMapping("/{varseltypeId}")
-	public ResponseEntity<String> updateVarselInfo(@PathVariable String varseltypeId,
-												   @RequestBody VarselInfoTo varselInfo) {
+	public ResponseEntity<String> updateVarselInfo(@PathVariable String varseltypeId, @RequestBody VarselInfoTo varselInfo) {
 		try {
 			sporingHandler.handleMdc();
 			log.info("tkat021 har mottatt kall om å oppdatere varseltypeId={}", varseltypeId);
+
+			// TODO: VarselInfoNotFoundException blir kastet fra updateVarselInfo, så logikken under for NOT_FOUND vil ikke skje hvis varselinfo ikke blir funnet
 			var result = varselInfoService.updateVarselInfo(varseltypeId, varselInfo);
 			ResponseEntity<String> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
 			log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", varseltypeId);
+
 			return response;
 		} finally {
 			MDC.clear();
@@ -104,11 +116,14 @@ public class Tkat021Controller {
 		try {
 			sporingHandler.handleMdc();
 			log.info("tkat021 har mottatt kall om å slette varselInfo med varseltypeId={}", varseltypeId);
+
 			varselInfoService.deleteVarselInfo(varseltypeId);
 			log.info("tkat021 har slettet varselInfo med varseltypeId={}", varseltypeId);
+
 			return ResponseEntity.ok(format("VarseltypeId %s slettet", varseltypeId));
 		} finally {
 			MDC.clear();
 		}
 	}
+
 }

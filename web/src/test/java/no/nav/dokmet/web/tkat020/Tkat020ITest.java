@@ -1,6 +1,12 @@
-package no.nav.dokmet.web;
+package no.nav.dokmet.web.tkat020;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
+import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
+import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
+import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
+import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
@@ -12,20 +18,11 @@ import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.EksternDokumentType;
-import no.nav.dokmet.core.domain.kode.ArkivBehandlingKode;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
-import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
-import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
-import no.nav.dokmet.web.config.AbstractTest;
-import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
-import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
-import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
-import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
-import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
+import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,38 +31,45 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import wiremock.org.apache.commons.io.IOUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.lang.Boolean.FALSE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
+import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.I;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
+import static no.nav.dokmet.core.domain.kode.EksternIdTypeKode.SED_TYPE;
+import static no.nav.dokmet.core.domain.kode.EksternIdTypeKode.SERVICE_CODE;
 import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
+import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
+import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.HttpMethod.DELETE;
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-public class Tkat020ITest extends AbstractTest {
+public class Tkat020ITest extends AbstractITest {
 
+	private static final String DOKMET_BASE_URL = "/rest/dokumenttypeinfo/";
 	private static final String SDP = "SDP";
 	private static final String VARSELTYPE_ID = "varseltypeId";
 	private static final String PORTO_KLASSE = "C5";
@@ -83,13 +87,12 @@ public class Tkat020ITest extends AbstractTest {
 	private static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
 	private static final String USER_ID = "gosys-clientid";
 
-	protected static final String DOKMET_BASE_URL = "/rest/dokumenttypeinfo/";
-	private static final DokumentTypeKode INNGAAENDE = DokumentTypeKode.I;
-	private static final DokumentTypeKode UTGAAENDE = DokumentTypeKode.U;
+	private static final DokumentTypeKode INNGAAENDE = I;
+	private static final DokumentTypeKode UTGAAENDE = U;
 	private static final String INNGAAENDE_STRING = "I";
 	private static final String UTGAAENDE_STRING = "U";
 
-	private static final EksternIdTypeKode EKSTERN_ID_TYPE = EksternIdTypeKode.SERVICE_CODE;
+	private static final EksternIdTypeKode EKSTERN_ID_TYPE = SERVICE_CODE;
 
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE = "EDT_ID_1_INN";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE = "EDT_ID_1_UT";
@@ -106,30 +109,31 @@ public class Tkat020ITest extends AbstractTest {
 	@BeforeEach
 	public void setUp() {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
+
 		emptyDatabases();
 		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_INNGAAENDE, INNGAAENDE, JOARK,
-				new HashSet<>(Collections.singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE, EKSTERN_ID_TYPE)))).build());
+				new HashSet<>(singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE, EKSTERN_ID_TYPE)))).build());
 		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_UTGAAENDE, UTGAAENDE, INGEN,
-				new HashSet<>(Collections.singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE, EKSTERN_ID_TYPE)))).build());
+				new HashSet<>(singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE, EKSTERN_ID_TYPE)))).build());
 		commitAndBeginNewTransaction();
+
 		MDC.remove(MDC_USER_ID);
 	}
 
 	@Test
-	public void shouldGetAll() {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.GET, requestHttpEntity, DokumenttypeInfoTo[].class);
+	public void shouldHentAlleDokumenttypeInfo() {
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
 
-		assertThat(response.getStatusCode(), is(OK));
-		DokumenttypeInfoTo[] dokumenttypeInfos = response.getBody();
+		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(DOKMET_BASE_URL, GET, requestHttpEntity, DokumenttypeInfoTo[].class);
 
-		assertThat(dokumenttypeInfos.length, is(2));
-		assertDokumenttypeInfoTo(INNGAAENDE, dokumenttypeInfos[0], DOKUMENTTYPE_ID_INNGAAENDE, MAL_LOGIKK_FIL);
-		assertDistribusjonInfoTo(dokumenttypeInfos[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+		var result = response.getBody();
+		assertThat(result).hasSize(2);
 
-		assertDokumenttypeInfoTo(UTGAAENDE, INGEN.name(), dokumenttypeInfos[1], DOKUMENTTYPE_ID_UTGAAENDE, MAL_LOGIKK_FIL);
-		assertDistribusjonInfoTo(dokumenttypeInfos[1].getDokumentProduksjonsInfo().getDistribusjonInfo());
+		assertDokumenttypeInfoTo(INNGAAENDE, result[0], DOKUMENTTYPE_ID_INNGAAENDE, MAL_LOGIKK_FIL);
+		assertDistribusjonInfoTo(result[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
+		assertDokumenttypeInfoTo(UTGAAENDE, INGEN.name(), result[1], DOKUMENTTYPE_ID_UTGAAENDE, MAL_LOGIKK_FIL);
+		assertDistribusjonInfoTo(result[1].getDokumentProduksjonsInfo().getDistribusjonInfo());
 	}
 
 	@Test
@@ -138,24 +142,53 @@ public class Tkat020ITest extends AbstractTest {
 		commitAndBeginNewTransaction();
 
 		updateDokkat.setDokumentTittel(null);
-		assertEquals(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE).size(), 1);
+		assertThat(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE)).hasSize(1);
 
-		List<EksternDokumentTypeTo> eksDokTypeList = new ArrayList<>(updateDokkat.getDokumentMottakInfo()
-				.getEksternDokumentTyper());
-		eksDokTypeList.add(createEksternDokumentTyperTo(EKSTERN_DOKUMENT_TYPE_ID_1 + "_2", EksternIdTypeKode.SED_TYPE));
+		List<EksternDokumentTypeTo> eksDokTypeList = new ArrayList<>(updateDokkat.getDokumentMottakInfo().getEksternDokumentTyper());
+		eksDokTypeList.add(createEksternDokumentTyperTo(EKSTERN_DOKUMENT_TYPE_ID_1 + "_2", SED_TYPE));
 		updateDokkat.getDokumentMottakInfo().setEksternDokumentTyper(eksDokTypeList);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(updateDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, HttpMethod.PUT, requestHttpEntity, String.class);
 
-		assertThat(response.getStatusCode(), is(OK));
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, PUT, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
 		commitAndBeginNewTransaction();
 
-		EksternDokumentType eksternDokumentType = fetchEksternDokumenTypeByEksternIdAndIdType(EKSTERN_DOKUMENT_TYPE_ID_1 + "_2", EksternIdTypeKode.SED_TYPE);
-		assertEquals(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE).size(), 2);
-		assertEquals(eksternDokumentType.getDokumenttypeInfo().getDokumenttypeId(), DOKUMENTTYPE_ID_INNGAAENDE);
-		assertEquals(eksternDokumentType.getVersion(), 1L);
+		EksternDokumentType eksternDokumentType = fetchEksternDokumenTypeByEksternIdAndIdType(EKSTERN_DOKUMENT_TYPE_ID_1 + "_2", SED_TYPE);
+		assertThat(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE)).hasSize(2);
+		assertThat(eksternDokumentType.getDokumenttypeInfo().getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID_INNGAAENDE);
+		assertThat(eksternDokumentType.getVersion()).isEqualTo(1L);
+	}
+
+	@Test
+	public void shouldDeleteEksternDokumentType() {
+		saveDocumentForTest(dokkat(DOKUMENTTYPE_ID_INNGAAENDE_2, INNGAAENDE, JOARK,
+				new HashSet<>(asList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_3, EKSTERN_ID_TYPE),
+						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_ID_TYPE)))).build());
+
+		assertThat(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE_2)).hasSize(2);
+		var n_eksternDokumenTypes_all = fetchAllEksternDokumenttype().size();
+
+		DokumenttypeInfoTo updateDokkat = getDokumentInfoTo(DOKUMENTTYPE_ID_INNGAAENDE_2);
+		updateDokkat.setDokumentTittel(null);
+
+		List<EksternDokumentTypeTo> newEksternDokType = List.of(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE.toString()));
+		updateDokkat.getDokumentMottakInfo().setEksternDokumentTyper(newEksternDokType);
+
+		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(updateDokkat, oidcHeaders());
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE_2, PUT, requestHttpEntity, String.class);
+
+		commitAndBeginNewTransaction();
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+		assertThat(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE_2)).hasSize(1);
+		assertThat(fetchAllEksternDokumenttype().size()).isEqualTo(n_eksternDokumenTypes_all - 1);
+
+		EksternDokumentType eksternDokumentType = fetchEksternDokumenTypeByEksternIdAndIdType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE);
+		assertThat(eksternDokumentType.getDokumenttypeInfo().getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID_INNGAAENDE_2);
+		assertThat(eksternDokumentType.getVersion()).isEqualTo(1L);
 	}
 
 	private void saveDocumentForTest(DokumenttypeInfo dokinfo) {
@@ -165,52 +198,33 @@ public class Tkat020ITest extends AbstractTest {
 		MDC.remove(MDC_USER_ID);
 	}
 
-	@Test
-	public void shouldDeleteEksternDokumentType() {
-		saveDocumentForTest(dokkat(DOKUMENTTYPE_ID_INNGAAENDE_2, INNGAAENDE, JOARK,
-				new HashSet<>(asList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_3, EKSTERN_ID_TYPE),
-						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_ID_TYPE)))).build());
-
-		assertEquals(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE_2).size(), 2);
-		Integer n_eksternDokumenTypes_all = fetchAllEksternDokumenttype().size();
-
-		DokumenttypeInfoTo updateDokkat = getDokumentInfoTo(DOKUMENTTYPE_ID_INNGAAENDE_2);
-		updateDokkat.setDokumentTittel(null);
-
-		List<EksternDokumentTypeTo> newEksternDokType = asList(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE
-				.toString()));
-		updateDokkat.getDokumentMottakInfo().setEksternDokumentTyper(newEksternDokType);
-
-		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(updateDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE_2, HttpMethod.PUT, requestHttpEntity, String.class);
-		commitAndBeginNewTransaction();
-		assertThat(response.getStatusCode(), is(OK));
-
-		assertEquals(fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE_2).size(), 1);
-		assertEquals(fetchAllEksternDokumenttype().size(), n_eksternDokumenTypes_all - 1);
-
-		EksternDokumentType eksternDokumentType = fetchEksternDokumenTypeByEksternIdAndIdType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE);
-		assertEquals(eksternDokumentType.getDokumenttypeInfo().getDokumenttypeId(), DOKUMENTTYPE_ID_INNGAAENDE_2);
-		assertEquals(eksternDokumentType.getVersion(), 1L);
-	}
-
-
 	@ParameterizedTest(name = "{index} => Henter alle {0} dokumenttypeInfoer: ({1}, {2})")
 	@CsvSource(value = {
 			"Inngaaende," + INNGAAENDE_STRING + "," + DOKUMENTTYPE_ID_INNGAAENDE,
 			"Utgaaende," + UTGAAENDE_STRING + "," + DOKUMENTTYPE_ID_UTGAAENDE
 	})
 	public void shouldGetAll(String description, String dokumenttypeKode, String dokumenttypeId) {
-		getAllByDokumentTypeKode(DokumentTypeKode.valueOf(dokumenttypeKode), dokumenttypeId);
+		var dokumentTypeKode = DokumentTypeKode.valueOf(dokumenttypeKode);
+
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
+
+		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(DOKMET_BASE_URL + "dokumenttype/" + dokumentTypeKode, GET, requestHttpEntity, DokumenttypeInfoTo[].class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+
+		DokumenttypeInfoTo[] dokumentinfos = response.getBody();
+		assertThat(dokumentinfos).hasSize(1);
+		assertDokumenttypeInfoTo(dokumentTypeKode, dokumentTypeKode.equals(INNGAAENDE) ? JOARK.name() : INGEN.name(), dokumentinfos[0], dokumenttypeId, MAL_LOGIKK_FIL);
+		assertDistribusjonInfoTo(dokumentinfos[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
 	}
 
 	@Test
 	public void shouldGetOne() {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, HttpMethod.GET, requestHttpEntity, DokumenttypeInfoTo.class);
-		assertThat(response.getStatusCode(), is(OK));
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
+
+		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, GET, requestHttpEntity, DokumenttypeInfoTo.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
 		DokumenttypeInfoTo dokInfo = response.getBody();
 
 		assertDokumenttypeInfoTo(INNGAAENDE, dokInfo, DOKUMENTTYPE_ID_INNGAAENDE, MAL_LOGIKK_FIL);
@@ -221,18 +235,28 @@ public class Tkat020ITest extends AbstractTest {
 	public void shouldReturn200_evenWhenMissingTitleFromDokumentTypeInfo() {
 		saveForTest(inngaaendeDokumentTypeInfoWithoutTittelAndMissingKodeverk(INNGAAENDE).build());
 
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + "foo", HttpMethod.GET, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(OK));
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + "foo", GET, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+	}
+
+	//MDC_USER_ID brukes for sporingsinfo i databasen og den krever nonNull
+	private void saveForTest(DokumenttypeInfo dokumenttypeInfo) {
+		MDC.put(MDC_USER_ID, REPO_USER_ID);
+		dokumenttypeInfoRepository.save(dokumenttypeInfo);
+		commitAndBeginNewTransaction();
+		MDC.remove(MDC_USER_ID);
 	}
 
 	@Test
 	public void shouldGet404IfWrongIdOrNoResults() {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + "125", HttpMethod.GET, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(NOT_FOUND));
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + "125", GET, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}
 
 	@ParameterizedTest(name = "{index} => shouldGet400IfIllegalJson{0}")
@@ -241,7 +265,17 @@ public class Tkat020ITest extends AbstractTest {
 			"Utgaaende," + UTGAAENDE_STRING
 	})
 	public void shouldGet400IfIllegalJson(String description, String dokumentTypeKode) throws Exception {
-		checkResponseIllegalJson(DokumentTypeKode.valueOf(dokumentTypeKode));
+		var dokumenttypekode = DokumentTypeKode.valueOf(dokumentTypeKode);
+
+		DokumenttypeInfoTo update = createDokumenttypeInfoUpdateTo(dokumenttypekode);
+		String valueAsString = objectMapper.writeValueAsString(update);
+		String corrupted = valueAsString.replace(REDIGERBAR_MAL_ID, "ugyldigjsonvalue");
+
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>(objectMapper.writeValueAsBytes(corrupted).toString(), oidcHeaders());
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE + dokumenttypekode, PUT, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -250,10 +284,9 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo newDokMottak = createDokumenttypeInfoNewToNoDokumentMottakInfo(INNGAAENDE, dokumentTypeId);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokMottak, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
 
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -262,22 +295,22 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo newDokMottak = createDokumenttypeInfoNewToNoDokumentMottakInfo(UTGAAENDE, dokumentTypeId);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokMottak, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
 	}
 
 	@Test
 	public void shouldGet400IfMissingDokumentMottaInfo_BEHANDLENDE_FAGSYSTEM() {
 		String dokumentTypeId = "newMottakType";
-		DokumenttypeInfoTo newDokMottak = createDokumenttypeInfoNewIncompleteDokumentMottakInfoNoBehandlendeFagsystem(
-				INNGAAENDE,
-				dokumentTypeId);
+		DokumenttypeInfoTo newDokMottak = createDokumenttypeInfoNewIncompleteDokumentMottakInfoNoBehandlendeFagsystem(INNGAAENDE, dokumentTypeId);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokMottak, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -285,22 +318,23 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo update = createDokumenttypeInfoUpdateTo(INNGAAENDE);
 
 		DokumenttypeInfo dokumenttypeInfoBefore = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENTTYPE_ID_INNGAAENDE);
-		assertThat(dokumenttypeInfoBefore.getArkivSystem(), is(JOARK));
+		assertThat(dokumenttypeInfoBefore.getArkivSystem()).isEqualTo(JOARK);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(update, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, HttpMethod.PUT, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(OK));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, PUT, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENTTYPE_ID_INNGAAENDE);
-		assertThat(dokumenttypeInfo.getChangeStamp().getEndretAv(), is(USER_ID));
-		assertThat(dokumenttypeInfo.getArkivSystem(), is(INGEN));
+		assertThat(dokumenttypeInfo.getChangeStamp().getEndretAv()).isEqualTo(USER_ID);
+		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(INGEN);
 
 		Set<EksternDokumentType> eksternDokTypeSet = fetchEksternDokumenTypeByDokumenTypeId(DOKUMENTTYPE_ID_INNGAAENDE);
 		EksternDokumentType eksternDokType = eksternDokTypeSet.iterator().next();
-		assertEquals(eksternDokType.getEksternDokumentTypeId(), EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE + "_new");
-		assertEquals(eksternDokType.getVersion(), 1L);
+		assertThat(eksternDokType.getEksternDokumentTypeId()).isEqualTo(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE + "_new");
+		assertThat(eksternDokType.getVersion()).isEqualTo(1L);
 	}
 
 	@Test
@@ -309,13 +343,14 @@ public class Tkat020ITest extends AbstractTest {
 		update.setDokumentMottakInfo(null);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(update, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE, HttpMethod.PUT, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(OK));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE, PUT, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENTTYPE_ID_UTGAAENDE);
-		assertThat(dokumenttypeInfo.getChangeStamp().getEndretAv(), is(USER_ID));
+		assertThat(dokumenttypeInfo.getChangeStamp().getEndretAv()).isEqualTo(USER_ID);
 	}
 
 	@Test
@@ -323,9 +358,10 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo update = createDokumenttypeInfoUpdateToNoMottakInfo(INNGAAENDE);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(update, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE, HttpMethod.PUT, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE, PUT, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -335,23 +371,23 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setArkivSystem(INGEN.name());
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
+
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId);
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getArkivSystem(), is(INGEN));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo()
-				.getArkivBehandling(), is(ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo()
-				.getKonverteringBehandling(), is(XML_TO_PDFA));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), hasSize(1));
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
+		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(INGEN);
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getArkivBehandling()).isEqualTo(MOTTA_UTEN_ARKIVERING);
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringBehandling()).isEqualTo(XML_TO_PDFA);
+		assertThat(dokumenttypeInfo.getBehandlingstema()).isEqualTo(BEHANDLINGSTEMA);
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(USER_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNotNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).hasSize(1);
 	}
 
 	@Test
@@ -361,19 +397,20 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setArkivSystem(null);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId);
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getArkivSystem(), is(JOARK));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), hasSize(1));
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
+		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(JOARK);
+		assertThat(dokumenttypeInfo.getBehandlingstema()).isEqualTo(BEHANDLINGSTEMA);
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(USER_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNotNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).hasSize(1);
 	}
 
 	@Test
@@ -383,19 +420,20 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setDokumentMottakInfo(null);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId);
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(USER_ID));
-		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), hasSize(1));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo(), nullValue());
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(USER_ID);
+		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
+		assertThat(dokumenttypeInfo.getBehandlingstema()).isEqualTo(BEHANDLINGSTEMA);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNotNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).hasSize(1);
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo()).isNull();
 	}
 
 	@Test
@@ -408,21 +446,22 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setSensitivt(null);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId);
 
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(USER_ID));
-		assertThat(dokumenttypeInfo.getTema(), is(nullValue()));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(nullValue()));
-		assertThat(dokumenttypeInfo.getSensitivt(), is(nullValue()));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), hasSize(1));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo(), nullValue());
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(USER_ID);
+		assertThat(dokumenttypeInfo.getTema()).isNull();
+		assertThat(dokumenttypeInfo.getBehandlingstema()).isNull();
+		assertThat(dokumenttypeInfo.getSensitivt()).isNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNotNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).hasSize(1);
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo()).isNull();
 	}
 
 	@Test
@@ -431,14 +470,15 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo newDokkat = createDokumenttypeInfoNewToNoDokumentProduksjonsInfo(INNGAAENDE, dokumentTypeId);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(CREATED));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId);
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(USER_ID));
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(USER_ID);
 	}
 
 	@Test
@@ -447,26 +487,28 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo newDokkat = createDokumenttypeInfoNewToNoDokumentProduksjonsInfo(UTGAAENDE, dokumentTypeId);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
 	public void should400OnCreateNewWithInvalidArkivType() {
 		String dokumentTypeId = "newType";
 		DokumentMottakInfoTo dokmot = new DokumentMottakInfoTo();
-		dokmot.setArkivBehandling(ArkivBehandlingKode.ARKIVER_FRA_MOTTAK.name());
-		dokmot.setEksternDokumentTyper(asList(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_ID_TYPE.toString())));
+		dokmot.setArkivBehandling(ARKIVER_FRA_MOTTAK.name());
+		dokmot.setEksternDokumentTyper(List.of(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_ID_TYPE.toString())));
 
 		DokumenttypeInfoTo newDokkat = createDokumenttypeInfoNewTo(INNGAAENDE, dokumentTypeId);
 		newDokkat.setArkivSystem("adsadasd");
 		newDokkat.setDokumentMottakInfo(dokmot);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -476,11 +518,11 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setDokumentTittel(DOKUMENT_TITTEL);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, DokumenttypeInfoTo.class);
-		assertThat(response.getStatusCode(), is(CREATED));
 
-		assertThat(response.getBody().getDokumenttypeId(), is(dokumentTypeId));
+		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, DokumenttypeInfoTo.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(CREATED);
+		assertThat(response.getBody().getDokumenttypeId()).isEqualTo(dokumentTypeId);
 	}
 
 	@Test
@@ -493,9 +535,10 @@ public class Tkat020ITest extends AbstractTest {
 		newDokkat.setDokumentMottakInfo(dokmot);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -503,9 +546,10 @@ public class Tkat020ITest extends AbstractTest {
 		DokumenttypeInfoTo newDokkat = createDokumenttypeInfoNewTo(INNGAAENDE, null);
 
 		HttpEntity<DokumenttypeInfoTo> requestHttpEntity = new HttpEntity<>(newDokkat, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@Test
@@ -513,10 +557,10 @@ public class Tkat020ITest extends AbstractTest {
 		String mal = IOUtils.toString(new ClassPathResource("restitest/missingParameters.json").getInputStream(), String.valueOf(UTF_8));
 
 		HttpEntity<String> requestHttpEntity = new HttpEntity<>(mal, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL, HttpMethod.POST, requestHttpEntity, String.class);
 
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL, POST, requestHttpEntity, String.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(BAD_REQUEST);
 	}
 
 	@ParameterizedTest(name = "{index} => Sletter dokumenttypeInfo for: ({1}, {2})")
@@ -529,67 +573,35 @@ public class Tkat020ITest extends AbstractTest {
 		Integer n_eksternDokumentTypes = fetchEksternDokumenTypeByDokumenTypeId(deleteDokumentType).size();
 
 		HttpEntity<String> requestHttpEntity = new HttpEntity<>(deleteDokumentType, oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + deleteDokumentType, HttpMethod.DELETE, requestHttpEntity, String.class);
-		commitAndBeginNewTransaction();
-		assertThat(response.getStatusCode(), is(OK));
 
-		assertThat(fetchAllDokumenttypeInfo(), hasSize(1));
+		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + deleteDokumentType, DELETE, requestHttpEntity, String.class);
+
+		commitAndBeginNewTransaction();
+		assertThat(response.getStatusCode()).isEqualTo(OK);
+		assertThat(response.getBody()).contains("DokumentType slettet");
+
+		assertThat(fetchAllDokumenttypeInfo()).hasSize(1);
 		assertDistribusjonsInfosInDb(1);
-		assertEquals(fetchAllEksternDokumenttype().size(), n_eksternDokumentTypes_all - n_eksternDokumentTypes);
-	}
-
-	//MDC_USER_ID brukes for sporingsinfo i databasen og den krever nonNull
-	private void saveForTest(DokumenttypeInfo dokumenttypeInfo) {
-		MDC.put(MDC_USER_ID, REPO_USER_ID);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		commitAndBeginNewTransaction();
-		MDC.remove(MDC_USER_ID);
+		assertThat(fetchAllEksternDokumenttype()).hasSize(n_eksternDokumentTypes_all - n_eksternDokumentTypes);
 	}
 
 	public void assertDistribusjonsInfosInDb(int size) {
 		List<DokumenttypeInfo> dokumenttypeInfos = fetchAllDokumenttypeInfo();
-		List<DokumentProduksjonsInfo> dokumentProduksjonsInfos = dokumenttypeInfos.stream().map(DokumenttypeInfo::getDokumentProduksjonsInfo).collect(Collectors.toList());
-		List<DistribusjonInfo> distribusjonInfos = dokumentProduksjonsInfos.stream().map(DokumentProduksjonsInfo::getDistribusjonInfo).collect(Collectors.toList());
-		List<DistribusjonVarsel> distribusjonVarsels = distribusjonInfos.stream().map(DistribusjonInfo::getDistribusjonVarsels).flatMap(Collection::stream).collect(Collectors.toList());
-		assertThat(distribusjonInfos.size(), is(size));
-		assertThat(distribusjonVarsels.size(), is(size));
+		List<DokumentProduksjonsInfo> dokumentProduksjonsInfos = dokumenttypeInfos.stream().map(DokumenttypeInfo::getDokumentProduksjonsInfo).toList();
+		List<DistribusjonInfo> distribusjonInfos = dokumentProduksjonsInfos.stream().map(DokumentProduksjonsInfo::getDistribusjonInfo).toList();
+		List<DistribusjonVarsel> distribusjonVarsels = distribusjonInfos.stream().map(DistribusjonInfo::getDistribusjonVarsels).flatMap(Collection::stream).toList();
+
+		assertThat(distribusjonInfos).hasSize(size);
+		assertThat(distribusjonVarsels).hasSize(size);
 	}
 
-
 	public List<DokumenttypeInfo> fetchAllDokumenttypeInfo() {
-		return StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		return StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).toList();
 	}
 
 	public List<EksternDokumentType> fetchAllEksternDokumenttype() {
-		return StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		return StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).toList();
 	}
-
-	private void getAllByDokumentTypeKode(DokumentTypeKode dokumentTypeKode, String dokumenttypeId) {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(
-				DOKMET_BASE_URL + "dokumenttype/" + dokumentTypeKode, HttpMethod.GET, requestHttpEntity, DokumenttypeInfoTo[].class);
-
-		assertThat(response.getStatusCode(), is(OK));
-
-		DokumenttypeInfoTo[] dokumentinfos = response.getBody();
-		assertThat(dokumentinfos.length, is(1));
-		assertDokumenttypeInfoTo(dokumentTypeKode, dokumentTypeKode.equals(INNGAAENDE) ? JOARK.name() : INGEN.name(), dokumentinfos[0], dokumenttypeId, MAL_LOGIKK_FIL);
-		assertDistribusjonInfoTo(dokumentinfos[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
-	}
-
-	private void checkResponseIllegalJson(DokumentTypeKode dokumentTypeKode) throws Exception {
-		DokumenttypeInfoTo update = createDokumenttypeInfoUpdateTo(dokumentTypeKode);
-		String valueAsString = objectMapper.writeValueAsString(update);
-		String corrupted = valueAsString.replace(REDIGERBAR_MAL_ID, "ugyldigjsonvalue");
-
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>(objectMapper.writeValueAsBytes(corrupted).toString(), oidcHeaders());
-		ResponseEntity<String> response = restTemplate.exchange(
-				DOKMET_BASE_URL + DOKUMENTTYPE_ID_UTGAAENDE + dokumentTypeKode, HttpMethod.PUT, requestHttpEntity, String.class);
-
-		assertThat(response.getStatusCode(), is(BAD_REQUEST));
-	}
-
 
 	protected Set<EksternDokumentType> fetchEksternDokumenTypeByDokumenTypeId(final String dokumentTypeId) {
 		return dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId).getEksternDokumentType();
@@ -600,18 +612,19 @@ public class Tkat020ITest extends AbstractTest {
 	}
 
 	private DokumenttypeInfoTo getDokumentInfoTo(String dokumentypeInfoId) {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>(dokumentypeInfoId, oidcHeaders());
-		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(
-				"/rest/dokumenttypeinfo/" + dokumentypeInfoId, HttpMethod.GET, requestHttpEntity, DokumenttypeInfoTo.class);
+		HttpEntity<String> requestHttpEntity = new HttpEntity<>(dokumentypeInfoId);
 
-		assertThat(response.getStatusCode(), is(OK));
+		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange("/rest/dokumenttypeinfo/" + dokumentypeInfoId, GET, requestHttpEntity, DokumenttypeInfoTo.class);
+
+		assertThat(response.getStatusCode()).isEqualTo(OK);
 		return response.getBody();
 	}
 
 	private EksternDokumentType createEksternDokumentType(String eksternDokumentTypeId, EksternIdTypeKode eksternIdTypeKode) {
 		return EksternDokumentType.builder()
 				.eksternDokumentTypeId(eksternDokumentTypeId)
-				.eksternIdType(eksternIdTypeKode).build();
+				.eksternIdType(eksternIdTypeKode)
+				.build();
 	}
 
 	private EksternDokumentTypeTo createEksternDokumentTyperTo(String eksternDokumentTypeId, EksternIdTypeKode eksternIdTypeKode) {
@@ -641,16 +654,16 @@ public class Tkat020ITest extends AbstractTest {
 								.portoklasse(PORTO_KLASSE)
 								.predefinertDistKanal(DistribusjonKanalKode.SDP)
 								.sikkerhetsnivaa(4)
-								.tosidigPrint(Boolean.FALSE)
-								.sentralPrintDokumentType(SentralPrintDokumentTypeCode.NAV_STANDARD)
-								.konvoluttvinduType(KonvoluttvinduTypeCode.W)
+								.tosidigPrint(FALSE)
+								.sentralPrintDokumentType(NAV_STANDARD)
+								.konvoluttvinduType(W)
 								.distribusjonVarsel(DistribusjonVarselBuilder.aDistribusjonVarsel()
 										.varselForDistribusjonKanal(DistribusjonKanalKode.SDP)
 										.varseltypeId(VARSELTYPE_ID).build())
 								.build())
 						.build())
 				.dokumentMottakInfo(DokumentMottakInfo.builder()
-						.arkivBehandling(ArkivBehandlingKode.ARKIVER_FRA_MOTTAK)
+						.arkivBehandling(ARKIVER_FRA_MOTTAK)
 						.konverteringBehandling(XML_TO_PDFA)
 						.build()
 				)
@@ -663,9 +676,10 @@ public class Tkat020ITest extends AbstractTest {
 				.dokumentKategori(DOKUMENT_KATEGORI)
 				.sensitivt(false)
 				.dokumentType(dokumentTypeKode)
-				.dokumentMottakInfo(DokumentMottakInfo.builder().konverteringBehandling(XML_TO_PDFA)
-						.build()
-				);
+				.dokumentMottakInfo(
+						DokumentMottakInfo.builder()
+								.konverteringBehandling(XML_TO_PDFA)
+								.build());
 	}
 
 
@@ -674,64 +688,63 @@ public class Tkat020ITest extends AbstractTest {
 	}
 
 	private void assertDokumenttypeInfoTo(DokumentTypeKode dokumentTypeKode, String arkivSystem, DokumenttypeInfoTo dokumenttypeInfo, String... dokumentInfo) {
-
 		String dokumentttypeId = dokumentInfo[0];
 
-		assertThat(dokumenttypeInfo.getDokumenttypeId(), is(dokumentttypeId));
-		assertThat(dokumenttypeInfo.getDokumentType(), is(dokumentTypeKode.name()));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(), is(IKKE_REDIGERBAR_MAL_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId(), is(REDIGERBAR_MAL_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
-		assertThat(dokumenttypeInfo.getDokumentTittel(), is(DOKUMENT_TITTEL));
+		assertThat(dokumenttypeInfo.getDokumenttypeId()).isEqualTo(dokumentttypeId);
+		assertThat(dokumenttypeInfo.getDokumentType()).isEqualTo(dokumentTypeKode.name());
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId()).isEqualTo(IKKE_REDIGERBAR_MAL_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId()).isEqualTo(REDIGERBAR_MAL_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse()).isEqualTo(MAL_XSD_REFERANSE);
+		assertThat(dokumenttypeInfo.getDokumentTittel()).isEqualTo(DOKUMENT_TITTEL);
 
 		if (dokumentInfo.length == 2) {
-			assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil(), is(dokumentInfo[1]));
+			assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil()).isEqualTo(dokumentInfo[1]);
 		}
 
-		assertThat(dokumenttypeInfo.getDokumentKategori(), is(DOKUMENT_KATEGORI));
-		assertThat(dokumenttypeInfo.getSensitivt(), is(false));
-		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
-		assertThat(dokumenttypeInfo.getArkivSystem(), is(arkivSystem));
-		assertThat(dokumenttypeInfo.getArtifaktId(), is(ARTIFAKT_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getVedlegg(), is(false));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getEksternVedlegg(), is(false));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos(), hasSize(1));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos().get(0).getSpraaklag(), is(SPRAAK_NN));
+		assertThat(dokumenttypeInfo.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
+		assertThat(dokumenttypeInfo.getSensitivt()).isFalse();
+		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
+		assertThat(dokumenttypeInfo.getBehandlingstema()).isEqualTo(BEHANDLINGSTEMA);
+		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(arkivSystem);
+		assertThat(dokumenttypeInfo.getArtifaktId()).isEqualTo(ARTIFAKT_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getVedlegg()).isFalse();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getEksternVedlegg()).isFalse();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos()).hasSize(1);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos().get(0).getSpraaklag()).isEqualTo(SPRAAK_NN);
 
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo()
-				.getArkivBehandling(), is(ArkivBehandlingKode.ARKIVER_FRA_MOTTAK.name()));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringsBehandling(), is(XML_TO_PDFA.name()));
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getArkivBehandling()).isEqualTo(ARKIVER_FRA_MOTTAK.name());
+		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringsBehandling()).isEqualTo(XML_TO_PDFA.name());
 
 		if (dokumentTypeKode.equals(INNGAAENDE)) {
 			assertThat(dokumenttypeInfo.getDokumentMottakInfo()
 					.getEksternDokumentTyper()
 					.get(0)
-					.getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE));
+					.getEksternDokumentTypeId()).isEqualTo(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE);
 		} else if (dokumentTypeKode.equals(UTGAAENDE)) {
 			assertThat(dokumenttypeInfo.getDokumentMottakInfo()
 					.getEksternDokumentTyper()
 					.get(0)
-					.getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE));
+					.getEksternDokumentTypeId()).isEqualTo(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE);
 
 		}
 
-		assertThat(dokumenttypeInfo.getChangeStamp(), is(notNullValue()));
+		assertThat(dokumenttypeInfo.getChangeStamp()).isNotNull();
 	}
 
 	private void assertDistribusjonInfoTo(DistribusjonInfoTo distInfo) {
-		assertThat(distInfo, is(notNullValue()));
-		assertThat(distInfo.getPredefinertDistKanal(), is(SDP));
-		assertThat(distInfo.getChangeStamp(), is(notNullValue()));
-		assertThat(distInfo.getPortoklasse(), is(PORTO_KLASSE));
-		assertThat(distInfo.getSikkerhetsnivaa(), is(4));
-		assertThat(distInfo.getTosidigPrint(), is(Boolean.FALSE));
-		assertThat(distInfo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
-		assertThat(distInfo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.W.name()));
-		assertThat(distInfo.getDistribusjonVarsels(), hasSize(1));
+		assertThat(distInfo).isNotNull();
+		assertThat(distInfo.getPredefinertDistKanal()).isEqualTo(SDP);
+		assertThat(distInfo.getChangeStamp()).isNotNull();
+		assertThat(distInfo.getPortoklasse()).isEqualTo(PORTO_KLASSE);
+		assertThat(distInfo.getSikkerhetsnivaa()).isEqualTo(4);
+		assertThat(distInfo.getTosidigPrint()).isFalse();
+		assertThat(distInfo.getSentralPrintDokumentType()).isEqualTo(NAV_STANDARD.name());
+		assertThat(distInfo.getKonvoluttvinduType()).isEqualTo(W.name());
+		assertThat(distInfo.getDistribusjonVarsels()).hasSize(1);
+
 		DistribusjonVarselTo distVarsel = distInfo.getDistribusjonVarsels().iterator().next();
-		assertThat(distVarsel.getVarselForDistribusjonKanal(), is(SDP));
-		assertThat(distVarsel.getVarseltypeId(), is(VARSELTYPE_ID));
+		assertThat(distVarsel.getVarselForDistribusjonKanal()).isEqualTo(SDP);
+		assertThat(distVarsel.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
 	}
 
 	private DokumenttypeInfoTo createDokumenttypeInfoNewTo(DokumentTypeKode dokumentTypeKode, String dokumentTypeId) {
@@ -768,14 +781,13 @@ public class Tkat020ITest extends AbstractTest {
 
 		newProd.setDistribusjonInfo(distribusjonInfo);
 
-		newMot.setArkivBehandling(ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING.name());
+		newMot.setArkivBehandling(MOTTA_UTEN_ARKIVERING.name());
 		newMot.setKonverteringsBehandling(XML_TO_PDFA.name());
 
 		newDokkat.setDokumentProduksjonsInfo(newProd);
 		newDokkat.setDokumentMottakInfo(newMot);
 
-		newMot.setEksternDokumentTyper(asList(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE
-				.toString())));
+		newMot.setEksternDokumentTyper(List.of(new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE.toString())));
 
 		return newDokkat;
 	}
@@ -824,7 +836,7 @@ public class Tkat020ITest extends AbstractTest {
 		if (!dokumentTypeKode.equals(INNGAAENDE)) {
 			newDokkat.setDokumentTittel(DOKUMENT_TITTEL);
 		}
-		newMot.setArkivBehandling(ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING.name());
+		newMot.setArkivBehandling(MOTTA_UTEN_ARKIVERING.name());
 		newDokkat.setDokumentMottakInfo(newMot);
 
 		newDokkat.setDokumenttypeId(dokumentTypeId);
@@ -890,10 +902,10 @@ public class Tkat020ITest extends AbstractTest {
 			newEksternDokumentId = EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE + "_new";
 		}
 		EksternDokumentTypeTo eksternDokumentTypeTo = new EksternDokumentTypeTo(newEksternDokumentId, EKSTERN_ID_TYPE.toString());
-		newDokMot.setEksternDokumentTyper(asList(eksternDokumentTypeTo));
+		newDokMot.setEksternDokumentTyper(List.of(eksternDokumentTypeTo));
 
 
-		newDokMot.setArkivBehandling(ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING.name());
+		newDokMot.setArkivBehandling(MOTTA_UTEN_ARKIVERING.name());
 		newDokkat.setDokumentProduksjonsInfo(newDokProd);
 		newDokkat.setDokumentMottakInfo(newDokMot);
 		newDokkat.setArkivSystem(INGEN.name());
