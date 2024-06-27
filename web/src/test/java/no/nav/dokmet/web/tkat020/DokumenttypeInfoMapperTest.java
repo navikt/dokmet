@@ -210,7 +210,8 @@ public class DokumenttypeInfoMapperTest {
 		DokumenttypeInfoTo map = mapper.mapToDokumentTypeInfoTo(domain);
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
-		assertThat(distribusjonInfoTo.getTosidigPrint(), is(Boolean.TRUE));
+
+		assertThat(distribusjonInfoTo.isTosidigPrint(), is(true));
 		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
 		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.X.name()));
 	}
@@ -227,7 +228,7 @@ public class DokumenttypeInfoMapperTest {
 		DokumenttypeInfoTo map = mapper.mapToDokumentTypeInfoTo(domain);
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
-		assertThat(distribusjonInfoTo.getTosidigPrint(), is(Boolean.FALSE));
+		assertThat(distribusjonInfoTo.isTosidigPrint(), is(false));
 		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
 		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.W.name()));
 	}
