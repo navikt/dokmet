@@ -22,6 +22,7 @@ import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 
 @Entity
@@ -103,8 +104,8 @@ public class DistribusjonInfo extends AbstractDomainObject {
 		this.sikkerhetsnivaa = sikkerhetsnivaa;
 	}
 
-	public Boolean getTosidigPrint() {
-		return tosidigPrint == null ? Boolean.TRUE : tosidigPrint;
+	public boolean getTosidigPrint() {
+		return tosidigPrint == null ? TRUE : tosidigPrint;
 	}
 
 	public SentralPrintDokumentTypeCode getSentralPrintDokumentType() {

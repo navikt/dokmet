@@ -737,7 +737,7 @@ public class Tkat020ITest extends AbstractITest {
 		assertThat(distInfo.getChangeStamp()).isNotNull();
 		assertThat(distInfo.getPortoklasse()).isEqualTo(PORTO_KLASSE);
 		assertThat(distInfo.getSikkerhetsnivaa()).isEqualTo(4);
-		assertThat(distInfo.getTosidigPrint()).isFalse();
+		assertThat(distInfo.isTosidigPrint()).isFalse();
 		assertThat(distInfo.getSentralPrintDokumentType()).isEqualTo(NAV_STANDARD.name());
 		assertThat(distInfo.getKonvoluttvinduType()).isEqualTo(W.name());
 		assertThat(distInfo.getDistribusjonVarsels()).hasSize(1);

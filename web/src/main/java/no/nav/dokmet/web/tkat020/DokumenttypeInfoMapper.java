@@ -197,7 +197,7 @@ public class DokumenttypeInfoMapper {
 		distribusjonInfo.setPortoklasse(to.getPortoklasse());
 		distribusjonInfo.setPredefinertDistKanal(nullSafeDistribusjonsKanalMapper(to.getPredefinertDistKanal()));
 		distribusjonInfo.setSikkerhetsnivaa(to.getSikkerhetsnivaa());
-		distribusjonInfo.setTosidigPrint(to.getTosidigPrint());
+		distribusjonInfo.setTosidigPrint(to.isTosidigPrint());
 		distribusjonInfo.setSentralPrintDokumentType(stringToEnum(SentralPrintDokumentTypeCode.class, to.getSentralPrintDokumentType()));
 		distribusjonInfo.setKonvoluttvinduType(stringToEnum(KonvoluttvinduTypeCode.class, to.getKonvoluttvinduType()));
 
