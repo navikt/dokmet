@@ -95,7 +95,7 @@ public class Tkat020BasicAuthController {
 			validator.validateBrevpakkeRequest(request);
 			log.info("tkat020 (basic auth) har mottatt kall om å lagre brevpakke={}", safeBrevpakke);
 
-			brevpakkeService.saveBrevpakke(request);
+			brevpakkeService.lagreBrevpakke(request);
 
 			log.info("tkat020 (basic auth) har lagret brevpakke={}", safeBrevpakke);
 

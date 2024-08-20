@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Land"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Land">
+
+
+    <xs:complexType name="Land">
+        <xs:all>
+            <xs:element name="navn" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Navn på land som har avtale med Norge</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erEOSLand" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Viser hvis avtaleland er EØS land</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="landkode" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Internasjonal to tegns kode for land. Kan benyttes ved språklag annet enn bokmål</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+</xs:schema>

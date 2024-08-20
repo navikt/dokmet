@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/KravArsaksKode"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/KravArsaksKode">
+
+    <xs:simpleType name="KravArsaksKode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="ALDERSOVERGANG">
+                <xs:annotation>
+                    <xs:documentation>Innvilget endring i alderspensjon ved aldersovergang</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EKSPORT">
+                <xs:annotation>
+                    <xs:documentation>Eksport</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EPS_ENDRET_INNTEKT">
+                <xs:annotation>
+                    <xs:documentation>Inntekt til tilstøtende er endret </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EPS_NY_YTELSE">
+                <xs:annotation>
+                    <xs:documentation>Tilstøtende har fått innvilget pensjon</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EPS_NY_YTELSE_UT">
+                <xs:annotation>
+                    <xs:documentation>Tilstøtende har fått innvilget uføretrygd</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="EPS_OPPH_YTELSE_UT">
+                <xs:annotation>
+                    <xs:documentation>Tilstøtende sin uføretrygd er opphørt</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="INSTOPPHOLD">
+                <xs:annotation>
+                    <xs:documentation>Institusjonsopphold på bruker/tilstøtende</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="INNVANDRET">
+                <xs:annotation>
+                    <xs:documentation>Bruker har flyttet til Norge</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="SIVILSTANDSENDRING">
+                <xs:annotation>
+                    <xs:documentation>Sivilstandsendring</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TILSTOT_ENDR_YTELSE">
+                <xs:annotation>
+                    <xs:documentation>Tilstøtende sin sak er endret</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TILSTOT_OPPHORT">
+            <xs:annotation>
+                <xs:documentation>Opphør av tilstøtendes ytelse</xs:documentation>
+            </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UTTAKSGRAD">
+                <xs:annotation>
+                    <xs:documentation>Bruker søker om å endre uttaksgrad av alderspensjon</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UTVANDRET">
+                <xs:annotation>
+                    <xs:documentation>Bruker har flyttet fra Norge</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="VURDER_SERSKILT_SATS">
+                <xs:annotation>
+                    <xs:documentation>Særskilt sats for forsørger skal vurderes</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="">
+                <xs:annotation>
+                    <xs:documentation>Tomt verdi er også gyldig</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

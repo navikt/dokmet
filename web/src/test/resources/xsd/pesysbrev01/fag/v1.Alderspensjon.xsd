@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Alderspensjon"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Alderspensjon">
+
+    <xs:complexType name="Alderspensjon">
+        <xs:annotation>
+            <xs:documentation>Informasjon om alderspensjon</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="regelverkType" type="regelverkTypeKode">
+                <xs:annotation>
+                    <xs:documentation>Viser hvilket regelverk alderspensjon beregnes etter</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:simpleType name="regelverkTypeKode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="AP1967">
+                <xs:annotation>
+                    <xs:documentation>Årskull før </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="AP2011">
+                <xs:annotation>
+                    <xs:documentation>Årskull før 1954, relevant fram til 2020</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="AP2016">
+                <xs:annotation>
+                    <xs:documentation>Årskull 1954-1962, relevant fram til 2030</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="AP2025">
+                <xs:annotation>
+                    <xs:documentation>Årskull fra 1963. Ennå ikke relevant. Første søknad kan tidligst behandles oktober 2024 med dagens sperre i fagsystem.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

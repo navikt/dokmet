@@ -3,6 +3,7 @@ Dokmet tilbyr fylgjande Rest-tenester
 * tkat020 - les-operasjonar for metadata om dokument produsert av metaforce.
 * tkat021 - operasjonar for oversikt og oppdatering av varselmalar.
 * tkat020 (basic auth) - operasjonar for henting, oppdatering og oppretting av dokumenttypeinfo.
+* tkat030 - validering av ei XML-fil opp mot ei dokumenttype sitt XSD-skjema.
 
 Rest-endepunktet med basic auth skal <ins>kun</ins> brukast av aura-maven-plugin og løpet
 for deploy av brevpakkar.

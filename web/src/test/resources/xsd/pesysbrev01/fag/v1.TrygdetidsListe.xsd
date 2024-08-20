@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tr="http://nav.no/dok/pesysbrev/fag/v1/Trygdetid"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/TrygdetidsListe"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/TrygdetidsListe">
+
+
+<xs:import schemaLocation="v1.Trygdetid.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Trygdetid"/>
+
+<xs:complexType name="TrygdetidsListe">
+    <xs:sequence>
+        <xs:element name="trygdetid" type="tr:Trygdetid" maxOccurs="unbounded">
+            <xs:annotation>
+                <xs:documentation>En liste over elementer av typen Trygdetid</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+    </xs:sequence>
+</xs:complexType>
+
+</xs:schema>
