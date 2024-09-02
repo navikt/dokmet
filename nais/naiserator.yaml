@@ -19,6 +19,10 @@ spec:
       value: {{ DOKMET_BASE_URL }}
     - name: DOKMET_SCOPES_FOR_BFF
       value: {{ DOKMET_SCOPES_FOR_BFF }}
+    - name: SPRING_LDAP_URLS
+      value: {{ SPRING_LDAP_URLS }}
+    - name: SPRING_LDAP_BASE
+      value: {{ SPRING_LDAP_BASE }}
   image: {{ image }}
   ingresses:
     {{#each INGRESSES}}
@@ -52,6 +56,8 @@ spec:
     paths:
       - kvPath: {{ DOKMET_DS }}
         mountPath: "/var/run/secrets/nais.io/dokmetDS"
+      - kvPath: {{ LDAP_ADMIN_USER }}
+        mountPath: "/var/run/secrets/nais.io/ldap"
   webproxy: true
   azure:
     application:
