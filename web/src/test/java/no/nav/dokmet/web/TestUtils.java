@@ -1,11 +1,5 @@
 package no.nav.dokmet.web;
 
-import no.nav.dokmet.core.builders.builder.VarselInfoBuilder;
-import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
-import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
-import no.nav.dokmet.core.domain.entities.VarselInfo;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
 import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
@@ -14,6 +8,11 @@ import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.dokmet.api.tkat021.VarselMalTo;
+import no.nav.dokmet.core.builders.builder.VarselInfoBuilder;
+import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
+import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
+import no.nav.dokmet.core.domain.entities.VarselInfo;
+import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 
 import java.util.Collections;
 
@@ -21,6 +20,8 @@ import static java.util.Arrays.asList;
 import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.web.TestDataUtils.ANTALL_REVARSLINGER;
+import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_1;
+import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_2;
 import static no.nav.dokmet.web.TestDataUtils.FOERSTEGANGSVARSEL_TEKST;
 import static no.nav.dokmet.web.TestDataUtils.INAKTIV;
 import static no.nav.dokmet.web.TestDataUtils.KANAL;
@@ -81,8 +82,9 @@ public class TestUtils {
 		prodTo.setDistribusjonInfo(distribusjonInfo);
 		
 		motTo.setArkivBehandling(MOTTA_UTEN_ARKIVERING.name());
-		motTo.setEksternDokumentTyper(asList(new EksternDokumentTypeTo("id1", TestDataUtils.EKSTERN_ID_TYPE)
-				, new EksternDokumentTypeTo("id2", TestDataUtils.EKSTERN_ID_TYPE)));
+		motTo.setEksternDokumentTyper(asList(
+				new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_1, TestDataUtils.EKSTERN_ID_TYPE),
+				new EksternDokumentTypeTo(EKSTERN_DOKUMENT_TYPE_ID_2, TestDataUtils.EKSTERN_ID_TYPE)));
 		
 		to.setDokumentProduksjonsInfo(prodTo);
 		to.setDokumentMottakInfo(motTo);
@@ -97,14 +99,6 @@ public class TestUtils {
 		dokumenttypeInfo.setTema(TestDataUtils.TEMA);
 		dokumenttypeInfo.setBehandlingstema(TestDataUtils.BEHANDLINGSTEMA);
 		return dokumenttypeInfo;
-	}
-	
-	public static EksternDokumentType createEksterndokumentType(DokumenttypeInfo dokumenttypeInfo) {
-		EksternDokumentType eksternDokumentType = new EksternDokumentType();
-		eksternDokumentType.setEksternIdType(TestDataUtils.EKSTERN_ID_TYPE_KODE);
-		eksternDokumentType.setEksternDokumentTypeId(TestDataUtils.EKSTERN_DOK_ID);
-		eksternDokumentType.setDokumenttypeInfo(dokumenttypeInfo);
-		return eksternDokumentType;
 	}
 
 	public static VarselInfo createVarselInfo() {
@@ -135,6 +129,7 @@ public class TestUtils {
 	public static VarselInfoTo createVarselInfoTo() {
 		return createVarselInfoToWithVarseltypeId(VARSELTYPE_ID);
 	}
+
 	public static VarselInfoTo createVarselInfoToWithVarseltypeId(String varseltypeId) {
 		return VarselInfoTo.builder()
 				.varseltypeId(varseltypeId)

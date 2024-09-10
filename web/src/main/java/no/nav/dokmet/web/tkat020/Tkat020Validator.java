@@ -95,8 +95,7 @@ public class Tkat020Validator {
 			message.append("ArkiverBehandling er påkrevd");
 			isValid = false;
 
-		} else if (to.getArkivSystem() == null && ARKIVER_FRA_MOTTAK.name()
-				.equals(to.getDokumentMottakInfo().getArkivBehandling())) {
+		} else if (to.getArkivSystem() == null && ARKIVER_FRA_MOTTAK.name().equals(to.getDokumentMottakInfo().getArkivBehandling())) {
 			message.append("Arkiversystem er påkrevd for felles dokumentmottak");
 			isValid = false;
 
