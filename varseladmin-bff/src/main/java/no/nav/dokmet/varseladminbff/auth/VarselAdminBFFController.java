@@ -12,9 +12,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -23,6 +25,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpHeaders.TRANSFER_ENCODING;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
@@ -69,9 +72,9 @@ public class VarselAdminBFFController {
 		var requestBuilder = RequestEntity
 				.method(httpMethod, rewriteRequestPath(requestPath));
 
-		Enumeration<String> xyzzy = incomingRequest.getHeaderNames();
-		while (xyzzy.hasMoreElements()) {
-			String header = xyzzy.nextElement();
+		Enumeration<String> incomingHeaders = incomingRequest.getHeaderNames();
+		while (incomingHeaders.hasMoreElements()) {
+			String header = incomingHeaders.nextElement();
 			if (!header.equalsIgnoreCase("Cookie")) {
 				requestBuilder.header(header, Collections.list(incomingRequest.getHeaders(header)).toArray(String[]::new));
 			}
@@ -84,18 +87,26 @@ public class VarselAdminBFFController {
 								authorizationHeader)
 		);
 
-		// 3. forward og rewrite request
-		RequestEntity<?> request;
+		RequestEntity<?> forwardedRequest;
 		if (incomingRequest.getContentLength() > 0) {
-			request = requestBuilder.body(incomingRequest.getReader().lines().collect(Collectors.joining("\n")));
+			forwardedRequest = requestBuilder.body(incomingRequest.getReader().lines().collect(Collectors.joining("\n")));
 		} else {
-			request = requestBuilder.build();
+			forwardedRequest = requestBuilder.build();
 		}
 
 		try {
-			return restTemplate.exchange(request, String.class);
-		} catch (HttpClientErrorException e) {
+			ResponseEntity<String> responseFromDownstream = restTemplate.exchange(forwardedRequest, String.class);
+			// vi må fjerne transfer-encoding for å unngå problemer med nginx her
+			LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>(responseFromDownstream.getHeaders());
+			headers.remove(TRANSFER_ENCODING);
+
+			return new ResponseEntity<>(responseFromDownstream.getBody(), headers, responseFromDownstream.getStatusCode());
+		} catch (HttpServerErrorException | HttpClientErrorException e) {
+			log.warn("kunne ikke forwarde request til dokmet", e);
 			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+		} catch (Exception e) {
+			log.error("kunne ikke forwarde request til dokmet på grunn av uventet feil", e);
+			throw e;
 		}
 	}
 
