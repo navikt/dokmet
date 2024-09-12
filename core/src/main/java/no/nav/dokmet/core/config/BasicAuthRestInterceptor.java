@@ -7,14 +7,11 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.Optional;
 
-import static com.nimbusds.oauth2.sdk.util.URLUtils.CHARSET;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-import static java.lang.String.format;
 import static org.apache.hc.client5.http.auth.StandardAuthScheme.BASIC;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
@@ -59,7 +56,7 @@ public class BasicAuthRestInterceptor implements HandlerInterceptor {
 			authenticateWithLdap(username, password);
 		} catch (Exception e) {
 			log.warn("Innlogging feilet for bruker med navn={} med feilmelding={}", username, e.getMessage(), e);
-			response.sendError(SC_FORBIDDEN, format("Innlogging feilet for bruker med navn %s", username));
+			response.sendError(SC_FORBIDDEN, "Innlogging feilet for bruker med navn %s".formatted(username));
 			return false;
 		}
 
@@ -81,19 +78,16 @@ public class BasicAuthRestInterceptor implements HandlerInterceptor {
 	}
 
 	private String[] decodeBasicAuth(String header) {
-		byte[] decoded;
 		try {
-			byte[] base64Token = header.substring(6).getBytes(CHARSET);
-			decoded = Base64.getDecoder().decode(base64Token);
-			String token = new String(decoded, CHARSET);
+			byte[] decoded = Base64.getDecoder().decode(header.substring(6));
+			String token = new String(decoded);
 			int delim = token.indexOf(':');
 			if (delim == -1) {
 				throw new RuntimeException("Decode av basicAuthToken feilet");
 			}
 			return new String[]{token.substring(0, delim), token.substring(delim + 1)};
-		} catch (IllegalArgumentException | UnsupportedEncodingException e) {
-			throw new RuntimeException("Decode av basicAuthToken feilet");
-
+		} catch (Exception e) {
+			throw new RuntimeException("Decode av basicAuthToken feilet", e);
 		}
 	}
 }
