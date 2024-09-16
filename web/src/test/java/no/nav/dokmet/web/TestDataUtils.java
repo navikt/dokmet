@@ -17,7 +17,7 @@ public class TestDataUtils {
 	public static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
 	public static final String IKKE_REDIGERBAR_MAL_ID = "ikkeRedigerbarMalId";
 	public static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
-	public static final String DOKUMENTTYPE_ID_UTGAAENDE = "UTGAAEENDE";
+	public static final String DOKUMENTTYPE_ID_UTGAAENDE = "000001";
 	public static final String DOKUMENTTYPE_ID_NOTAT = "NOTAT";
 	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
 	public static final String EKSTERN_DOK_ID = "ID";
@@ -35,7 +35,7 @@ public class TestDataUtils {
 	public static final boolean EKSTERN_VEDLEGG = true;
 	public static final String IKKE_REDIGERBAR_MALID = "ikkered_malid";
 	public static final String REDIGERBAR_MALID = "ikkered_malid";
-	public static final String DOKUMENTTYPE_ID = "type";
+	public static final String DOKUMENTTYPE_ID = "000001";
 	public static final int SIKKERHETSNIVAA = 4;
 	public static final String SPRAAK_NO = "no";
 	public static final String SPRAAK_EN = "en";

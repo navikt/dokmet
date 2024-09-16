@@ -1,12 +1,11 @@
 package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.exceptions.DokumenttypeInfoNotFoundException;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
-import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +17,10 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class DokumenttypeService {
 
-	private final DokumenttypeInfoMapper dokumenttypeInfoMapper;
 	private final DokumenttypeInfoRepository dokumenttypeInfoRepository;
 
-	public DokumenttypeService(DokumenttypeInfoRepository dokumenttypeInfoRepository,
-							   DokumenttypeInfoMapper dokumenttypeInfoMapper) {
+	public DokumenttypeService(DokumenttypeInfoRepository dokumenttypeInfoRepository) {
 		this.dokumenttypeInfoRepository = dokumenttypeInfoRepository;
-		this.dokumenttypeInfoMapper = dokumenttypeInfoMapper;
 	}
 
 	@Transactional
@@ -39,20 +35,20 @@ public class DokumenttypeService {
 			existing.getDokumentProduksjonsInfo().getSpraakInfos().clear();
 		}
 
-		DokumenttypeInfo updatedDokumenttypeInfo = dokumenttypeInfoRepository.save(dokumenttypeInfoMapper.mapToDokumentTypeInfo(
+		DokumenttypeInfo updatedDokumenttypeInfo = dokumenttypeInfoRepository.save(DokumenttypeInfoMapper.mapToDokumentTypeInfo(
 				dokumenttypeInfoUpdateTo,
 				existing));
-		return dokumenttypeInfoMapper.mapToDokumentTypeInfoTo(updatedDokumenttypeInfo);
+		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(updatedDokumenttypeInfo);
 	}
 
 	@Transactional
 	public DokumenttypeInfoTo saveNewDokumenttypeInfo(DokumenttypeInfoTo dokumentTypeInfoTo) {
-		DokumenttypeInfo newDokumenttypeInfo = dokumenttypeInfoMapper
+		DokumenttypeInfo newDokumenttypeInfo = DokumenttypeInfoMapper
 				.mapToDokumentTypeInfo(dokumentTypeInfoTo);
 
 		DokumenttypeInfo savedDokumenttypeInfo = dokumenttypeInfoRepository
 				.save(newDokumenttypeInfo);
-		return dokumenttypeInfoMapper.mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
+		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
 	}
 
 	@Transactional
@@ -113,6 +109,6 @@ public class DokumenttypeService {
 	}
 
 	private DokumenttypeInfoTo createDokumentTypeInfoTo(DokumenttypeInfo dokumentTypeInfo) {
-		return dokumenttypeInfoMapper.mapToDokumentTypeInfoTo(dokumentTypeInfo);
+		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(dokumentTypeInfo);
 	}
 }
