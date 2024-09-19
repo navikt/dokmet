@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static no.nav.dokmet.web.tkat020.DokumenttypeInfoMapper.mapToDokumentTypeInfo;
+import static no.nav.dokmet.web.tkat020.DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo;
+
 @Slf4j
 @Component
 @Transactional(readOnly = true)
@@ -28,27 +31,23 @@ public class DokumenttypeService {
 													 String dokumenttypeId) {
 
 		DokumenttypeInfo existing = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumenttypeId);
-		throwExceptionIfNoDokumenttypeInfo(existing, dokumenttypeId);
+		throwExceptionIfNoDokumenttypeInfoIsFound(existing, dokumenttypeId);
 
 		if (existing.getDokumentProduksjonsInfo() != null) {
 			dokumenttypeInfoRepository.deleteSpraakInfosBydokProdInfoId(existing.getDokumentProduksjonsInfo().getId());
 			existing.getDokumentProduksjonsInfo().getSpraakInfos().clear();
 		}
 
-		DokumenttypeInfo updatedDokumenttypeInfo = dokumenttypeInfoRepository.save(DokumenttypeInfoMapper.mapToDokumentTypeInfo(
-				dokumenttypeInfoUpdateTo,
-				existing));
-		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(updatedDokumenttypeInfo);
+		DokumenttypeInfo updatedDokumenttypeInfo = dokumenttypeInfoRepository.save(mapToDokumentTypeInfo(dokumenttypeInfoUpdateTo, existing));
+		return mapToDokumentTypeInfoTo(updatedDokumenttypeInfo);
 	}
 
 	@Transactional
 	public DokumenttypeInfoTo saveNewDokumenttypeInfo(DokumenttypeInfoTo dokumentTypeInfoTo) {
-		DokumenttypeInfo newDokumenttypeInfo = DokumenttypeInfoMapper
-				.mapToDokumentTypeInfo(dokumentTypeInfoTo);
+		DokumenttypeInfo newDokumenttypeInfo = mapToDokumentTypeInfo(dokumentTypeInfoTo);
 
-		DokumenttypeInfo savedDokumenttypeInfo = dokumenttypeInfoRepository
-				.save(newDokumenttypeInfo);
-		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
+		DokumenttypeInfo savedDokumenttypeInfo = dokumenttypeInfoRepository.save(newDokumenttypeInfo);
+		return mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
 	}
 
 	@Transactional
@@ -59,15 +58,15 @@ public class DokumenttypeService {
 	public DokumenttypeInfoTo findDokumenttypeInfoByDokumentTypeId(String dokumenttypeId) {
 		DokumenttypeInfo dokumentTypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumenttypeId);
 
-		throwExceptionIfNoDokumenttypeInfo(dokumentTypeInfo, dokumenttypeId);
-		return createDokumentTypeInfoTo(dokumentTypeInfo);
+		throwExceptionIfNoDokumenttypeInfoIsFound(dokumentTypeInfo, dokumenttypeId);
+		return mapToDokumentTypeInfoTo(dokumentTypeInfo);
 	}
 
 	public List<DokumenttypeInfoTo> findDokumenttypeInfoByBrevpakke(String navn) {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(navn)) {
 			try {
-				returnValue.add(createDokumentTypeInfoTo(dokumentTypeInfo));
+				returnValue.add(mapToDokumentTypeInfoTo(dokumentTypeInfo));
 			} catch (Exception e) {
 				log.warn(e.getMessage(), e);
 			}
@@ -79,7 +78,7 @@ public class DokumenttypeService {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAll()) {
 			try {
-				returnValue.add(createDokumentTypeInfoTo(dokumentTypeInfo));
+				returnValue.add(mapToDokumentTypeInfoTo(dokumentTypeInfo));
 			} catch (Exception e) {
 				log.warn(e.getMessage(), e);
 			}
@@ -91,7 +90,7 @@ public class DokumenttypeService {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAllByDokumentType(dokumentType)) {
 			try {
-				returnValue.add(createDokumentTypeInfoTo(dokumentTypeInfo));
+				returnValue.add(mapToDokumentTypeInfoTo(dokumentTypeInfo));
 			} catch (Exception e) {
 				log.warn(e.getMessage(), e);
 			}
@@ -100,7 +99,7 @@ public class DokumenttypeService {
 		return returnValue;
 	}
 
-	private void throwExceptionIfNoDokumenttypeInfo(DokumenttypeInfo dokumenttypeInfo, String dokumenttypeId) {
+	private void throwExceptionIfNoDokumenttypeInfoIsFound(DokumenttypeInfo dokumenttypeInfo, String dokumenttypeId) {
 		if (dokumenttypeInfo == null) {
 			String errorMsg = "Fant ikke dokumenttypeId=" + dokumenttypeId;
 			log.error(errorMsg);
@@ -108,7 +107,4 @@ public class DokumenttypeService {
 		}
 	}
 
-	private DokumenttypeInfoTo createDokumentTypeInfoTo(DokumenttypeInfo dokumentTypeInfo) {
-		return DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(dokumentTypeInfo);
-	}
 }

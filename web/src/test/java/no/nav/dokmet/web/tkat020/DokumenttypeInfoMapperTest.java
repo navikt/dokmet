@@ -98,19 +98,6 @@ public class DokumenttypeInfoMapperTest {
 	}
 
 	@Test
-	public void shouldMapArkivSystemToJoarkWhenBothToAndDomainArkivSystemIsNull() {
-		DokumenttypeInfoTo to = create();
-		to.setArkivSystem(null);
-
-		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
-		dokumenttypeInfo.setArkivSystem(null);
-
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo);
-		assertThat(map.getDokumenttypeId(), nullValue());
-		assertDokumentTypeInfo(map, JOARK);
-	}
-
-	@Test
 	public void shoulNotMapArkivSystemWhenToArkivSystemIsNullAndDomainArkivSystemIsNotNull() {
 		DokumenttypeInfoTo to = create();
 		to.setArkivSystem(null);

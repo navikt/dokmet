@@ -17,21 +17,20 @@ import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.entities.SpraakInfo;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DokumenttypeInfoToMapper {
 
 	public static DokumenttypeInfoTo mapToDokumentTypeInfoTo(DokumenttypeInfo domain) {
 		DokumenttypeInfoTo to = new DokumenttypeInfoTo();
 
-		if (domain.getDokumentProduksjonsInfo() != null) {
-			to.setDokumentProduksjonsInfo(mapDokumentProduksjonsInfoTo(domain.getDokumentProduksjonsInfo()));
-		}
+		if (domain.getDokumentProduksjonsInfo() != null)
+			to.setDokumentProduksjonsInfo(mapToDokumentProduksjonsInfoTo(domain.getDokumentProduksjonsInfo()));
 
 		if (domain.getDokumentMottakInfo() != null) {
-			to.setDokumentMottakInfo(mapDokumentMottakInfoTo(domain.getDokumentMottakInfo()));
+			to.setDokumentMottakInfo(mapToDokumentMottakInfoTo(domain.getDokumentMottakInfo()));
 			to.getDokumentMottakInfo().setEksternDokumentTyper(mapToEksternDokumentTyperTo(domain.getEksternDokumentType()));
 		}
 
@@ -45,87 +44,88 @@ public class DokumenttypeInfoToMapper {
 		to.setArkivSystem(enumToString(domain.getArkivSystem()));
 		to.setBehandlingstema(domain.getBehandlingstema());
 		to.setArtifaktId(domain.getArtifaktId());
-		to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}
 
 	protected static List<EksternDokumentTypeTo> mapToEksternDokumentTyperTo(Set<EksternDokumentType> eksternDokTypeSet) {
 		return eksternDokTypeSet.stream()
-				.map(e -> new EksternDokumentTypeTo(e.getEksternDokumentTypeId(), e.getEksternIdType().toString()))
+				.map(DokumenttypeInfoToMapper::mapToEksternDokumentTypeTo)
 				.toList();
 	}
 
-	private static DistribusjonInfoTo mapDistribusjonInfoTo(DistribusjonInfo domain) {
-		DistribusjonInfoTo to = null;
-		if (domain != null) {
-			to = new DistribusjonInfoTo();
-			to.setPortoklasse(domain.getPortoklasse());
-			to.setPredefinertDistKanal(enumToString(domain.getPredefinertDistKanal()));
-			to.setSikkerhetsnivaa(domain.getSikkerhetsnivaa());
-			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
-			to.getDistribusjonVarsels().addAll(mapDistribusjonVarselTos(domain.getDistribusjonVarsels()));
-			to.setTosidigPrint(domain.getTosidigPrint());
-			to.setSentralPrintDokumentType(domain.getSentralPrintDokumentType().name());
-			to.setKonvoluttvinduType(domain.getKonvoluttvinduType().name());
-		}
+	private static EksternDokumentTypeTo mapToEksternDokumentTypeTo(EksternDokumentType e) {
+		return EksternDokumentTypeTo.builder()
+				.eksternIdType(enumToString(e.getEksternIdType()))
+				.eksternDokumentTypeId(e.getEksternDokumentTypeId())
+				.build();
+	}
+
+	private static Set<SpraakInfoTo> mapToSpraakInfoTos(Set<SpraakInfo> spraakInfos) {
+		return spraakInfos.stream()
+				.map(DokumenttypeInfoToMapper::mapToSpraakInfoTo)
+				.collect(Collectors.toSet());
+	}
+
+	private static SpraakInfoTo mapToSpraakInfoTo(SpraakInfo domain) {
+		SpraakInfoTo to = new SpraakInfoTo();
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
+		to.setSpraaklag(domain.getSpraaklag());
 		return to;
 	}
 
-	private static Set<DistribusjonVarselTo> mapDistribusjonVarselTos(Set<DistribusjonVarsel> distribusjonVarsels) {
-		Set<DistribusjonVarselTo> to = new HashSet<>();
-		for (DistribusjonVarsel domain : distribusjonVarsels) {
-			DistribusjonVarselTo varselTo = new DistribusjonVarselTo();
-			varselTo.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
-			varselTo.setVarselForDistribusjonKanal(enumToString(domain.getVarselForDistribusjonKanal()));
-			varselTo.setVarseltypeId(domain.getVarseltypeId());
-			to.add(varselTo);
-		}
+	private static DokumentMottakInfoTo mapToDokumentMottakInfoTo(DokumentMottakInfo domain) {
+		DokumentMottakInfoTo to = new DokumentMottakInfoTo();
+		to.setArkivBehandling(enumToString(domain.getArkivBehandling()));
+		to.setKonverteringsBehandling(enumToString(domain.getKonverteringBehandling()));
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}
 
-	private static Set<SpraakInfoTo> mapSpraakInfo(Set<SpraakInfo> spraakInfos) {
-		Set<SpraakInfoTo> to = new HashSet<>();
-		for (SpraakInfo domain : spraakInfos) {
-			SpraakInfoTo spraakInfoTo = new SpraakInfoTo();
-			spraakInfoTo.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
-			spraakInfoTo.setSpraaklag(domain.getSpraaklag());
-			to.add(spraakInfoTo);
-		}
+	private static DokumentProduksjonsInfoTo mapToDokumentProduksjonsInfoTo(DokumentProduksjonsInfo domain) {
+		DokumentProduksjonsInfoTo to = new DokumentProduksjonsInfoTo();
+		to.setVedlegg(domain.getVedlegg());
+		to.setEksternVedlegg(domain.getEksternVedlegg());
+		to.setIkkeRedigerbarMalId(domain.getIkkeRedigerbarMalId());
+		to.setRedigerbarMalId(domain.getRedigerbarMalId());
+		to.setMalLogikkFil(domain.getMalLogikkFil());
+		to.setMalXsdReferanse(domain.getMalXsdReferanse());
+		to.setDistribusjonInfo(mapToDistribusjonInfoTo(domain.getDistribusjonInfo()));
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
+		to.getSpraakInfos().addAll(mapToSpraakInfoTos(domain.getSpraakInfos()));
+
 		return to;
 	}
 
-
-	private static DokumentMottakInfoTo mapDokumentMottakInfoTo(DokumentMottakInfo domain) {
-		DokumentMottakInfoTo to = null;
-		if (domain != null) {
-			to = new DokumentMottakInfoTo();
-			to.setArkivBehandling(enumToString(domain.getArkivBehandling()));
-			to.setKonverteringsBehandling(enumToString(domain.getKonverteringBehandling()));
-			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
-		}
+	private static DistribusjonInfoTo mapToDistribusjonInfoTo(DistribusjonInfo domain) {
+		DistribusjonInfoTo to = new DistribusjonInfoTo();
+		to.setPortoklasse(domain.getPortoklasse());
+		to.setPredefinertDistKanal(enumToString(domain.getPredefinertDistKanal()));
+		to.setSikkerhetsnivaa(domain.getSikkerhetsnivaa());
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
+		to.getDistribusjonVarsels().addAll(mapToDistribusjonVarselTos(domain.getDistribusjonVarsels()));
+		to.setTosidigPrint(domain.getTosidigPrint());
+		to.setSentralPrintDokumentType(enumToString(domain.getSentralPrintDokumentType()));
+		to.setKonvoluttvinduType(enumToString(domain.getKonvoluttvinduType()));
 		return to;
 	}
 
-	private static DokumentProduksjonsInfoTo mapDokumentProduksjonsInfoTo(DokumentProduksjonsInfo domain) {
-		DokumentProduksjonsInfoTo to = null;
-		if (domain != null) {
-			to = new DokumentProduksjonsInfoTo();
-			to.setVedlegg(domain.getVedlegg());
-			to.setEksternVedlegg(domain.getEksternVedlegg());
-			to.setIkkeRedigerbarMalId(domain.getIkkeRedigerbarMalId());
-			to.setRedigerbarMalId(domain.getRedigerbarMalId());
-			to.setMalLogikkFil(domain.getMalLogikkFil());
-			to.setMalXsdReferanse(domain.getMalXsdReferanse());
-			to.setDistribusjonInfo(mapDistribusjonInfoTo(domain.getDistribusjonInfo()));
-			to.setChangeStamp(mapChangeStampTo(domain.getChangeStamp()));
-			to.getSpraakInfos().addAll(mapSpraakInfo(domain.getSpraakInfos()));
-		}
+	private static Set<DistribusjonVarselTo> mapToDistribusjonVarselTos(Set<DistribusjonVarsel> distribusjonVarsels) {
+		return distribusjonVarsels.stream()
+				.map(DokumenttypeInfoToMapper::mapToDistribusjonVarselTo)
+				.collect(Collectors.toSet());
+	}
+
+	private static DistribusjonVarselTo mapToDistribusjonVarselTo(DistribusjonVarsel domain) {
+		DistribusjonVarselTo to = new DistribusjonVarselTo();
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
+		to.setVarselForDistribusjonKanal(enumToString(domain.getVarselForDistribusjonKanal()));
+		to.setVarseltypeId(domain.getVarseltypeId());
 		return to;
 	}
 
-	private static ChangeStampTo mapChangeStampTo(ChangeStamp domain) {
+	private static ChangeStampTo mapToChangeStampTo(ChangeStamp domain) {
 		ChangeStampTo to = new ChangeStampTo();
-
 		to.setEndretAv(domain.getEndretAv());
 		to.setEndretDato(domain.getEndretDato());
 		to.setOpprettetAv(domain.getOpprettetAv());
@@ -136,4 +136,5 @@ public class DokumenttypeInfoToMapper {
 	private static <E extends Enum<E>> String enumToString(final Enum<E> enumName) {
 		return enumName == null ? null : enumName.name();
 	}
+
 }

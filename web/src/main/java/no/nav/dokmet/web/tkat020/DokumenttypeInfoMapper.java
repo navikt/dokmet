@@ -24,7 +24,7 @@ import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import no.nav.dokmet.core.exceptions.IllegalValueException;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,12 +46,10 @@ public class DokumenttypeInfoMapper {
 	}
 
 	public static DokumenttypeInfo mapToDokumentTypeInfo(DokumenttypeInfoTo to, DokumenttypeInfo dokumentTypeInfo) {
-		if (to.getDokumenttypeId() != null) {
+		if (to.getDokumenttypeId() != null)
 			dokumentTypeInfo.setDokumenttypeId(to.getDokumenttypeId());
-		}
 
-		mapArkivSystem(to, dokumentTypeInfo);
-
+		dokumentTypeInfo.setArkivSystem(mapToArkivSystem(to, dokumentTypeInfo));
 		dokumentTypeInfo.setDokumentTittel(to.getDokumentTittel());
 		dokumentTypeInfo.setDokumentKategori(to.getDokumentKategori());
 		dokumentTypeInfo.setSensitivt(to.getSensitivt());
@@ -59,7 +57,7 @@ public class DokumenttypeInfoMapper {
 		dokumentTypeInfo.setTema(to.getTema());
 		dokumentTypeInfo.setBehandlingstema(to.getBehandlingstema());
 		dokumentTypeInfo.setArtifaktId(to.getArtifaktId());
-		dokumentTypeInfo.setDokumentType(DokumentTypeKode.valueOf(to.getDokumentType()));
+		dokumentTypeInfo.setDokumentType(stringToEnum(DokumentTypeKode.class, to.getDokumentType()));
 
 		if (to.getDokumentMottakInfo() != null) {
 			dokumentTypeInfo.setDokumentMottakInfo(mapToDokumentMottakInfo(to.getDokumentMottakInfo(),
@@ -67,7 +65,6 @@ public class DokumenttypeInfoMapper {
 			dokumentTypeInfo.getDokumentMottakInfo().setDokumenttypeInfo(dokumentTypeInfo);
 			dokumentTypeInfo.setEksternDokumentType(mapToEksternDokumentType(to.getDokumentMottakInfo().getEksternDokumentTyper()));
 			dokumentTypeInfo.getEksternDokumentType().forEach(e -> e.setDokumenttypeInfo(dokumentTypeInfo));
-
 		}
 
 		if (to.getDokumentProduksjonsInfo() != null) {
@@ -80,33 +77,32 @@ public class DokumenttypeInfoMapper {
 	}
 	
 	protected static Set<EksternDokumentType> mapToEksternDokumentType(List<EksternDokumentTypeTo> toList) {
-		if (toList == null) {
-			return new HashSet<>();
-		}
+		if (toList == null)
+			return Collections.emptySet();
+
 		return toList.stream()
-				.map(DokumenttypeInfoMapper::createEksternDokumentType).collect(Collectors.toSet());
+				.map(DokumenttypeInfoMapper::createEksternDokumentType)
+				.collect(Collectors.toSet());
 	}
 
 	private static EksternDokumentType createEksternDokumentType(EksternDokumentTypeTo eksternDokumentType) {
 		return EksternDokumentType.builder()
-				.eksternIdType(EksternIdTypeKode.valueOf(eksternDokumentType.getEksternIdType()))
-				.eksternDokumentTypeId(eksternDokumentType.getEksternDokumentTypeId()).build();
+				.eksternIdType(stringToEnum(EksternIdTypeKode.class, eksternDokumentType.getEksternIdType()))
+				.eksternDokumentTypeId(eksternDokumentType.getEksternDokumentTypeId())
+				.build();
 	}
 
-	private static void mapArkivSystem(DokumenttypeInfoTo to, DokumenttypeInfo dokumentTypeInfo) {
+	private static ArkivSystemKode mapToArkivSystem(DokumenttypeInfoTo to, DokumenttypeInfo existing) {
+		if (isEmpty(to.getArkivSystem()))
+			return existing.getArkivSystem();
 
-		if (isEmpty(to.getArkivSystem()) && isEmpty(dokumentTypeInfo.getArkivSystem())) {
-			dokumentTypeInfo.setArkivSystem(ArkivSystemKode.JOARK);
-		} else if (!isEmpty(to.getArkivSystem())) {
-			dokumentTypeInfo.setArkivSystem(stringToEnum(ArkivSystemKode.class, to.getArkivSystem()));
-		}
+		return stringToEnum(ArkivSystemKode.class, to.getArkivSystem());
 	}
-
 
 	private static DokumentMottakInfo mapToDokumentMottakInfo(DokumentMottakInfoTo to, DokumentMottakInfo dokumentMottakInfo) {
-		if (dokumentMottakInfo == null) {
+		if (dokumentMottakInfo == null)
 			dokumentMottakInfo = new DokumentMottakInfo();
-		}
+
 
 		dokumentMottakInfo.setArkivBehandling(stringToEnum(ArkivBehandlingKode.class, to.getArkivBehandling()));
 		dokumentMottakInfo.setKonverteringBehandling(stringToEnum(KonverteringBehandlingKode.class, to.getKonverteringsBehandling()));
@@ -114,9 +110,10 @@ public class DokumenttypeInfoMapper {
 	}
 
 	private static DokumentProduksjonsInfo mapToDokumentProduksjonsInfo(DokumentProduksjonsInfoTo to, DokumentProduksjonsInfo dokumentProduksjonsInfo) {
-		if (dokumentProduksjonsInfo == null) {
+		if (dokumentProduksjonsInfo == null)
 			dokumentProduksjonsInfo = new DokumentProduksjonsInfo();
-		}
+
+
 		dokumentProduksjonsInfo.setVedlegg(to.getVedlegg());
 		dokumentProduksjonsInfo.setEksternVedlegg(to.getEksternVedlegg());
 		dokumentProduksjonsInfo.setIkkeRedigerbarMalId(to.getIkkeRedigerbarMalId());
@@ -142,7 +139,7 @@ public class DokumenttypeInfoMapper {
 	private static DistribusjonInfo mapToDistribusjonsInfo(DistribusjonInfoTo to) {
 		DistribusjonInfo distribusjonInfo = new DistribusjonInfo();
 		distribusjonInfo.setPortoklasse(to.getPortoklasse());
-		distribusjonInfo.setPredefinertDistKanal(nullSafeDistribusjonsKanalMapper(to.getPredefinertDistKanal()));
+		distribusjonInfo.setPredefinertDistKanal(stringToEnum(DistribusjonKanalKode.class, to.getPredefinertDistKanal()));
 		distribusjonInfo.setSikkerhetsnivaa(to.getSikkerhetsnivaa());
 		distribusjonInfo.setTosidigPrint(to.isTosidigPrint());
 		distribusjonInfo.setSentralPrintDokumentType(stringToEnum(SentralPrintDokumentTypeCode.class, to.getSentralPrintDokumentType()));
@@ -151,14 +148,10 @@ public class DokumenttypeInfoMapper {
 		for (DistribusjonVarselTo distribusjonVarselTo : to.getDistribusjonVarsels()) {
 			DistribusjonVarsel distribusjonVarsel = new DistribusjonVarsel();
 			distribusjonVarsel.setVarseltypeId(distribusjonVarselTo.getVarseltypeId());
-			distribusjonVarsel.setVarselForDistribusjonKanal(nullSafeDistribusjonsKanalMapper(distribusjonVarselTo.getVarselForDistribusjonKanal()));
+			distribusjonVarsel.setVarselForDistribusjonKanal(stringToEnum(DistribusjonKanalKode.class, distribusjonVarselTo.getVarselForDistribusjonKanal()));
 			distribusjonInfo.addDistribusjonVarsel(distribusjonVarsel);
 		}
 		return distribusjonInfo;
-	}
-
-	private static DistribusjonKanalKode nullSafeDistribusjonsKanalMapper(String distribusjonKanalKode) {
-		return distribusjonKanalKode == null ? null : DistribusjonKanalKode.valueOf(distribusjonKanalKode);
 	}
 
 	private static <E extends Enum<E>> E stringToEnum(Class<E> enumClass, String enumName) {

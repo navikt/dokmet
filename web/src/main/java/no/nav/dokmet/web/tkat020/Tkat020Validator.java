@@ -1,6 +1,5 @@
 package no.nav.dokmet.web.tkat020;
 
-
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
@@ -18,8 +17,6 @@ import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 public class Tkat020Validator {
 
 	public void validate(DokumenttypeInfoTo dokumentTypeInfoTo, boolean isPostRequest) {
-		StringBuilder message = new StringBuilder();
-
 		if (dokumentTypeInfoTo == null) {
 			log.warn("DokumentTypeInfo is missing.");
 			throw new InvalidInputException("DokumentTypeInfo is missing.");
@@ -29,6 +26,8 @@ public class Tkat020Validator {
 			log.warn("DokumentTypeId is required for new DokumentTypeInfos.");
 			throw new InvalidInputException("DokumentTypeId is required for new DokumentTypeInfos.");
 		}
+
+		StringBuilder message = new StringBuilder();
 
 		if (!isValidDokumentTypeInfo(dokumentTypeInfoTo, message)) {
 			log.warn(message.toString());
@@ -54,12 +53,12 @@ public class Tkat020Validator {
 	}
 
 	private boolean isValidDokumentProduksjonsInfo(DokumentProduksjonsInfoTo dokumentProduksjonsInfoTo, StringBuilder message) {
-		boolean isValid = true;
-
 		if (dokumentProduksjonsInfoTo == null) {
 			message.append("DokumentProduksjonsInfo is missing. ");
 			return false;
 		}
+
+		boolean isValid = true;
 
 		if (isEmpty(dokumentProduksjonsInfoTo.getMalLogikkFil())) {
 			message.append("MAL_LOGIKK_FIL is missing. ");
@@ -69,8 +68,7 @@ public class Tkat020Validator {
 			message.append("MAL_XSD_REFERANSE is missing. ");
 			isValid = false;
 		}
-		if (isEmpty(dokumentProduksjonsInfoTo.getIkkeRedigerbarMalId()) && isEmpty(
-				dokumentProduksjonsInfoTo.getRedigerbarMalId())) {
+		if (isEmpty(dokumentProduksjonsInfoTo.getIkkeRedigerbarMalId()) && isEmpty(dokumentProduksjonsInfoTo.getRedigerbarMalId())) {
 			message.append("IKKE_REDIGERBAR_MAL_ID and REDIGERBAR_MAL_ID are both missing, one must be set. ");
 			isValid = false;
 		}
