@@ -1,0 +1,27 @@
+dn: dc=test,dc=local
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: test
+
+# organizational units
+dn: ou=BusinessUnits,dc=test,dc=local
+objectclass: top
+objectclass: organizationalUnit
+ou: BusinessUnits
+
+dn: ou=ServiceAccounts,dc=test,dc=local
+objectclass: top
+objectclass: organizationalUnit
+ou: BusinessUnits
+
+# service user srvauramavenplugin
+dn: cn=srvauramavenplugin,ou=ServiceAccounts,dc=test,dc=local
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+cn: srvauramavenplugin
+sn: srvauramavenplugin
+description: Service account for srvauramavenplugin
+displayName: srvauramavenplugin
+userPassword: hemmelig

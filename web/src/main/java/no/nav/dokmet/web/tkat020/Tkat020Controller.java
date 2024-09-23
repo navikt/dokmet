@@ -11,15 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
 @Protected
@@ -28,14 +23,11 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class Tkat020Controller {
 
 	private final DokumenttypeService dokumentTypeAdminService;
-	private final Tkat020Validator validator;
 	private final SporingHandler sporingHandler;
 
 	public Tkat020Controller(DokumenttypeService dokumentTypeAdminService,
-							 Tkat020Validator validator,
 							 SporingHandler sporingHandler){
 		this.dokumentTypeAdminService = dokumentTypeAdminService;
-		this.validator = validator;
 		this.sporingHandler = sporingHandler;
 	}
 
@@ -103,38 +95,7 @@ public class Tkat020Controller {
 		}
 	}
 
-	@PostMapping("/")
-	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
-		sporingHandler.handleMdc();
-		try {
-			log.info("tkat020 har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", request.getDokumentType());
-			validator.validate(request, true);
-
-			var dokumenttypeInfo = dokumentTypeAdminService.saveNewDokumenttypeInfo(request);
-			log.info("tkat020 har opprettet dokumenttypeInfo med dokumentType={}", request.getDokumentType());
-
-			return ResponseEntity.status(CREATED).body(dokumenttypeInfo);
-		} finally {
-			MDC.clear();
-		}
-	}
-
-	@PutMapping("/{dokumenttypeId}")
-	public ResponseEntity<DokumenttypeInfoTo> updateDokumenttypeInfo(@PathVariable String dokumenttypeId, @RequestBody DokumenttypeInfoTo request){
-		sporingHandler.handleMdc();
-		try{
-			validator.validate(request, false);
-			log.info("tkat020 har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
-
-			var dokumenttypeInfo =  dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId);
-			log.info("tkat020 har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
-
-			return ResponseEntity.ok(dokumenttypeInfo);
-		} finally {
-			MDC.clear();
-		}
-	}
-	
+	// TODO Er denne i bruk?
 	@DeleteMapping("/{dokumenttypeId}")
 	public ResponseEntity<String> deleteDokumenttypeInfo(@PathVariable String dokumenttypeId){
 		try {

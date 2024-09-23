@@ -1,6 +1,7 @@
 package no.nav.dokmet.web.tkat020;
 
 
+import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
@@ -20,6 +21,7 @@ import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.N;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
+@Slf4j
 @Component
 public class Tkat020Validator {
 
@@ -27,18 +29,22 @@ public class Tkat020Validator {
 		StringBuilder message = new StringBuilder();
 
 		if (dokumentTypeInfoTo == null) {
+			log.warn("DokumentTypeInfo is missing.");
 			throw new InvalidInputException("DokumentTypeInfo is missing.");
 		}
 
 		if (isPostRequest && isEmpty(dokumentTypeInfoTo.getDokumenttypeId())) {
+			log.warn("DokumentTypeId is required for new DokumentTypeInfos.");
 			throw new InvalidInputException("DokumentTypeId is required for new DokumentTypeInfos.");
 		}
 
 		if (dokumentTypeInfoTo.getDokumentType() == null) {
+			log.warn("DokumentType is missing.");
 			throw new InvalidInputException("DokumentType is missing.");
 		}
 
 		if (!isValidDokumentType(dokumentTypeInfoTo.getDokumentType(), message) || !isValidDokumentTypeInfo(dokumentTypeInfoTo, message)) {
+			log.warn(message.toString());
 			throw new InvalidInputException(message.toString());
 		}
 	}
@@ -49,8 +55,7 @@ public class Tkat020Validator {
 		if (dokumentTypeInfo.getDokumentType().equals(I.name())) {
 
 			if (dokumentTypeInfo.getDokumentProduksjonsInfo() != null) {
-				isValid = isValidDokumentProduksjonsInfo(dokumentTypeInfo.getDokumentProduksjonsInfo(), message) && isValidDokumentMottakInfoForInngaaende(
-						dokumentTypeInfo, message);
+				isValid = isValidDokumentProduksjonsInfo(dokumentTypeInfo.getDokumentProduksjonsInfo(), message) && isValidDokumentMottakInfoForInngaaende(dokumentTypeInfo, message);
 			} else {
 				isValid = isValidDokumentMottakInfoForInngaaende(dokumentTypeInfo, message);
 			}
@@ -90,8 +95,7 @@ public class Tkat020Validator {
 			message.append("ArkiverBehandling er påkrevd");
 			isValid = false;
 
-		} else if (to.getArkivSystem() == null && ARKIVER_FRA_MOTTAK.name()
-				.equals(to.getDokumentMottakInfo().getArkivBehandling())) {
+		} else if (to.getArkivSystem() == null && ARKIVER_FRA_MOTTAK.name().equals(to.getDokumentMottakInfo().getArkivBehandling())) {
 			message.append("Arkiversystem er påkrevd for felles dokumentmottak");
 			isValid = false;
 
