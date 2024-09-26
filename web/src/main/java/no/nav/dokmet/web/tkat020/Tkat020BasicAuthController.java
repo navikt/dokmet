@@ -6,6 +6,7 @@ import no.nav.dokmet.web.utils.SporingHandler;
 import no.nav.security.token.support.core.api.Unprotected;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +31,22 @@ public class Tkat020BasicAuthController {
 		this.dokumentTypeAdminService = dokumentTypeAdminService;
 		this.validator = validator;
 		this.sporingHandler = sporingHandler;
+	}
+
+	@Unprotected
+	@GetMapping("/{dokumenttypeId}")
+	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
+		try {
+			sporingHandler.handleMdc();
+			log.info("tkat020 har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+
+			var dokumenttypeInfo = dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId);
+			log.info("tkat020 har hentet dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+
+			return ResponseEntity.ok(dokumenttypeInfo);
+		} finally {
+			MDC.clear();
+		}
 	}
 
 	@PostMapping("/")
