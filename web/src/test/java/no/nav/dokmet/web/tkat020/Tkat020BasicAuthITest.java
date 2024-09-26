@@ -2,13 +2,11 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
@@ -20,17 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static java.lang.String.format;
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.MOTTA_UTEN_ARKIVERING;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
-import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.I;
-import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID_INNGAAENDE;
+import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_1;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_2;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE;
+import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MAL_ID;
 import static no.nav.dokmet.web.TestDataUtils.MAL_LOGIKK_FIL;
 import static no.nav.dokmet.web.TestDataUtils.MAL_XSD_REFERANSE;
@@ -40,7 +33,7 @@ import static no.nav.dokmet.web.TestDataUtils.SDP;
 import static no.nav.dokmet.web.TestDataUtils.SIKKERHETSNIVAA;
 import static no.nav.dokmet.web.TestDataUtils.SPRAAK_NO;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID;
-import static no.nav.dokmet.web.TestUtils.createDokumentMottakInfoTo;
+import static no.nav.dokmet.web.TestUtils.createDokumenttypeInfoTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -61,7 +54,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	@Test
 	void skalOppretteDokumenttypeInfo() {
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 
 		var response = webTestClient.post()
 				.uri(OPPRETT_DOKUMENTTYPEINFO_URI)
@@ -78,9 +71,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 		assertThat(response).isNotNull();
 
-		assertThat(response.getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID_INNGAAENDE);
-		assertThat(response.getDokumentTittel()).isNull();
-		assertThat(response.getDokumentType()).isEqualTo(I.name());
+		assertThat(response.getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID);
+		assertThat(response.getDokumentTittel()).isEqualTo(DOKUMENT_TITTEL);
+		assertThat(response.getDokumentType()).isEqualTo(U.name());
 		assertThat(response.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
 		assertThat(response.getSensitivt()).isTrue();
 		assertThat(response.isUtledRegisterInfo()).isFalse();
@@ -95,26 +88,6 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 					assertThat(changeStamp.getOpprettetAv()).isEqualTo(SRVAURAMAVENPLUGIN_USER);
 					assertThat(changeStamp.getEndretDato()).isNull();
 					assertThat(changeStamp.getOpprettetDato()).isNotNull();
-				});
-
-		var dokumentMottakInfo = response.getDokumentMottakInfo();
-		assertThat(dokumentMottakInfo)
-				.satisfies(d -> {
-					assertThat(d.getArkivBehandling()).isEqualTo(MOTTA_UTEN_ARKIVERING.name());
-					assertThat(d.getKonverteringsBehandling()).isNull();
-				});
-
-		var eksternDokumentTyper = dokumentMottakInfo.getEksternDokumentTyper();
-		assertThat(eksternDokumentTyper).isNotNull();
-		assertThat(eksternDokumentTyper)
-				.satisfies(e -> {
-					assertThat(e).hasSize(2);
-					assertThat(e)
-							.extracting(EksternDokumentTypeTo::getEksternDokumentTypeId, EksternDokumentTypeTo::getEksternIdType)
-							.containsExactlyInAnyOrder(
-									tuple(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_ID_TYPE),
-									tuple(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_ID_TYPE)
-							);
 				});
 
 		var dokumentProduksjonsInfo = response.getDokumentProduksjonsInfo();
@@ -150,7 +123,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	@Test
 	void skalReturnereBadRequestHvisValideringFeiler() {
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 		request.setDokumenttypeId("");
 
 		var response = webTestClient.post()
@@ -172,7 +145,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	@Test
 	void skalReturnereBadRequestHvisMappingFeiler() {
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 		var dokumentProduksjonsInfo = request.getDokumentProduksjonsInfo();
 		var distribusjonInfo = dokumentProduksjonsInfo.getDistribusjonInfo();
 		distribusjonInfo.setSentralPrintDokumentType("UGYLDIG_SENTRALPRINTDOKUMENTTYPE");
@@ -198,7 +171,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	@Test
 	void skalReturnereForbiddenForFeilCredentials() {
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 
 		webTestClient.post()
 				.uri(OPPRETT_DOKUMENTTYPEINFO_URI)
@@ -219,11 +192,11 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		commitAndBeginNewTransaction();
 
 		var nyDokumentkategori = "Ny dokumentkategori";
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 		request.setDokumentKategori(nyDokumentkategori);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID_INNGAAENDE))
+				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -238,7 +211,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		assertThat(response).isNotNull();
 		assertThat(response.getDokumentKategori()).isEqualTo(nyDokumentkategori);
 
-		var dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENTTYPE_ID_INNGAAENDE);
+		var dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENTTYPE_ID);
 		assertThat(dokumenttypeInfo.getDokumentKategori()).isEqualTo(nyDokumentkategori);
 	}
 
@@ -246,11 +219,11 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 	void skalReturnereBadRequestHvisValideringFeilerForOppdatering() {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
-		var request = createDokumentMottakInfoTo(I);
-		request.setDokumentType(null);
+		var request = createDokumenttypeInfoTo();
+		request.setDokumentTittel(null);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID_INNGAAENDE))
+				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -263,14 +236,14 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 				.getResponseBody();
 
 		assertThat(response).isNotNull();
-		assertThat(response).contains("DokumentType is missing.");
+		assertThat(response).contains("DokumentTittel is missing.");
 	}
 
 	@Test
 	void skalReturnereBadRequestHvisMappingFeilerForOppdatering() {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo());
 		commitAndBeginNewTransaction();
 
@@ -281,7 +254,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		request.setDokumentProduksjonsInfo(dokumentProduksjonsInfo);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID_INNGAAENDE))
+				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -301,7 +274,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 	void skalReturnereNotFoundHvisDokumenttypeInfoIkkeFinnesIDatabasen() {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
-		var request = createDokumentMottakInfoTo(I);
+		var request = createDokumenttypeInfoTo();
 		var dokumenttypeId = "dokumenttypeIdSomIkkeFinnesIDatabasen";
 		request.setDokumenttypeId(dokumenttypeId);
 
@@ -324,9 +297,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	private DokumenttypeInfo createDokumenttypeInfo() {
 		return DokumenttypeInfoBuilder.builder()
-				.dokumenttypeId(DOKUMENTTYPE_ID_INNGAAENDE)
+				.dokumenttypeId(DOKUMENTTYPE_ID)
 				.dokumentKategori(DOKUMENT_KATEGORI)
-				.dokumentType(DokumentTypeKode.I)
+				.dokumentType(DokumentTypeKode.U)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo()
 						.malXsdReferanse(MAL_XSD_REFERANSE)
 						.malLogikkFil(MAL_LOGIKK_FIL)
@@ -340,10 +313,6 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 										.varselForDistribusjonKanal(DistribusjonKanalKode.SDP)
 										.varseltypeId(VARSELTYPE_ID).build())
 								.build())
-						.build())
-				.dokumentMottakInfo(DokumentMottakInfo.builder()
-						.arkivBehandling(ARKIVER_FRA_MOTTAK)
-						.konverteringBehandling(XML_TO_PDFA)
 						.build()
 				).build();
 	}
