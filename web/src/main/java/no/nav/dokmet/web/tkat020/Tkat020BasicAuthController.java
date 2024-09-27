@@ -3,7 +3,6 @@ package no.nav.dokmet.web.tkat020;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.web.utils.SporingHandler;
-import no.nav.security.token.support.core.api.Unprotected;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,6 @@ public class Tkat020BasicAuthController {
 		this.sporingHandler = sporingHandler;
 	}
 
-	@Unprotected
 	@GetMapping("/{dokumenttypeId}")
 	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
 		try {
@@ -49,7 +47,7 @@ public class Tkat020BasicAuthController {
 		}
 	}
 
-	@PostMapping("/")
+	@PostMapping
 	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {

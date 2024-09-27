@@ -39,7 +39,7 @@ import static org.assertj.core.api.Assertions.tuple;
 
 public class Tkat020BasicAuthITest extends AbstractITest {
 
-	private static final String OPPRETT_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/";
+	private static final String OPPRETT_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo";
 	private static final String OPPDATER_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/%s";
 	private static final String SRVAURAMAVENPLUGIN_USER = "srvauramavenplugin";
 	private static final String SRVAURAMAVENPLUGIN_PASSWORD = "hemmelig";
