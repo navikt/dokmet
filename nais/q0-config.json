@@ -1,0 +1,27 @@
+{
+  "APP_NAME": "dokmet-q0",
+  "MIN_REPLICAS": 1,
+  "MAX_REPLICAS": 2,
+  "INGRESSES": [
+    "https://dokmet-q0.dev.intern.nav.no"
+  ],
+  "DOKMET_SCOPES_FOR_BFF": "api://dev-fss.teamdokumenthandtering.dokmet-q0/.default",
+  "DOKMET_BASE_URL": "https://dokmet-q0.dev.intern.nav.no",
+  "DOKMET_DS": "/oracle/data/dev/creds/dokkat_q0-dokmet",
+  "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@dmv12-scan.adeo.no:1521/dokkat_q0_ha",
+  "LDAP_ADMIN_USER": "/serviceuser/data/dev/srvssolinux",
+  "SPRING_LDAP_URLS": "ldaps://ldapgw.preprod.local",
+  "SPRING_LDAP_BASE": "ou=ServiceAccounts,dc=preprod,dc=local",
+  "NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL": "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration",
+  "AZURE_REPLYURLS": [
+    "https://dokmet-q0.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
+  ],
+  "AZURE_ACCESS_GROUP" : "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
+  "AZURE_IAC_RULES": [
+    {
+      "app": "dokprod-q0",
+      "namespace": "teamdokumenthandtering",
+      "cluster": "dev-fss"
+    }
+  ]
+}
