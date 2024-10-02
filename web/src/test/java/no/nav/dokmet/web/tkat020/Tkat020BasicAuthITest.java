@@ -17,7 +17,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-import static java.lang.String.format;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
@@ -39,8 +38,9 @@ import static org.assertj.core.api.Assertions.tuple;
 
 public class Tkat020BasicAuthITest extends AbstractITest {
 
-	private static final String OPPRETT_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/";
-	private static final String OPPDATER_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/%s";
+	private static final String HENT_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/{DOKUMENTTYPE_ID}";
+	private static final String OPPRETT_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo";
+	private static final String OPPDATER_DOKUMENTTYPEINFO_URI = "/rest/basicauth/dokumenttypeinfo/{DOKUMENTTYPE_ID}";
 	private static final String SRVAURAMAVENPLUGIN_USER = "srvauramavenplugin";
 	private static final String SRVAURAMAVENPLUGIN_PASSWORD = "hemmelig";
 
@@ -50,6 +50,82 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 	@BeforeEach
 	void setUp() {
 		emptyDatabases();
+	}
+
+	@Test
+	void skalHenteDokumenttypeInfo() {
+		MDC.put(MDC_USER_ID, REPO_USER_ID);
+
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo());
+		commitAndBeginNewTransaction();
+
+		var response = webTestClient.get()
+				.uri(uriBuilder -> uriBuilder
+						.path(HENT_DOKUMENTTYPEINFO_URI)
+						.build(DOKUMENTTYPE_ID))
+				.headers(headers -> {
+					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
+					headers.set(MDC_USER_ID, SRVAURAMAVENPLUGIN_USER);
+				})
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody(DokumenttypeInfoTo.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response.getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID);
+		assertThat(response.getDokumentType()).isEqualTo(U.name());
+		assertThat(response.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
+
+		var dokumentProduksjonsInfo = response.getDokumentProduksjonsInfo();
+		assertThat(dokumentProduksjonsInfo)
+				.isNotNull()
+				.satisfies(d -> {
+					assertThat(d.getMalXsdReferanse()).isEqualTo(MAL_XSD_REFERANSE);
+					assertThat(d.getMalLogikkFil()).isEqualTo(MAL_LOGIKK_FIL);
+					assertThat(d.getVedlegg()).isFalse();
+					assertThat(d.getEksternVedlegg()).isFalse();
+					assertThat(d.getSpraakInfos())
+							.singleElement()
+							.satisfies(s -> assertThat(s.getSpraaklag()).isEqualTo(SPRAAK_NO));
+				});
+
+		var distribusjonInfo = dokumentProduksjonsInfo.getDistribusjonInfo();
+		assertThat(distribusjonInfo)
+				.isNotNull()
+				.satisfies(d -> {
+					assertThat(d.getPortoklasse()).isEqualTo(PORTO_KLASSE);
+					assertThat(d.getSikkerhetsnivaa()).isEqualTo(SIKKERHETSNIVAA);
+					assertThat(d.getDistribusjonVarsels())
+							.singleElement()
+							.satisfies(v -> {
+								assertThat(v.getVarselForDistribusjonKanal()).isEqualTo(SDP);
+								assertThat(v.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
+							});
+				});
+	}
+
+	@Test
+	void skalReturnereNotFoundHvisDokumenttypeInfoIkkeFinnes() {
+		MDC.put(MDC_USER_ID, REPO_USER_ID);
+
+		var response = webTestClient.get()
+				.uri(uriBuilder -> uriBuilder
+						.path(HENT_DOKUMENTTYPEINFO_URI)
+						.build("dokumenttypeIdSomIkkeFinnes"))
+				.headers(headers -> {
+					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
+					headers.set(MDC_USER_ID, SRVAURAMAVENPLUGIN_USER);
+				})
+				.exchange()
+				.expectStatus().isNotFound()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response).isNotNull();
+		assertThat(response).contains("Fant ikke dokumenttypeId=dokumenttypeIdSomIkkeFinnes");
 	}
 
 	@Test
@@ -196,7 +272,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		request.setDokumentKategori(nyDokumentkategori);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
+				.uri(uriBuilder -> uriBuilder
+						.path(OPPDATER_DOKUMENTTYPEINFO_URI)
+						.build(DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -223,7 +301,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		request.setDokumentTittel(null);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
+				.uri(uriBuilder -> uriBuilder
+						.path(OPPDATER_DOKUMENTTYPEINFO_URI)
+						.build(DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -254,7 +334,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		request.setDokumentProduksjonsInfo(dokumentProduksjonsInfo);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, DOKUMENTTYPE_ID))
+				.uri(uriBuilder -> uriBuilder
+						.path(OPPDATER_DOKUMENTTYPEINFO_URI)
+						.build(DOKUMENTTYPE_ID))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
@@ -279,7 +361,9 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		request.setDokumenttypeId(dokumenttypeId);
 
 		var response = webTestClient.put()
-				.uri(format(OPPDATER_DOKUMENTTYPEINFO_URI, dokumenttypeId))
+				.uri(uriBuilder -> uriBuilder
+						.path(OPPDATER_DOKUMENTTYPEINFO_URI)
+						.build(dokumenttypeId))
 				.bodyValue(request)
 				.headers(headers -> {
 					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
