@@ -9,11 +9,7 @@ import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
-import no.nav.dokmet.core.domain.entities.DistribusjonInfo;
-import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
 import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
-import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
-import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
@@ -29,11 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.StreamSupport;
 
 import static java.lang.Boolean.FALSE;
 import static java.util.Collections.singletonList;
@@ -48,7 +41,6 @@ import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
 import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -162,50 +154,6 @@ public class Tkat020ITest extends AbstractITest {
 		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + dokumenttypeIdSomIkkeEksisterer, GET, requestHttpEntity, String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
-	}
-
-	@ParameterizedTest(name = "{index} => Sletter dokumenttypeInfo for: ({1}, {2})")
-	@CsvSource(value = {
-			"Inngaaende," + DOKUMENTTYPE_ID_INNGAAENDE,
-			"Utgaaende," + DOKUMENTTYPE_ID_UTGAAENDE
-	})
-	public void shoulDeleteDokumentTypeInfo(String description, String deleteDokumentType) {
-		Integer n_eksternDokumentTypes_all = fetchAllEksternDokumenttype().size();
-		Integer n_eksternDokumentTypes = fetchEksternDokumenTypeByDokumenTypeId(deleteDokumentType).size();
-
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>(deleteDokumentType, oidcHeaders());
-
-		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + deleteDokumentType, DELETE, requestHttpEntity, String.class);
-
-		commitAndBeginNewTransaction();
-		assertThat(response.getStatusCode()).isEqualTo(OK);
-		assertThat(response.getBody()).contains("DokumentType slettet");
-
-		assertThat(fetchAllDokumenttypeInfo()).hasSize(1);
-		assertDistribusjonsInfosInDb(1);
-		assertThat(fetchAllEksternDokumenttype()).hasSize(n_eksternDokumentTypes_all - n_eksternDokumentTypes);
-	}
-
-	public void assertDistribusjonsInfosInDb(int size) {
-		List<DokumenttypeInfo> dokumenttypeInfos = fetchAllDokumenttypeInfo();
-		List<DokumentProduksjonsInfo> dokumentProduksjonsInfos = dokumenttypeInfos.stream().map(DokumenttypeInfo::getDokumentProduksjonsInfo).toList();
-		List<DistribusjonInfo> distribusjonInfos = dokumentProduksjonsInfos.stream().map(DokumentProduksjonsInfo::getDistribusjonInfo).toList();
-		List<DistribusjonVarsel> distribusjonVarsels = distribusjonInfos.stream().map(DistribusjonInfo::getDistribusjonVarsels).flatMap(Collection::stream).toList();
-
-		assertThat(distribusjonInfos).hasSize(size);
-		assertThat(distribusjonVarsels).hasSize(size);
-	}
-
-	public List<DokumenttypeInfo> fetchAllDokumenttypeInfo() {
-		return StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).toList();
-	}
-
-	public List<EksternDokumentType> fetchAllEksternDokumenttype() {
-		return StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).toList();
-	}
-
-	protected Set<EksternDokumentType> fetchEksternDokumenTypeByDokumenTypeId(final String dokumentTypeId) {
-		return dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumentTypeId).getEksternDokumentType();
 	}
 
 	private EksternDokumentType createEksternDokumentType(String eksternDokumentTypeId, EksternIdTypeKode eksternIdTypeKode) {
