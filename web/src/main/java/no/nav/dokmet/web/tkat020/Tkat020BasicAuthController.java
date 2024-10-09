@@ -20,14 +20,14 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/rest/basicauth/dokumenttypeinfo")
 public class Tkat020BasicAuthController {
 
-	private final DokumenttypeService dokumentTypeAdminService;
+	private final DokumenttypeService dokumenttypeService;
 	private final Tkat020Validator validator;
 	private final SporingHandler sporingHandler;
 
-	public Tkat020BasicAuthController(DokumenttypeService dokumentTypeAdminService,
+	public Tkat020BasicAuthController(DokumenttypeService dokumenttypeService,
 									  Tkat020Validator validator,
 									  SporingHandler sporingHandler){
-		this.dokumentTypeAdminService = dokumentTypeAdminService;
+		this.dokumenttypeService = dokumenttypeService;
 		this.validator = validator;
 		this.sporingHandler = sporingHandler;
 	}
@@ -36,10 +36,10 @@ public class Tkat020BasicAuthController {
 	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
 		try {
 			sporingHandler.handleMdc();
-			log.info("tkat020 har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+			log.info("tkat020 (basic auth) har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
 
-			var dokumenttypeInfo = dokumentTypeAdminService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId);
-			log.info("tkat020 har hentet dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+			var dokumenttypeInfo = dokumenttypeService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId);
+			log.info("tkat020 (basic auth) har hentet dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
 
 			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
@@ -51,11 +51,11 @@ public class Tkat020BasicAuthController {
 	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {
-			log.info("tkat020 har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", request.getDokumentType());
+			log.info("tkat020 (basic auth) har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", request.getDokumentType());
 			validator.validate(request, true);
 
-			var dokumenttypeInfo = dokumentTypeAdminService.saveNewDokumenttypeInfo(request);
-			log.info("tkat020 har opprettet dokumenttypeInfo med dokumentType={}", request.getDokumentType());
+			var dokumenttypeInfo = dokumenttypeService.saveNewDokumenttypeInfo(request);
+			log.info("tkat020 (basic auth) har opprettet dokumenttypeInfo med dokumentType={}", request.getDokumentType());
 
 			return ResponseEntity.status(CREATED).body(dokumenttypeInfo);
 		} finally {
@@ -68,10 +68,10 @@ public class Tkat020BasicAuthController {
 		sporingHandler.handleMdc();
 		try{
 			validator.validate(request, false);
-			log.info("tkat020 har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
+			log.info("tkat020 (basic auth) har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
 
-			var dokumenttypeInfo =  dokumentTypeAdminService.updateDokumenttypeInfo(request, dokumenttypeId);
-			log.info("tkat020 har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
+			var dokumenttypeInfo =  dokumenttypeService.updateDokumenttypeInfo(request, dokumenttypeId);
+			log.info("tkat020 (basic auth) har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
 
 			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
