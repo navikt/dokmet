@@ -8,14 +8,23 @@ import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
+import no.nav.dokmet.core.domain.entities.XsdFil;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.web.config.AbstractITest;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
@@ -377,6 +386,111 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 		assertThat(response).isNotNull();
 		assertThat(response).contains("Fant ikke dokumenttypeId=dokumenttypeIdSomIkkeFinnesIDatabasen");
+	}
+
+	@Test
+	void skalLagreXsderForBrevpakke() {
+
+		final String arenabrev = "arenabrev";
+		final String infotrygdbrev = "infotrygdbrev";
+
+		final String infotrygdSti1 = "/infotrygdbrev/infotrygd_000044.xsd";
+		final String infotrygdFilnavn1 = "infotrygd_000044.xsd";
+		final String infotrygdSti2 = "/infotrygdbrev/infotrygd_000249.xsd";
+		final String infotrygdFilnavn2 = "infotrygd_000249.xsd";
+		final byte[] infotrygdFil1 = "fil1".getBytes();
+		final byte[] infotrygdFil2 = "fil2".getBytes();
+		final byte[] nyInfotrygdFil1 = "nyFil1".getBytes();
+		final byte[] nyInfotrygdFil2 = "nyFil2".getBytes();
+
+		var arenaXsdFile = lagXsdfil(arenabrev, "/arenabrev/arena_000001.xsd", "arena_000001.xsd", "arena_000001.xsd".getBytes());
+		var infotrygdbrevXsdFile = lagXsdfil(infotrygdbrev, infotrygdSti1, infotrygdFilnavn1, infotrygdFil1);
+		var infotrygdbrevXsdFile2 = lagXsdfil(infotrygdbrev, infotrygdSti2, infotrygdFilnavn2, infotrygdFil2);
+
+		xsdFileRepository.saveAll(List.of(arenaXsdFile, infotrygdbrevXsdFile, infotrygdbrevXsdFile2));
+		commitAndBeginNewTransaction();
+
+		var request = new BrevpakkeRequest(infotrygdbrev, List.of(
+				new XsdFilTo(infotrygdSti1, infotrygdFilnavn1, nyInfotrygdFil1),
+				new XsdFilTo(infotrygdSti2, infotrygdFilnavn2, nyInfotrygdFil2)
+		));
+
+		webTestClient.put()
+				.uri("/rest/basicauth/dokumenttypeinfo/brevpakke")
+				.bodyValue(request)
+				.headers(headers -> {
+					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
+					headers.set(MDC_USER_ID, SRVAURAMAVENPLUGIN_USER);
+				})
+				.exchange()
+				.expectStatus().isOk();
+
+		var infotrygdbrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(infotrygdbrev);
+
+		assertThat(infotrygdbrevXsdfiler)
+				.usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
+				.doesNotContainAnyElementsOf(List.of(infotrygdbrevXsdFile, infotrygdbrevXsdFile2));
+
+		assertThat(infotrygdbrevXsdfiler)
+				.hasSize(2)
+				.extracting(XsdFil::getBrevpakke, XsdFil::getFilsti, XsdFil::getFilnavn, XsdFil::getXsdfil)
+				.containsExactlyInAnyOrder(
+						tuple(infotrygdbrev, infotrygdSti1, infotrygdFilnavn1, nyInfotrygdFil1),
+						tuple(infotrygdbrev, infotrygdSti2, infotrygdFilnavn2, nyInfotrygdFil2)
+				);
+
+		var arenabrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(arenabrev);
+
+		assertThat(arenabrevXsdfiler)
+				.singleElement()
+				.usingRecursiveComparison()
+				.ignoringFields("id")
+				.isEqualTo(arenaXsdFile);
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void skalRetunereBadRequestVedFeilvalideringAvBrevpakkeRequest( BrevpakkeRequest request, String feilmelding) {
+
+		var response = webTestClient.put()
+				.uri("/rest/basicauth/dokumenttypeinfo/brevpakke")
+				.bodyValue(request)
+				.headers(headers -> {
+					headers.setBasicAuth(SRVAURAMAVENPLUGIN_USER, SRVAURAMAVENPLUGIN_PASSWORD);
+					headers.set(MDC_USER_ID, SRVAURAMAVENPLUGIN_USER);
+				})
+				.exchange()
+				.expectStatus().isBadRequest()
+				.expectBody(String.class)
+				.returnResult()
+				.getResponseBody();
+
+		assertThat(response)
+				.isNotNull()
+				.contains(feilmelding);
+	}
+
+	private static Stream<Arguments> skalRetunereBadRequestVedFeilvalideringAvBrevpakkeRequest() {
+		return Stream.of(
+				Arguments.of(new BrevpakkeRequest(null, List.of(new XsdFilTo("filsti", "filnavn", "xsdfil".getBytes()))),
+						"Brevpakke is missing."),
+				Arguments.of(new BrevpakkeRequest("infotrygdbrev", null),
+						"Brevpakke.xsdfiler cannot be null or empty"),
+				Arguments.of(new BrevpakkeRequest("infotrygdbrev", List.of(new XsdFilTo(null, "filnavn", "xsdfil".getBytes()))),
+						"Brevpakke.xsdfiler cannot contain null-values."),
+				Arguments.of(new BrevpakkeRequest("infotrygdbrev", List.of(new XsdFilTo("filsti", null, "xsdfil".getBytes()))),
+						"Brevpakke.xsdfiler cannot contain null-values."),
+				Arguments.of(new BrevpakkeRequest("infotrygdbrev", List.of(new XsdFilTo("filsti", "filnavn", null))),
+						"Brevpakke.xsdfiler cannot contain null-values."));
+	}
+
+	private static XsdFil lagXsdfil(String arenabrev, String sti, String navn, byte[] fil) {
+		return XsdFil.builder()
+				.brevpakke(arenabrev)
+				.filsti(sti)
+				.filnavn(navn)
+				.xsdfil(fil)
+				.build();
 	}
 
 	private DokumenttypeInfo createDokumenttypeInfo() {

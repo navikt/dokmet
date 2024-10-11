@@ -5,12 +5,16 @@ import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static java.lang.String.format;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 @Slf4j
 @Component
@@ -33,6 +37,26 @@ public class Tkat020Validator {
 			log.warn(message.toString());
 			throw new InvalidInputException(message.toString());
 		}
+	}
+
+	public void validateBrevpakkeRequest(BrevpakkeRequest brevpakkeRequest) {
+		if (brevpakkeRequest.brevpakke() == null) {
+			throw new InvalidInputException("Brevpakke is missing.");
+		}
+
+		if (brevpakkeRequest.xsdfiler() == null || brevpakkeRequest.xsdfiler().isEmpty()) {
+			throw new InvalidInputException("Brevpakke.xsdfiler cannot be null or empty");
+		}
+
+		List<XsdFilTo> xsdfiler = brevpakkeRequest.xsdfiler();
+
+		var xsdfilManglerData = xsdfiler.stream()
+				.anyMatch(xsdFilTo -> isBlank(xsdFilTo.filnavn()) || isBlank(xsdFilTo.filsti()) || xsdFilTo.xsdfil() == null);
+
+		if (xsdfilManglerData) {
+			throw new InvalidInputException("Brevpakke.xsdfiler cannot contain null-values.");
+		}
+
 	}
 
 	private boolean isValidDokumentTypeInfo(DokumenttypeInfoTo dokumentTypeInfo, StringBuilder message) {

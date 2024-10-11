@@ -3,6 +3,7 @@ package no.nav.dokmet.web.config;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
 import no.nav.dokmet.core.repository.EksternDokumentTypeRepository;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
+import no.nav.dokmet.core.repository.XsdFileRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
 import no.nav.security.mock.oauth2.token.DefaultOAuth2TokenCallback;
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
@@ -23,6 +24,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.transaction.TestTransaction;
+import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -65,15 +67,22 @@ public class AbstractITest {
 	protected VarselInfoRepository varselInfoRepository;
 
 	@Autowired
+	protected XsdFileRepository xsdFileRepository;
+
+	@Autowired
 	protected MockOAuth2Server server;
 
 	@Autowired
 	protected TestRestTemplate restTemplate;
 
+	@Autowired
+	protected WebTestClient webTestClient;
+
 	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
 		eksternDokumentTypeRepository.deleteAll();
+		xsdFileRepository.deleteAll();
 		commitAndBeginNewTransaction();
 	}
 

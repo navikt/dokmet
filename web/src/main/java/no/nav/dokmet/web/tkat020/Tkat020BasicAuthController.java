@@ -2,6 +2,7 @@ package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
 import no.nav.dokmet.web.utils.SporingHandler;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,16 @@ import static org.springframework.http.HttpStatus.CREATED;
 public class Tkat020BasicAuthController {
 
 	private final DokumenttypeService dokumenttypeService;
+	private final BrevpakkeService brevpakkeService;
 	private final Tkat020Validator validator;
 	private final SporingHandler sporingHandler;
 
 	public Tkat020BasicAuthController(DokumenttypeService dokumenttypeService,
+									  BrevpakkeService brevpakkeService,
 									  Tkat020Validator validator,
 									  SporingHandler sporingHandler){
 		this.dokumenttypeService = dokumenttypeService;
+		this.brevpakkeService = brevpakkeService;
 		this.validator = validator;
 		this.sporingHandler = sporingHandler;
 	}
@@ -66,7 +70,7 @@ public class Tkat020BasicAuthController {
 	@PutMapping("/{dokumenttypeId}")
 	public ResponseEntity<DokumenttypeInfoTo> updateDokumenttypeInfo(@PathVariable String dokumenttypeId, @RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
-		try{
+		try {
 			validator.validate(request, false);
 			log.info("tkat020 (basic auth) har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
 
@@ -74,6 +78,23 @@ public class Tkat020BasicAuthController {
 			log.info("tkat020 (basic auth) har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
 
 			return ResponseEntity.ok(dokumenttypeInfo);
+		} finally {
+			MDC.clear();
+		}
+	}
+
+	@PutMapping("/brevpakke")
+	public ResponseEntity<String> saveXsderForBrevpakke(@RequestBody BrevpakkeRequest request) {
+		sporingHandler.handleMdc();
+		try {
+			validator.validateBrevpakkeRequest(request);
+			log.info("tkat020 (basic auth) har mottatt kall om å lagre brevpakke={}", request.brevpakke());
+
+			brevpakkeService.saveBrevpakke(request);
+
+			log.info("tkat020 (basic auth) har lagret brevpakke={}", request.brevpakke());
+
+			return ResponseEntity.ok().build();
 		} finally {
 			MDC.clear();
 		}

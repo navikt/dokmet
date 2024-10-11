@@ -2,7 +2,15 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 import static no.nav.dokmet.web.TestUtils.createDokumenttypeInfoTo;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -122,6 +130,58 @@ public class Tkat020ValidatorTest {
 		assertThatThrownBy(() -> tkat020Validator.validate(to, true))
 				.isInstanceOf(InvalidInputException.class)
 				.hasMessage("ArkivSystem \"UGYLDIG ARKIVSYSTEM\" is not valid. ");
+	}
+
+	@Test
+	void shouldValidateBrevpakkeRequest() {
+		BrevpakkeRequest brevpakkeRequest = new BrevpakkeRequest(
+				"brevpakke",
+				List.of(new XsdFilTo("filsti", "filnavn", "xsdfil".getBytes())));
+
+		assertDoesNotThrow(() -> tkat020Validator.validateBrevpakkeRequest(brevpakkeRequest));
+	}
+
+	@Test
+	void shouldThrowExceptionOnMissingBrevpakke() {
+		BrevpakkeRequest brevpakkeRequest = new BrevpakkeRequest(
+				null,
+				List.of(new XsdFilTo("filsti", "filnavn", "xsdfil".getBytes())));
+
+		assertThatThrownBy(() -> tkat020Validator.validateBrevpakkeRequest(brevpakkeRequest))
+				.isInstanceOf(InvalidInputException.class)
+				.hasMessage("Brevpakke is missing.");
+	}
+
+	@Test
+	void shouldThrowExceptionOnMissingXsdFiles() {
+		BrevpakkeRequest brevpakkeRequest = new BrevpakkeRequest(
+				"brevpakke",
+				null);
+
+		assertThatThrownBy(() -> tkat020Validator.validateBrevpakkeRequest(brevpakkeRequest))
+				.isInstanceOf(InvalidInputException.class)
+				.hasMessage("Brevpakke.xsdfiler cannot be null or empty");
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void shouldThrowExceptionOnMissingXsdFileValues(List<XsdFilTo> xsdFiles) {
+		BrevpakkeRequest brevpakkeRequest = new BrevpakkeRequest(
+				"brevpakke",
+				xsdFiles);
+
+		assertThatThrownBy(() -> tkat020Validator.validateBrevpakkeRequest(brevpakkeRequest))
+				.isInstanceOf(InvalidInputException.class)
+				.hasMessage("Brevpakke.xsdfiler cannot contain null-values.");
+	}
+
+	private static Stream<Arguments> shouldThrowExceptionOnMissingXsdFileValues() {
+		return Stream.of(
+				Arguments.of(List.of(new XsdFilTo("filsti", "filnavn", null))),
+				Arguments.of(List.of(new XsdFilTo("filsti", null, "xsdfil".getBytes()))),
+				Arguments.of(List.of(new XsdFilTo(null, "filnavn", "xsdfil".getBytes()))),
+				Arguments.of(List.of(new XsdFilTo(null, null, null)))
+		);
 	}
 
 }
