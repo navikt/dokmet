@@ -27,7 +27,7 @@ public class XsdFil {
 	@Column(name = "filnavn", nullable = false)
 	private String filnavn;
 
-	@Column(name = "xsd_fil", nullable = false)
+	@Column(name = "xsdfil", nullable = false)
 	@Lob
 	private byte[] xsdfil;
 
