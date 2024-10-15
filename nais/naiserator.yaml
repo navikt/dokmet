@@ -5,6 +5,8 @@ metadata:
   namespace: teamdokumenthandtering
   labels:
     team: teamdokumenthandtering
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 10M
 spec:
   env:
     - name: DOKMET_PROXY_HOST
