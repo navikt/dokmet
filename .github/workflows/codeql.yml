@@ -3,6 +3,7 @@ name: CodeQL
 on:
   schedule:
     - cron: '00 16 * * SUN'
+  workflow_dispatch:
 
 jobs:
   run-codeql:
