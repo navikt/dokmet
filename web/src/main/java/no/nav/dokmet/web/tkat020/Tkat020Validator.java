@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.String.format;
+import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -34,7 +35,7 @@ public class Tkat020Validator {
 		StringBuilder message = new StringBuilder();
 
 		if (!isValidDokumentTypeInfo(dokumentTypeInfoTo, message)) {
-			log.warn(message.toString());
+			log.warn(removeUnsafeChars(message.toString()));
 			throw new InvalidInputException(message.toString());
 		}
 	}
