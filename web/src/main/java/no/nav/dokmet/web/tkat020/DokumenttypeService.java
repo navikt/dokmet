@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
 import static no.nav.dokmet.web.tkat020.DokumenttypeInfoMapper.mapToDokumentTypeInfo;
 import static no.nav.dokmet.web.tkat020.DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo;
 
@@ -101,7 +102,7 @@ public class DokumenttypeService {
 
 	private void throwExceptionIfNoDokumenttypeInfoIsFound(DokumenttypeInfo dokumenttypeInfo, String dokumenttypeId) {
 		if (dokumenttypeInfo == null) {
-			String errorMsg = "Fant ikke dokumenttypeId=" + dokumenttypeId;
+			String errorMsg = "Fant ikke dokumenttypeId=" + removeUnsafeChars(dokumenttypeId);
 			log.error(errorMsg);
 			throw new DokumenttypeInfoNotFoundException(errorMsg);
 		}

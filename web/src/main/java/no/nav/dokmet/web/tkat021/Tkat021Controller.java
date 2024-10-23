@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import static java.lang.String.format;
+import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -58,17 +59,18 @@ public class Tkat021Controller {
 	@GetMapping("/{varseltypeId}")
 	public ResponseEntity<VarselInfoTo> findVarselInfoByVarselTypeId(@PathVariable String varseltypeId) {
 		try {
+			String safeVarseltypeId = removeUnsafeChars(varseltypeId);
 			sporingHandler.handleMdc();
-			log.info("tkat021 har mottatt kall om å hente varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å hente varselInfo med varseltypeId={}", safeVarseltypeId);
 
 			var result = varselInfoService.findVarselInfoByVarselTypeId(varseltypeId);
 
 			if (result == null) {
-				log.info("tkat021 fant ingen varselInfo for varseltypeId={}", varseltypeId);
+				log.info("tkat021 fant ingen varselInfo for varseltypeId={}", safeVarseltypeId);
 				return ResponseEntity.status(NOT_FOUND).body(result);
 			}
 
-			log.info("tkat021 har hentet varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har hentet varselInfo med varseltypeId={}", safeVarseltypeId);
 
 			return ResponseEntity.ok(result);
 		} finally {
@@ -80,11 +82,12 @@ public class Tkat021Controller {
 	@PostMapping("/")
 	public ResponseEntity<String> saveNewVarselInfo(@RequestBody VarselInfoTo varselInfo) {
 		try {
+			String safeVarselTypeId = removeUnsafeChars(varselInfo.getVarseltypeId());
 			sporingHandler.handleMdc();
-			log.info("tkat021 har mottatt kall om å opprette ny varselInfo med varseltypeId={}", varselInfo.getVarseltypeId());
+			log.info("tkat021 har mottatt kall om å opprette ny varselInfo med varseltypeId={}", safeVarselTypeId);
 
 			var varseltypeId = varselInfoService.saveNewVarselInfo(varselInfo);
-			log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", safeVarselTypeId);
 
 			return ResponseEntity.status(CREATED).body(varseltypeId);
 		} finally {
@@ -96,13 +99,14 @@ public class Tkat021Controller {
 	@PutMapping("/{varseltypeId}")
 	public ResponseEntity<String> updateVarselInfo(@PathVariable String varseltypeId, @RequestBody VarselInfoTo varselInfo) {
 		try {
+			String safeVarseltypeId = removeUnsafeChars(varseltypeId);
 			sporingHandler.handleMdc();
-			log.info("tkat021 har mottatt kall om å oppdatere varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å oppdatere varseltypeId={}", safeVarseltypeId);
 
 			// TODO: VarselInfoNotFoundException blir kastet fra updateVarselInfo, så logikken under for NOT_FOUND vil ikke skje hvis varselinfo ikke blir funnet
 			var result = varselInfoService.updateVarselInfo(varseltypeId, varselInfo);
 			ResponseEntity<String> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
-			log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", safeVarseltypeId);
 
 			return response;
 		} finally {
@@ -114,11 +118,12 @@ public class Tkat021Controller {
 	@DeleteMapping("/{varseltypeId}")
 	public ResponseEntity<String> deleteVarselInfo(@PathVariable String varseltypeId) {
 		try {
+			String safeVarseltypeId = removeUnsafeChars(varseltypeId);
 			sporingHandler.handleMdc();
-			log.info("tkat021 har mottatt kall om å slette varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har mottatt kall om å slette varselInfo med varseltypeId={}", safeVarseltypeId);
 
 			varselInfoService.deleteVarselInfo(varseltypeId);
-			log.info("tkat021 har slettet varselInfo med varseltypeId={}", varseltypeId);
+			log.info("tkat021 har slettet varselInfo med varseltypeId={}", safeVarseltypeId);
 
 			return ResponseEntity.ok(format("VarseltypeId %s slettet", varseltypeId));
 		} finally {

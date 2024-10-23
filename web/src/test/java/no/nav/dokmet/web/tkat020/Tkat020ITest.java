@@ -115,10 +115,10 @@ public class Tkat020ITest extends AbstractITest {
 
 	@ParameterizedTest(name = "{index} => Henter alle {0} dokumenttypeInfoer: ({1}, {2})")
 	@CsvSource(value = {
-			"Inngaaende," + INNGAAENDE_STRING + "," + DOKUMENTTYPE_ID_INNGAAENDE,
-			"Utgaaende," + UTGAAENDE_STRING + "," + DOKUMENTTYPE_ID_UTGAAENDE
+			INNGAAENDE_STRING + "," + DOKUMENTTYPE_ID_INNGAAENDE,
+			UTGAAENDE_STRING + "," + DOKUMENTTYPE_ID_UTGAAENDE
 	})
-	public void skalHenteAlleDokumenttypeInfoMedDokumenttypekode(String description, String dokumenttypeKode, String dokumenttypeId) {
+	public void skalHenteAlleDokumenttypeInfoMedDokumenttypekode(String dokumenttypeKode, String dokumenttypeId) {
 		var dokumentTypeKode = DokumentTypeKode.valueOf(dokumenttypeKode);
 
 		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");

@@ -53,9 +53,6 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 	private static final String SRVAURAMAVENPLUGIN_USER = "srvauramavenplugin";
 	private static final String SRVAURAMAVENPLUGIN_PASSWORD = "hemmelig";
 
-	@Autowired
-	WebTestClient webTestClient;
-
 	@BeforeEach
 	void setUp() {
 		emptyDatabases();

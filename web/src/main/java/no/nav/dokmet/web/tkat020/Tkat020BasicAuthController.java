@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @Slf4j
@@ -39,11 +40,12 @@ public class Tkat020BasicAuthController {
 	@GetMapping("/{dokumenttypeId}")
 	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId){
 		try {
+			String safeDokumenttypeId = removeUnsafeChars(dokumenttypeId);
 			sporingHandler.handleMdc();
-			log.info("tkat020 (basic auth) har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+			log.info("tkat020 (basic auth) har mottatt kall om å hente dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId);
 
 			var dokumenttypeInfo = dokumenttypeService.findDokumenttypeInfoByDokumentTypeId(dokumenttypeId);
-			log.info("tkat020 (basic auth) har hentet dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId);
+			log.info("tkat020 (basic auth) har hentet dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId);
 
 			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
@@ -55,11 +57,12 @@ public class Tkat020BasicAuthController {
 	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {
-			log.info("tkat020 (basic auth) har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", request.getDokumentType());
+			String safeDokumenttype = removeUnsafeChars(request.getDokumentType());
+			log.info("tkat020 (basic auth) har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", safeDokumenttype);
 			validator.validate(request, true);
 
 			var dokumenttypeInfo = dokumenttypeService.saveNewDokumenttypeInfo(request);
-			log.info("tkat020 (basic auth) har opprettet dokumenttypeInfo med dokumentType={}", request.getDokumentType());
+			log.info("tkat020 (basic auth) har opprettet dokumenttypeInfo med dokumentType={}", safeDokumenttype);
 
 			return ResponseEntity.status(CREATED).body(dokumenttypeInfo);
 		} finally {
@@ -71,11 +74,12 @@ public class Tkat020BasicAuthController {
 	public ResponseEntity<DokumenttypeInfoTo> updateDokumenttypeInfo(@PathVariable String dokumenttypeId, @RequestBody DokumenttypeInfoTo request){
 		sporingHandler.handleMdc();
 		try {
+			String safeDokumenttypeId = removeUnsafeChars(dokumenttypeId);
 			validator.validate(request, false);
-			log.info("tkat020 (basic auth) har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", dokumenttypeId );
+			log.info("tkat020 (basic auth) har mottatt kall om å oppdatere dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId );
 
 			var dokumenttypeInfo =  dokumenttypeService.updateDokumenttypeInfo(request, dokumenttypeId);
-			log.info("tkat020 (basic auth) har oppdatert dokumenttypeInfo med dokumenttypeId={} ", dokumenttypeId);
+			log.info("tkat020 (basic auth) har oppdatert dokumenttypeInfo med dokumenttypeId={} ", safeDokumenttypeId);
 
 			return ResponseEntity.ok(dokumenttypeInfo);
 		} finally {
@@ -87,12 +91,13 @@ public class Tkat020BasicAuthController {
 	public ResponseEntity<String> saveXsderForBrevpakke(@RequestBody BrevpakkeRequest request) {
 		sporingHandler.handleMdc();
 		try {
+			String safeBrevpakke = removeUnsafeChars(request.brevpakke());
 			validator.validateBrevpakkeRequest(request);
-			log.info("tkat020 (basic auth) har mottatt kall om å lagre brevpakke={}", request.brevpakke());
+			log.info("tkat020 (basic auth) har mottatt kall om å lagre brevpakke={}", safeBrevpakke);
 
 			brevpakkeService.saveBrevpakke(request);
 
-			log.info("tkat020 (basic auth) har lagret brevpakke={}", request.brevpakke());
+			log.info("tkat020 (basic auth) har lagret brevpakke={}", safeBrevpakke);
 
 			return ResponseEntity.ok().build();
 		} finally {
