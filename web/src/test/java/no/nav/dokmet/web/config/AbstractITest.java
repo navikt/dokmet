@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -96,15 +95,11 @@ public class AbstractITest {
 	protected HttpHeaders oidcHeaders() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(APPLICATION_JSON);
-		headers.setBearerAuth(getHeaderToken(APP_CLAIM_SUB));
+		headers.setBearerAuth(jwt());
 		return headers;
 	}
 
-	private String getHeaderToken(String appClaimSub) {
-		return jwt(appClaimSub, new HashMap<>());
-	}
-
-	protected String jwt(String subject, Map<String, Object> claims) {
+	protected String jwt() {
 		String issuerId = "azurev2";
 		String audience = "gosys";
 		return server.issueToken(
@@ -112,10 +107,10 @@ public class AbstractITest {
 				"gosys-clientid",
 				new DefaultOAuth2TokenCallback(
 						issuerId,
-						subject,
+						AbstractITest.APP_CLAIM_SUB,
 						"JWT",
 						List.of(audience),
-						claims,
+						new HashMap<>(),
 						60
 				)
 		).serialize();

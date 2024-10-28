@@ -2,7 +2,7 @@ package no.nav.dokmet.web.tkat030;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.web.utils.SporingHandler;
-import no.nav.security.token.support.core.api.Unprotected;
+import no.nav.security.token.support.core.api.Protected;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@Unprotected
+@Protected
 @RestController
 @RequestMapping("/rest/validerbrevdata")
 public class Tkat030Controller {

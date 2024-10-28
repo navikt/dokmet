@@ -45,6 +45,7 @@ public class Tkat030ITest extends AbstractITest {
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().isOk()
@@ -59,11 +60,23 @@ public class Tkat030ITest extends AbstractITest {
 	}
 
 	@Test
+	void skalReturnereUnauthorizedForRequestUtenToken() {
+		var validateBrevdataRequest = new ValiderBrevdataRequest(PESYS_DOKUMENTTYPE_ID, "");
+
+		webTestClient.post()
+				.uri(VALIDER_BREVDATA_URL)
+				.bodyValue(validateBrevdataRequest)
+				.exchange()
+				.expectStatus().isUnauthorized();
+	}
+
+	@Test
 	void skalReturnereBadRequestForUgyldigRequest() {
 		var validateBrevdataRequest = new ValiderBrevdataRequest(PESYS_DOKUMENTTYPE_ID, "");
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().isBadRequest()
@@ -85,6 +98,7 @@ public class Tkat030ITest extends AbstractITest {
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().isNotFound()
@@ -106,6 +120,7 @@ public class Tkat030ITest extends AbstractITest {
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().is5xxServerError()
@@ -127,6 +142,7 @@ public class Tkat030ITest extends AbstractITest {
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().isOk()
@@ -150,6 +166,7 @@ public class Tkat030ITest extends AbstractITest {
 
 		var response = webTestClient.post()
 				.uri(VALIDER_BREVDATA_URL)
+				.headers(headers -> headers.setBearerAuth(jwt()))
 				.bodyValue(validateBrevdataRequest)
 				.exchange()
 				.expectStatus().isOk()
