@@ -25,6 +25,8 @@ spec:
       value: {{ SPRING_LDAP_URLS }}
     - name: SPRING_LDAP_BASE
       value: {{ SPRING_LDAP_BASE }}
+    - name: OTEL_RESOURCE_ATTRIBUTES
+      value: "deployment.environment.name={{ ENVIRONMENT }}"
   image: {{ image }}
   ingresses:
     {{#each INGRESSES}}
@@ -61,6 +63,12 @@ spec:
       - kvPath: {{ LDAP_ADMIN_USER }}
         mountPath: "/var/run/secrets/nais.io/ldap"
   webproxy: true
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: java
+      destinations:
+        - id: "elastic-apm"
   azure:
     application:
       enabled: true

@@ -1,5 +1,6 @@
 {
   "APP_NAME": "dokmet-q0",
+  "ENVIRONMENT": "q0",
   "MIN_REPLICAS": 1,
   "MAX_REPLICAS": 2,
   "INGRESSES": [
