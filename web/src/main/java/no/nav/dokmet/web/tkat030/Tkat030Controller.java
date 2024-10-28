@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class Tkat030Controller {
 
 	private final SporingHandler sporingHandler;
-	private final BrevdataService brevdataService;
+	private final ValiderBrevdataService brevdataService;
 
 	public Tkat030Controller(SporingHandler sporingHandler,
-							 BrevdataService brevdataService) {
+							 ValiderBrevdataService brevdataService) {
 		this.sporingHandler = sporingHandler;
 		this.brevdataService = brevdataService;
 	}
