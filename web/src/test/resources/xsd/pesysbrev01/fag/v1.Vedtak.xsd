@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Vedtak"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Vedtak">
+
+    <xs:complexType name="Vedtak">
+        <xs:annotation>
+            <xs:documentation>Vedtak</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element name="begrunnelse" type="vedtaksBegrunnelseKode">
+                <xs:annotation>
+                    <xs:documentation>Kode for begrunnelse av vedtaket</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="resultat" type="vedtaksResultatKode">
+                <xs:annotation>
+                    <xs:documentation>Hovedresultatet av vedtaket</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="etterbetaling" type="xs:boolean" minOccurs="0" >
+                <xs:annotation>
+                    <xs:documentation>Viser hvis vedtaket innebærer etterbetaling OG at vedtakets virkFom er minst en måned før dagen vedtaket fattes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:simpleType name="vedtaksBegrunnelseKode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="ANNEN_HAR_ET">
+                <xs:annotation>
+                    <xs:documentation>Er forsørget av ektefelle</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ANNULERING">
+                <xs:annotation>
+                    <xs:documentation>Annulering</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BRUKER_HAR_GJP">
+                <xs:annotation>
+                    <xs:documentation>Har gjenlevendeytelse</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BRUKERINITIERT">
+                <xs:annotation>
+                    <xs:documentation>Brukerinitiert</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FAMPL_OG_AP">
+                <xs:annotation>
+                    <xs:documentation>Har familiepleierytelse</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FOR_LAV_UTG">
+                <xs:annotation>
+                    <xs:documentation>For lav grad ved førsteuttak</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="GRAD_TILB_I_TID">
+                <xs:annotation>
+                    <xs:documentation>Gradsendring tilb. i tid</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="LAVT_TIDLIG_UTTAK">
+                <xs:annotation>
+                    <xs:documentation>Bruker har søkt om for lavt eller for tidlig uttak av alderspensjon</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="OFFAFP_OG_ALDER">
+                <xs:annotation>
+                    <xs:documentation>Har AFP</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="TOT_UTGRD_OVER_100">
+                <xs:annotation>
+                    <xs:documentation>Samlet pensjon>100%</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UTG_MINDRE_ETT_AR">
+                <xs:annotation>
+                    <xs:documentation>Bruker har søkt om endring av uttaksgraden før karenteneperioden på ett år er over</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_1_AR_TT">
+                <xs:annotation>
+                    <xs:documentation>Under ett års medlemskap</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_3_AR_TT">
+                <xs:annotation>
+                    <xs:documentation>Trygdetid under 3 år</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_5_AR_TT">
+                <xs:annotation>
+                    <xs:documentation>Trygdetid under 5 år</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_20_AR_BO">
+                <xs:annotation>
+                    <xs:documentation>§19-3 ikke oppfylt</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_20_AR_BO_2016">
+                <xs:annotation>
+                    <xs:documentation>§19-3 og §20-10 ikke oppfylt</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UNDER_62">
+                <xs:annotation>
+                    <xs:documentation>Bruker er under 62 år</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="VIRKFOM_FOR_2011">
+                <xs:annotation>
+                    <xs:documentation>Ugyldig virkningsdato</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="VIRK_FOR_LANGT_FREM">
+                <xs:annotation>
+                    <xs:documentation>VirkFOM for langt frem</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="">
+                <xs:annotation>
+                    <xs:documentation>Tomt verdi er også gyldig</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="vedtaksResultatKode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="AVSLG"/>
+            <xs:enumeration value="INNVL"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

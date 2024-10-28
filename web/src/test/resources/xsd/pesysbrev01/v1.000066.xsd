@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema	attributeFormDefault="unqualified"
+			  elementFormDefault="qualified"
+			  targetNamespace="http://nav.no/dok/pesysbrev/v1/000066"
+			  xmlns="http://nav.no/dok/pesysbrev/v1/000066"
+			  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			  xmlns:felles="http://nav.no/dok/pesysbrev/felles/v1/PesysFelles"
+			  xmlns:person="http://nav.no/dok/pesysbrev/fag/v3/Person"
+			  xmlns:krav="http://nav.no/dok/pesysbrev/fag/v3/Krav"
+			  xmlns:vedtak="http://nav.no/dok/pesysbrev/fag/v1/Vedtak"
+			  xmlns:land="http://nav.no/dok/pesysbrev/fag/v1/Land"
+			  xmlns:alderspensjon="http://nav.no/dok/pesysbrev/fag/v1/Alderspensjon"
+			  xmlns:sak="http://nav.no/dok/pesysbrev/fag/v1/Sak"
+			  xmlns:avdod="http://nav.no/dok/pesysbrev/fag/v1/Avdod"
+			  xmlns:trygdetidsListe="http://nav.no/dok/pesysbrev/fag/v1/TrygdetidsListe">
+
+	<xs:import schemaLocation="felles/v1.PesysFelles.xsd" namespace="http://nav.no/dok/pesysbrev/felles/v1/PesysFelles"/>
+	<xs:import schemaLocation="fag/v3.Person.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v3/Person"/>
+	<xs:import schemaLocation="fag/v3.Krav.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v3/Krav"/>
+	<xs:import schemaLocation="fag/v1.Vedtak.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Vedtak"/>
+	<xs:import schemaLocation="fag/v1.Land.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Land"/>
+	<xs:import schemaLocation="fag/v1.Alderspensjon.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Alderspensjon"/>
+    <xs:import schemaLocation="fag/v1.Sak.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Sak"/>
+    <xs:import schemaLocation="fag/v1.Avdod.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/Avdod"/>
+	<xs:import schemaLocation="fag/v1.TrygdetidsListe.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/TrygdetidsListe"/>
+
+	<xs:element name="brevdata" type="Brevdata"/>
+
+	<xs:complexType name="Brevdata">
+		<xs:all>
+			<xs:element name="felles" type="felles:Felles"/>
+			<xs:element name="fag" type="Fag"/>
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="Fag">
+		<xs:annotation>
+			<xs:documentation>Gyldig versjon av felles informasjonsmodell</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="bruker" type="person:Person" minOccurs="0"/>
+			<xs:element name="krav" type="krav:Krav"/>
+			<xs:element name="vedtak" type="vedtak:Vedtak"/>
+			<xs:element name="avtaleland" type="land:Land" minOccurs="0"/>
+			<xs:element name="alderspensjon" type="alderspensjon:Alderspensjon"/>
+            <xs:element name="sak" type="sak:Sak"/>
+            <xs:element name="avdod" type="avdod:Avdod" minOccurs="0"/>
+            <xs:element name="trygdetidNorge" type="trygdetidsListe:TrygdetidsListe" minOccurs="0"/>
+            <xs:element name="trygdetidEOS" type="trygdetidsListe:TrygdetidsListe" minOccurs="0"/>
+            <xs:element name="trygdetidAvtaleland" type="trygdetidsListe:TrygdetidsListe" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Sak"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Sak">
+
+    <xs:complexType name="Sak">
+        <xs:all>
+            <xs:element name="type" type="SakTypeKode">
+                <xs:annotation>
+                    <xs:documentation>Viser hvilken sakstype saken gjelder</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:simpleType name="SakTypeKode">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="GJENLEV">
+                <xs:annotation>
+                    <xs:documentation>Gjenlevendeytelse</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="UFOREP">
+                <xs:annotation>
+                    <xs:documentation>Uføretrygd</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="BARNEP">
+                <xs:annotation>
+                    <xs:documentation>Barnepensjon </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ALDER">
+                <xs:annotation>
+                    <xs:documentation>Alderspensjon</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+			<xs:enumeration value="AFP">
+                <xs:annotation>
+                    <xs:documentation>AFP</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="AFP_PRIVAT">
+                <xs:annotation>
+                    <xs:documentation>AFP Privat</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="GENRL">
+                <xs:annotation>
+                    <xs:documentation>Generell</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="FAM_PL">
+                <xs:annotation>
+                    <xs:documentation>FAM_PL</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

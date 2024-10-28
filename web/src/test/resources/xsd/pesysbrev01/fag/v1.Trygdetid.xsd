@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:st="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Trygdetid"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Trygdetid">
+
+    <xs:import schemaLocation="../felles/v1.SimpleTypes.xsd" namespace="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"/>
+
+    <xs:complexType name="Trygdetid">
+        <xs:all>
+            <xs:element name="fom" type="st:FormatertDato">
+                <xs:annotation>
+                    <xs:documentation>Fra og med dato for trygdetid</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="tom" type="st:FormatertDato">
+                <xs:annotation>
+                    <xs:documentation>Til og med dato for trygdetid</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="land" type="st:NonEmptyString">
+                <xs:annotation>
+                    <xs:documentation>Navn på landet som avtale om trygdetid gjelder</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="landkode" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Internasjonal to tegns kode for land. Kan benyttes ved språklag annet enn bokmål</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+
+</xs:schema>

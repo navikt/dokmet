@@ -2,6 +2,7 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.core.domain.entities.XsdFil;
 import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
+import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
 
 import java.util.List;
 
@@ -13,13 +14,17 @@ public class BrevpakkeMapper {
 				.toList();
 	}
 
-	private static XsdFil map(String brevpakke, BrevpakkeRequest.XsdFilTo xsdFilTo) {
+	private static XsdFil map(String brevpakke, XsdFilTo xsdFilTo) {
 		return XsdFil.builder()
 				.brevpakke(brevpakke)
-				.filsti(xsdFilTo.filsti())
+				.filsti(getFilsti(xsdFilTo))
 				.filnavn(xsdFilTo.filnavn())
 				.xsdfil(xsdFilTo.xsdfil())
 				.build();
+	}
+
+	private static String getFilsti(XsdFilTo xsdFilTo) {
+		return xsdFilTo.filsti();
 	}
 
 }

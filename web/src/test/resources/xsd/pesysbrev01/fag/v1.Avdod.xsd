@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:st="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v1/Avdod"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v1/Avdod">
+
+    <xs:import schemaLocation="../felles/v1.SimpleTypes.xsd" namespace="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"/>
+
+    <xs:complexType name="Avdod">
+        <xs:all>
+            <xs:element name="navn" type="st:NonEmptyString">
+                <xs:annotation>
+                    <xs:documentation>Den avdødes fornavn, mellom og etternavn</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="avdodFnr" type="st:NonEmptyString">
+                <xs:annotation>
+                    <xs:documentation>Den avdødes fornavn, mellom og etternavn</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sivilstand" type="st:EmptySivilstandTypeKode" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Sivilstand med bruker ved død</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ektefelletilleggOpphort" type="st:EmptyBoolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Viser hvis det i forbindelse med behandling av tilstøtende sak ble avsluttet et ektefelletillegg pga dødsfallet</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="gjenlevendesAlder" type="st:EmptyInteger" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Gjenlevendes alder siste dag i måneden for dødsfallet</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="gjenlevendeHarFellesbarnUtenBT" type="xs:boolean" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Er SANN dersom bruker hadde barn med avdøde, men ikke var innvilget barnetillegg for dem. Dette gjelder kun barn under 18 år. I tilfeller hvor barnet fyller 18 på virkningsdato (1. i måned etter dødsfallet) skal dette regnes som at barnet er under 18.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+</xs:schema>

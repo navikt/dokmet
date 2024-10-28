@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:st="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"
+           xmlns:kravArsaksKode="http://nav.no/dok/pesysbrev/fag/v1/KravArsaksKode"
+           targetNamespace="http://nav.no/dok/pesysbrev/fag/v3/Krav"
+           xmlns="http://nav.no/dok/pesysbrev/fag/v3/Krav">
+
+    <xs:import schemaLocation="../felles/v1.SimpleTypes.xsd" namespace="http://nav.no/dok/pesysbrev/felles/v1/SimpleTypes"/>
+    <xs:import schemaLocation="v1.KravArsaksKode.xsd" namespace="http://nav.no/dok/pesysbrev/fag/v1/KravArsaksKode"/>
+
+    <xs:complexType name="Krav">
+        <xs:all>
+            <xs:element name="AFPPrivat" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Hvis alderspensjonkravet er markert med at bruker har søkt om AFP Privat settes verdien til SANN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="arsak" type="kravArsaksKode:KravArsaksKode">
+                <xs:annotation>
+                    <xs:documentation>Viser for hvilken årsak bruker har søkt</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erForeldrelos" type="st:EmptyBoolean">
+                <xs:annotation>
+                    <xs:documentation>Settes til SANN hvis det i krav-skjermbildet er valgt foreldreløs i nedtrekksliste på type (kravhode.K_KRAV_VELG_T = FORELDRELOS). Er uten verdi kun hvis sakstypen er ulik barnepensjon.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erForstegangsbehandling" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>SANN dersom kravet gjelder en førstegangsbehandling</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erMellombehandling" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Hvis kravtypen er (krav.kravGjelder) "Mellombehandling" settes verdien til SANN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erSluttbehandlingNorgeUtland" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Hvis kravtypen er (krav.kravGjelder) "Sluttbehandling Norge /Utland" settes verdien til SANN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="erForstegangsbehandletNorgeUtland" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Hvis kravtype er (krav.kravGjelder) "Førstegangsbehandling Norge/utland" settes verdien til SANN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="kravInitiertAv" type="st:NonEmptyString">
+                <xs:annotation>
+                    <xs:documentation>Fra kodeverk T_K_INITIERT_AV. Eksempel på verdi er BRUKER.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="mottattDato" type="st:FormatertDato">
+                <xs:annotation>
+                    <xs:documentation>Dato søknad ble mottatt</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="norgeBehandlendeLand" type="xs:boolean">
+                <xs:annotation>
+                    <xs:documentation>Hvis det er huket av JA i kravskjermbildet på "Norge er behandlende land" settes verdien til SANN</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="virkDatoFom" type="st:FormatertDato">
+                <xs:annotation>
+                    <xs:documentation>Dato vedtaket iverksettes</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:all>
+    </xs:complexType>
+</xs:schema>
