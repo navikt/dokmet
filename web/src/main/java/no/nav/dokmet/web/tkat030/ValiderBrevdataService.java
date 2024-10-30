@@ -50,6 +50,7 @@ public class ValiderBrevdataService {
 			new XmlValidator(hovedfilsti, xsdFilMap).validate(brevdata);
 			return new ValiderBrevdataResponse(true, null);
 		} catch (SAXParseException e) {
+			log.warn("Validering av brevdata feilet med feilmelding={}", e.toString());
 			return new ValiderBrevdataResponse(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("Validering av brevdata feilet teknisk med feilmelding={}", e.getMessage(), e);
