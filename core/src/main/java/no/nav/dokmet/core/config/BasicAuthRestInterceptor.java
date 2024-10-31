@@ -3,6 +3,7 @@ package no.nav.dokmet.core.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.apache.hc.client5.http.auth.StandardAuthScheme.BASIC;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
@@ -59,6 +61,8 @@ public class BasicAuthRestInterceptor implements HandlerInterceptor {
 			response.sendError(SC_FORBIDDEN, "Innlogging feilet for bruker med navn %s".formatted(username));
 			return false;
 		}
+
+		MDC.put(MDC_USER_ID, username);
 
 		return true;
 	}

@@ -5,34 +5,30 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.varseladminbff.auth.OauthService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.util.UUID;
-
-import static no.nav.dokmet.core.util.MDCConstants.MDC_CALL_ID;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 
 @Component
 @Slf4j
-public class MDCInterceptor implements HandlerInterceptor {
+public class VarseladminBffInterceptor implements HandlerInterceptor {
 
 	private static final String USER_ID = "UserId";
 
-	@Autowired
-	OauthService oauthService;
+	private final OauthService oauthService;
+
+	public VarseladminBffInterceptor(OauthService oauthService) {
+		this.oauthService = oauthService;
+	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		String callId = request.getHeader(MDC_CALL_ID);
-		if (StringUtils.isEmpty(callId)) {
-			callId = UUID.randomUUID().toString();
+
+		if (MDC.get(MDC_USER_ID) != null) {
+			return true;
 		}
-		MDC.put(MDC_CALL_ID, callId);
-		response.addHeader(MDC_CALL_ID, callId);
 
 		HttpSession session = request.getSession();
 		if (session.getAttribute(USER_ID) == null) {
@@ -48,6 +44,5 @@ public class MDCInterceptor implements HandlerInterceptor {
 
 		return true;
 	}
-
 
 }
