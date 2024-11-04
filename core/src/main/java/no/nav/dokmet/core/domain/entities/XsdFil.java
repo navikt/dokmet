@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 @Setter
@@ -33,4 +35,8 @@ public class XsdFil {
 
 	@Column(name = "brevpakke", nullable = false)
 	private String brevpakke;
+
+	@Builder.Default
+	@Column(name = "oppdatert_tidspunkt")
+	private LocalDateTime oppdatertTidspunkt = LocalDateTime.now();
 }

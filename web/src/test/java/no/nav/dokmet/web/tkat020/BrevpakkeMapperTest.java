@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
@@ -28,5 +29,8 @@ class BrevpakkeMapperTest {
 						tuple("brevpakke", "filsti", "filnavn", "xsdfil".getBytes()),
 						tuple("brevpakke", "filsti2", "filnavn2", "xsdfil2".getBytes())
 				);
+		assertThat(xsdfiler)
+				.map(XsdFil::getOppdatertTidspunkt)
+				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now().minusSeconds(10)) && oppdatertTidspunkt.isBefore(now()));
 	}
 }
