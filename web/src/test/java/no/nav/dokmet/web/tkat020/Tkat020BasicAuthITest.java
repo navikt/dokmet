@@ -20,12 +20,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.time.LocalDateTime.now;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
@@ -387,7 +386,6 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 
 	@Test
 	void skalLagreXsderForBrevpakke() {
-
 		final String arenabrev = "arenabrev";
 		final String infotrygdbrev = "infotrygdbrev";
 
@@ -423,6 +421,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 				.expectStatus().isOk();
 
 		var infotrygdbrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(infotrygdbrev);
+		var now = now();
 
 		assertThat(infotrygdbrevXsdfiler)
 				.usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -435,20 +434,25 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 						tuple(infotrygdbrev, infotrygdSti1, infotrygdFilnavn1, nyInfotrygdFil1),
 						tuple(infotrygdbrev, infotrygdSti2, infotrygdFilnavn2, nyInfotrygdFil2)
 				);
+		assertThat(infotrygdbrevXsdfiler)
+				.map(XsdFil::getOppdatertTidspunkt)
+				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now.minusSeconds(10)) && oppdatertTidspunkt.isBefore(now));
 
 		var arenabrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(arenabrev);
 
 		assertThat(arenabrevXsdfiler)
 				.singleElement()
 				.usingRecursiveComparison()
-				.ignoringFields("id")
+				.ignoringFields("id", "oppdatertTidspunkt")
 				.isEqualTo(arenaXsdFile);
+		assertThat(arenabrevXsdfiler)
+				.map(XsdFil::getOppdatertTidspunkt)
+				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now.minusSeconds(10)) && oppdatertTidspunkt.isBefore(now));
 	}
 
 	@ParameterizedTest
 	@MethodSource
-	void skalRetunereBadRequestVedFeilvalideringAvBrevpakkeRequest( BrevpakkeRequest request, String feilmelding) {
-
+	void skalRetunereBadRequestVedFeilvalideringAvBrevpakkeRequest(BrevpakkeRequest request, String feilmelding) {
 		var response = webTestClient.put()
 				.uri("/rest/basicauth/dokumenttypeinfo/brevpakke")
 				.bodyValue(request)
