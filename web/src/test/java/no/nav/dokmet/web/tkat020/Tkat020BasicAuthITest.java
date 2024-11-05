@@ -421,6 +421,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 				.expectStatus().isOk();
 
 		var infotrygdbrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(infotrygdbrev);
+		var now = now();
 
 		assertThat(infotrygdbrevXsdfiler)
 				.usingRecursiveFieldByFieldElementComparatorIgnoringFields("id")
@@ -435,7 +436,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 				);
 		assertThat(infotrygdbrevXsdfiler)
 				.map(XsdFil::getOppdatertTidspunkt)
-				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now().minusSeconds(10)) && oppdatertTidspunkt.isBefore(now()));
+				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now.minusSeconds(10)) && oppdatertTidspunkt.isBefore(now));
 
 		var arenabrevXsdfiler = xsdFileRepository.findXsdFilesByBrevpakke(arenabrev);
 
@@ -446,7 +447,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 				.isEqualTo(arenaXsdFile);
 		assertThat(arenabrevXsdfiler)
 				.map(XsdFil::getOppdatertTidspunkt)
-				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now().minusSeconds(10)) && oppdatertTidspunkt.isBefore(now()));
+				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now.minusSeconds(10)) && oppdatertTidspunkt.isBefore(now));
 	}
 
 	@ParameterizedTest

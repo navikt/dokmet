@@ -31,6 +31,9 @@ class BrevpakkeMapperTest {
 				);
 		assertThat(xsdfiler)
 				.map(XsdFil::getOppdatertTidspunkt)
-				.allMatch(oppdatertTidspunkt -> oppdatertTidspunkt.isAfter(now().minusSeconds(10)) && oppdatertTidspunkt.isBefore(now()));
+				.allMatch(oppdatertTidspunkt -> {
+					var now = now();
+					return oppdatertTidspunkt.isAfter(now.minusSeconds(10)) && oppdatertTidspunkt.isBefore(now);
+				});
 	}
 }
