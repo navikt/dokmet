@@ -443,7 +443,7 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		assertThat(arenabrevXsdfiler)
 				.singleElement()
 				.usingRecursiveComparison()
-				.ignoringFields("id")
+				.ignoringFields("id", "oppdatertTidspunkt")
 				.isEqualTo(arenaXsdFile);
 		assertThat(arenabrevXsdfiler)
 				.map(XsdFil::getOppdatertTidspunkt)
