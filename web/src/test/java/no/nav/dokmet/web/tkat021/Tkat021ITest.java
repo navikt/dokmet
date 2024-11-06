@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static java.lang.String.format;
 import static java.util.Collections.singleton;
 import static no.nav.dokmet.core.domain.kode.KanalKode.SMS;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
@@ -19,9 +18,6 @@ import static no.nav.dokmet.web.TestUtils.createVarselInfoToWithVarseltypeId;
 import static no.nav.dokmet.web.TestUtils.createVarselInfoWithVarseltypeId;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
@@ -124,16 +120,4 @@ public class Tkat021ITest extends AbstractITest {
 		assertThat(response.getBody()).contains("Fant ikke varselInfo med varseltypeId");
 	}
 
-	@Test
-	public void shouldDeleteVarselInfo() {
-		assertNotNull(varselInfoRepository.findByVarseltypeId(VARSELTYPEID_1));
-
-		var requestHttpEntity = new HttpEntity<>("", oidcHeaders());
-
-		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + VARSELTYPEID_1, DELETE, requestHttpEntity, String.class);
-
-		assertThat(response.getStatusCode()).isEqualTo(OK);
-		assertThat(response.getBody()).contains(format("VarseltypeId %s slettet", VARSELTYPEID_1));
-		assertNull(varselInfoRepository.findByVarseltypeId(VARSELTYPEID_1));
-	}
 }

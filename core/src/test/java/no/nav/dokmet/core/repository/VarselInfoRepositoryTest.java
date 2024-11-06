@@ -87,16 +87,6 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void delete() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
-		commitAndBeginNewTransaction();
-		varselInfoRepository.deleteByVarseltypeId(VARSELTYPE_ID);
-		commitAndBeginNewTransaction();
-
-		assertThat(varselInfoRepository.findAll(), hasSize(0));
-	}
-
-	@Test
 	public void shouldFailSaveInvalidFoersteVarselTekst() {
 		varselInfoRepository.save(createDomainVarselInfo()
 				.varselmals(Collections.singleton(createVarselMalBuilder()

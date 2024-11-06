@@ -5,7 +5,6 @@ import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.security.token.support.core.api.Protected;
 import no.nav.security.token.support.core.api.Unprotected;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static java.lang.String.format;
 import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -87,18 +85,6 @@ public class Tkat021Controller {
 		log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", safeVarseltypeId);
 
 		return response;
-	}
-
-	@Protected
-	@DeleteMapping("/{varseltypeId}")
-	public ResponseEntity<String> deleteVarselInfo(@PathVariable String varseltypeId) {
-		String safeVarseltypeId = removeUnsafeChars(varseltypeId);
-		log.info("tkat021 har mottatt kall om å slette varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		varselInfoService.deleteVarselInfo(varseltypeId);
-		log.info("tkat021 har slettet varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		return ResponseEntity.ok(format("VarseltypeId %s slettet", varseltypeId));
 	}
 
 }
