@@ -5,6 +5,11 @@ import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 
+import static no.nav.dokmet.core.domain.kode.DistribusjonKanalKode.VED_DITT_NAV_OGSA_PRINT;
+import static no.nav.dokmet.core.domain.kode.EksternIdTypeKode.SERVICE_CODE;
+import static no.nav.dokmet.core.domain.kode.KanalKode.EPOST;
+import static no.nav.dokmet.core.domain.kode.VarselKategoriKode.DISTRIBUSJON;
+
 public class TestDataUtils {
 	
 	public static final String SDP = "SDP";
@@ -12,16 +17,12 @@ public class TestDataUtils {
 	public static final String PORTO_KLASSE = "C5";
 	public static final String DOKUMENT_TITTEL = "dokumentTittel";
 	public static final String DOKUMENT_KATEGORI = "dokumentKategori";
-	public static final String MAL_VERSJON = "1.0.0";
 	public static final String MAL_LOGIKK_FIL = "ARENA";
 	public static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
 	public static final String IKKE_REDIGERBAR_MAL_ID = "ikkeRedigerbarMalId";
 	public static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
-	public static final String DOKUMENTTYPE_ID_UTGAAENDE = "000001";
-	public static final String DOKUMENTTYPE_ID_NOTAT = "NOTAT";
 	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
-	public static final String EKSTERN_DOK_ID = "ID";
-	public static final String EKSTERN_ID_TYPE = EksternIdTypeKode.SERVICE_CODE.toString();
+	public static final String EKSTERN_ID_TYPE = SERVICE_CODE.toString();
 	
 	public static final String ENDRET_AV = "endretAv";
 	public static final String OPPRETTET_AV = "opprettetAv";
@@ -47,20 +48,18 @@ public class TestDataUtils {
 	public static final String DOKUMENT_TYPE_UTGAAENDE = "U";
 	public static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "ID_1";
 	public static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "ID_2";
-	public static final EksternIdTypeKode EKSTERN_ID_TYPE_KODE = EksternIdTypeKode.SERVICE_CODE;
-	public static final String BREVPAKKE = "brevpakke";
-	
+	public static final EksternIdTypeKode EKSTERN_ID_TYPE_KODE = SERVICE_CODE;
 
-	public static final VarselKategoriKode VARSEL_KATEGORI = VarselKategoriKode.DISTRIBUSJON;
-	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = DistribusjonKanalKode.VED_DITT_NAV_OGSA_PRINT;
+	public static final VarselKategoriKode VARSEL_KATEGORI = DISTRIBUSJON;
+	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = VED_DITT_NAV_OGSA_PRINT;
 	public static final boolean INAKTIV = false;
 	public static final int REVARSLING_INTERVALL = 5;
 	public static final int ANTALL_REVARSLINGER = 2;
 	public static final String TITTEL = "tittel";
-	public static final KanalKode KANAL = KanalKode.EPOST;
+	public static final KanalKode KANAL = EPOST;
 	public static final String FOERSTEGANGSVARSEL_TEKST = "forestagang tekst";
 	public static final String REVARSLING_TEKST = "revarseltekst";
-	public static final String MAL_VERSION = "1.14.1";
 	public static final String VARSEL_NAVN = "varselNavn";
 	public static final String VARSEL_URL = "VARSEL_URL";
+
 }
