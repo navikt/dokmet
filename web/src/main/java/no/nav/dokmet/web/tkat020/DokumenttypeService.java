@@ -3,7 +3,6 @@ package no.nav.dokmet.web.tkat020;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.exceptions.DokumenttypeInfoNotFoundException;
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
 import org.springframework.stereotype.Component;
@@ -79,19 +78,6 @@ public class DokumenttypeService {
 				log.warn(e.getMessage(), e);
 			}
 		}
-		return returnValue;
-	}
-
-	public List<DokumenttypeInfoTo> findAllByDokumentType(DokumentTypeKode dokumentType) {
-		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
-		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAllByDokumentType(dokumentType)) {
-			try {
-				returnValue.add(mapToDokumentTypeInfoTo(dokumentTypeInfo));
-			} catch (Exception e) {
-				log.warn(e.getMessage(), e);
-			}
-		}
-
 		return returnValue;
 	}
 

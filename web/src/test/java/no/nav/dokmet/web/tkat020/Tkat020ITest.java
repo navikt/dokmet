@@ -18,8 +18,6 @@ import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -66,19 +64,10 @@ public class Tkat020ITest extends AbstractITest {
 
 	private static final DokumentTypeKode INNGAAENDE = I;
 	private static final DokumentTypeKode UTGAAENDE = U;
-	private static final String INNGAAENDE_STRING = "I";
-	private static final String UTGAAENDE_STRING = "U";
-
 	private static final EksternIdTypeKode EKSTERN_ID_TYPE = SERVICE_CODE;
 
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE = "EDT_ID_1_INN";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE = "EDT_ID_1_UT";
-
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "EDT_ID_2";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
-
-	private static final String DOKUMENTTYPE_ID_INNGAAENDE_2 = "0100012";
 
 	@Autowired
 	protected ObjectMapper objectMapper;
@@ -111,26 +100,6 @@ public class Tkat020ITest extends AbstractITest {
 		assertDistribusjonInfoTo(result[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
 		assertDokumenttypeInfoTo(UTGAAENDE, INGEN.name(), result[1], DOKUMENTTYPE_ID_UTGAAENDE, MAL_LOGIKK_FIL);
 		assertDistribusjonInfoTo(result[1].getDokumentProduksjonsInfo().getDistribusjonInfo());
-	}
-
-	@ParameterizedTest(name = "{index} => Henter alle {0} dokumenttypeInfoer: ({1}, {2})")
-	@CsvSource(value = {
-			INNGAAENDE_STRING + "," + DOKUMENTTYPE_ID_INNGAAENDE,
-			UTGAAENDE_STRING + "," + DOKUMENTTYPE_ID_UTGAAENDE
-	})
-	public void skalHenteAlleDokumenttypeInfoMedDokumenttypekode(String dokumenttypeKode, String dokumenttypeId) {
-		var dokumentTypeKode = DokumentTypeKode.valueOf(dokumenttypeKode);
-
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
-
-		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(DOKMET_BASE_URL + "dokumenttype/" + dokumentTypeKode, GET, requestHttpEntity, DokumenttypeInfoTo[].class);
-
-		assertThat(response.getStatusCode()).isEqualTo(OK);
-
-		DokumenttypeInfoTo[] dokumentinfos = response.getBody();
-		assertThat(dokumentinfos).hasSize(1);
-		assertDokumenttypeInfoTo(dokumentTypeKode, dokumentTypeKode.equals(INNGAAENDE) ? JOARK.name() : INGEN.name(), dokumentinfos[0], dokumenttypeId, MAL_LOGIKK_FIL);
-		assertDistribusjonInfoTo(dokumentinfos[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
 	}
 
 	@Test

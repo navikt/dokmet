@@ -2,7 +2,6 @@ package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.security.token.support.core.api.Unprotected;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,16 +31,6 @@ public class Tkat020Controller {
 
 		var dokumenttypeInfoer = dokumenttypeService.findAllDokumenttypeInfo();
 		log.info("tkat020 har hentet alle dokumenttypeInfoer");
-
-		return ResponseEntity.ok(dokumenttypeInfoer);
-	}
-
-	@GetMapping("/dokumenttype/{dokumentTypeKode}")
-	public ResponseEntity<List<DokumenttypeInfoTo>> findAllByDokumentType(@PathVariable DokumentTypeKode dokumentTypeKode) {
-		log.info("tkat020 har mottatt kall om å hente dokumenttypeInfoer med dokumentTypeKode={}", dokumentTypeKode);
-
-		var dokumenttypeInfoer = dokumenttypeService.findAllByDokumentType(dokumentTypeKode);
-		log.info("tkat020 har hentet dokumenttypeInfoer med dokumentTypeKode={}", dokumentTypeKode);
 
 		return ResponseEntity.ok(dokumenttypeInfoer);
 	}
