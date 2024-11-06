@@ -57,18 +57,6 @@ public class DokumenttypeService {
 		return mapToDokumentTypeInfoTo(dokumentTypeInfo);
 	}
 
-	public List<DokumenttypeInfoTo> findDokumenttypeInfoByBrevpakke(String navn) {
-		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
-		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(navn)) {
-			try {
-				returnValue.add(mapToDokumentTypeInfoTo(dokumentTypeInfo));
-			} catch (Exception e) {
-				log.warn(e.getMessage(), e);
-			}
-		}
-		return returnValue;
-	}
-
 	public List<DokumenttypeInfoTo> findAllDokumenttypeInfo() {
 		List<DokumenttypeInfoTo> returnValue = new ArrayList<>();
 		for (DokumenttypeInfo dokumentTypeInfo : dokumenttypeInfoRepository.findAll()) {

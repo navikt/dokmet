@@ -42,7 +42,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 	private static final String DOKUMENT_TYPE_ID = "NAV-01-02-03";
-	public static final String BREVPAKKE = "Gosys";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "EDT_ID_2";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
@@ -80,7 +79,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		assertThat(dokumenttypeInfo, notNullValue());
 		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID), false);
 	}
-
 
 	@Test
 	public void shouldFindAllDokumenttypeInfo() {
@@ -166,22 +164,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		commitAndBeginNewTransaction();
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
-	}
-
-	@Test
-	public void shouldFindDokumenttypeInfoByBrevpakke() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		List<DokumenttypeInfo> gosys = dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(BREVPAKKE);
-
-		assertThat(gosys, hasSize(1));
-		assertThat(gosys.get(0).getDokumentProduksjonsInfo().getMalLogikkFil(), is(BREVPAKKE));
 	}
 
 	private DokumenttypeInfo createDokumenttypeInfo(String dokumenttypeId) {
