@@ -1,5 +1,4 @@
-package repository.itest;
-
+package no.nav.dokmet.core.repository;
 
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
@@ -16,23 +15,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import repository.config.AbstractTest;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static no.nav.dokmet.core.repository.DokumenttypeInfoRepositoryTest.REPO_USER_ID;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static repository.itest.DokumenttypeInfoRepositoryTest.REPO_USER_ID;
 
-public class EksternDokumentTypeRepositoryTest extends AbstractTest {
-
+public class EksternDokumentTypeRepositoryTest extends AbstractRepositoryTest {
 
 	private static final String DOKUMENT_TYPE_INFO_ID = "D_ID";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
@@ -47,6 +44,7 @@ public class EksternDokumentTypeRepositoryTest extends AbstractTest {
 		if (MDC.get(MDC_USER_ID) == null) {
 			MDC.put(MDC_USER_ID, REPO_USER_ID);
 		}
+
 		super.emptyDatabases();
 		eksternDokumentTypes = new HashSet<>();
 	}
@@ -79,7 +77,6 @@ public class EksternDokumentTypeRepositoryTest extends AbstractTest {
 
 		assertThat(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()), hasSize(2));
 	}
-
 
 	@Test
 	public void shouldThrowMultipleEksternDokumentTypeFoundException() {

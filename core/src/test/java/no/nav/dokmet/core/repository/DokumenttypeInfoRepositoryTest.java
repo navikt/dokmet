@@ -1,4 +1,4 @@
-package repository.itest;
+package no.nav.dokmet.core.repository;
 
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.transaction.TestTransaction;
-import repository.config.AbstractTest;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -42,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DokumenttypeInfoRepositoryTest extends AbstractTest {
+public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 	private static final String DOKUMENT_TYPE_ID = "NAV-01-02-03";
 	public static final String BREVPAKKE = "Gosys";
@@ -57,6 +56,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		if (MDC.get(MDC_USER_ID) == null) {
 			MDC.put(MDC_USER_ID, REPO_USER_ID);
 		}
+
 		super.emptyDatabases();
 	}
 
@@ -96,7 +96,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 
 		assertThat(dokumenttypeInfos, hasSize(2));
 	}
-
 
 	@Test
 	public void shouldSaveNewDokumenttypeInfo() {
@@ -260,7 +259,65 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		commitAndBeginNewTransaction();
 		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
 		dokumenttypeInfoRepository.deleteBydokumenttypeId(DOKUMENT_TYPE_ID + 1);
+	}
 
+	@Test
+	public void shouldThrowIllegalValueExceptionIfConstraintViolation() {
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
+		commitAndBeginNewTransaction();
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
+		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
+	}
+
+	@Test
+	public void shouldFindAllXsds() {
+		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
+		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
+		dpi.setMalXsdReferanse("15.xsd");
+		dpi.setDokumenttypeInfo(dokumenttypeInfo);
+		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
+		dokumenttypeInfoRepository.save(dokumenttypeInfo);
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
+		commitAndBeginNewTransaction();
+
+		List<String> allXsds = dokumenttypeInfoRepository.findAllXsds();
+
+		assertThat(allXsds, hasSize(2));
+		assertTrue(allXsds.containsAll(Arrays.asList("000001.xsd", "15.xsd")));
+	}
+
+	@Test
+	public void shouldFindAllMalFiler() {
+		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
+		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
+		dpi.setMalLogikkFil(BREVPAKKE);
+		dpi.setDokumenttypeInfo(dokumenttypeInfo);
+		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
+		dokumenttypeInfoRepository.save(dokumenttypeInfo);
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
+		commitAndBeginNewTransaction();
+		List<String> allXsds = dokumenttypeInfoRepository.findAllMalFiler();
+
+		assertThat(allXsds, hasSize(2));
+		assertTrue(allXsds.containsAll(Arrays.asList("ARENA", "Gosys")));
+	}
+
+	@Test
+	public void shouldFindDokumenttypeInfoByBrevpakke() {
+		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
+		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
+		dpi.setMalLogikkFil(BREVPAKKE);
+		dpi.setDokumenttypeInfo(dokumenttypeInfo);
+		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
+		dokumenttypeInfoRepository.save(dokumenttypeInfo);
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
+		List<DokumenttypeInfo> gosys = dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(BREVPAKKE);
+
+		assertThat(gosys, hasSize(1));
+		assertThat(gosys.get(0).getDokumentProduksjonsInfo().getMalLogikkFil(), is(BREVPAKKE));
 	}
 
 	private DokumenttypeInfo createDokumenttypeInfo(String dokumenttypeId) {
@@ -386,62 +443,4 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		assertThat(expectedEksternDokumenType.getEksternDokumentTypeId(), is(actualEksternDokumenType.getEksternDokumentTypeId()));
 	}
 
-	@Test
-	public void shouldThrowIllegalValueExceptionIfConstraintViolation() {
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		commitAndBeginNewTransaction();
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
-	}
-
-	@Test
-	public void shouldFindAllXsds() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalXsdReferanse("15.xsd");
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-
-		List<String> allXsds = dokumenttypeInfoRepository.findAllXsds();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("000001.xsd", "15.xsd")));
-	}
-
-	@Test
-	public void shouldFindAllMalFiler() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-		List<String> allXsds = dokumenttypeInfoRepository.findAllMalFiler();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("ARENA", "Gosys")));
-	}
-
-	@Test
-	public void shouldFindDokumenttypeInfoByBrevpakke() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		List<DokumenttypeInfo> gosys = dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(BREVPAKKE);
-
-		assertThat(gosys, hasSize(1));
-		assertThat(gosys.get(0).getDokumentProduksjonsInfo().getMalLogikkFil(), is(BREVPAKKE));
-	}
 }
