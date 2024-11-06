@@ -39,7 +39,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
@@ -123,7 +122,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void shouldSaveNewDokumenttypeInfoInngaaende() throws Exception {
+	public void shouldSaveNewDokumenttypeInfoInngaaende() {
 		DokumenttypeInfo dokInfo = createDokumentTypeInfoInngaaende(DOKUMENT_TYPE_ID);
 		dokumenttypeInfoRepository.save(dokInfo);
 		commitAndBeginNewTransaction();
@@ -251,41 +250,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void shouldFindAllXsds() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalXsdReferanse("15.xsd");
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-
-		List<String> allXsds = dokumenttypeInfoRepository.findAllXsds();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("000001.xsd", "15.xsd")));
-	}
-
-	@Test
-	public void shouldFindAllMalFiler() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-		List<String> allXsds = dokumenttypeInfoRepository.findAllMalFiler();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("ARENA", "Gosys")));
-	}
-
-	@Test
 	public void shouldFindDokumenttypeInfoByBrevpakke() {
 		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
 		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
@@ -314,7 +278,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 								createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
 	}
 
-	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) throws Exception {
+	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) {
 		return DokumenttypeInfoBuilder.builder()
 				.dokumenttypeId(dokumentTypeId)
 				.dokumentTittel("NAV Dokument")
