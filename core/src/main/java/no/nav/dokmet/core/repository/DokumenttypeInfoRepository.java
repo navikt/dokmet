@@ -18,8 +18,6 @@ public interface DokumenttypeInfoRepository extends CrudRepository<DokumenttypeI
 
 	List<DokumenttypeInfo> findAllByDokumentType(DokumentTypeKode dokumentTypeKode);
 
-	void deleteBydokumenttypeId(String dokumenttypeId);
-
 	@Modifying
 	@Query(value = "DELETE from SPRAAK_INFO where fk_dokumentproduksjon_info = :dokprodInfo", nativeQuery = true)
 	void deleteSpraakInfosBydokProdInfoId(long dokprodInfo);

@@ -51,11 +51,6 @@ public class DokumenttypeService {
 		return mapToDokumentTypeInfoTo(savedDokumenttypeInfo);
 	}
 
-	@Transactional
-	public void deleteDokumenttypeInfo(String dokumenttypeId) {
-		dokumenttypeInfoRepository.deleteBydokumenttypeId(dokumenttypeId);
-	}
-
 	public DokumenttypeInfoTo findDokumenttypeInfoByDokumentTypeId(String dokumenttypeId) {
 		DokumenttypeInfo dokumentTypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(dokumenttypeId);
 

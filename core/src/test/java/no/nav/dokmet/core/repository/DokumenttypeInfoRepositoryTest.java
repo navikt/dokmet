@@ -243,25 +243,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void shouldDelete() {
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID+1));
-		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 2);
-
-		dokumenttypeInfoRepository.deleteBydokumenttypeId(DOKUMENT_TYPE_ID);
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
-	}
-
-	@Test
-	public void shouldThrowIfDeleteInvalid()  {
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
-		dokumenttypeInfoRepository.deleteBydokumenttypeId(DOKUMENT_TYPE_ID + 1);
-	}
-
-	@Test
 	public void shouldThrowIllegalValueExceptionIfConstraintViolation() {
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 		commitAndBeginNewTransaction();
