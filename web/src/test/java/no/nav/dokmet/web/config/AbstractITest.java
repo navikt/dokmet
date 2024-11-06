@@ -1,7 +1,6 @@
 package no.nav.dokmet.web.config;
 
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
-import no.nav.dokmet.core.repository.EksternDokumentTypeRepository;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
 import no.nav.dokmet.core.repository.XsdFileRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
@@ -60,9 +59,6 @@ public abstract class AbstractITest {
 	protected DokumenttypeInfoRepository dokumenttypeInfoRepository;
 
 	@Autowired
-	protected EksternDokumentTypeRepository eksternDokumentTypeRepository;
-
-	@Autowired
 	protected VarselInfoRepository varselInfoRepository;
 
 	@Autowired
@@ -80,7 +76,6 @@ public abstract class AbstractITest {
 	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
-		eksternDokumentTypeRepository.deleteAll();
 		xsdFileRepository.deleteAll();
 		commitAndBeginNewTransaction();
 	}

@@ -15,9 +15,6 @@ public abstract class AbstractRepositoryTest {
 	protected DokumenttypeInfoRepository dokumenttypeInfoRepository;
 
 	@Autowired
-	protected EksternDokumentTypeRepository eksternDokumentTypeRepository;
-
-	@Autowired
 	protected VarselInfoRepository varselInfoRepository;
 
 	@Autowired
@@ -26,7 +23,6 @@ public abstract class AbstractRepositoryTest {
 	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
-		eksternDokumentTypeRepository.deleteAll();
 
 		commitAndBeginNewTransaction();
 	}
