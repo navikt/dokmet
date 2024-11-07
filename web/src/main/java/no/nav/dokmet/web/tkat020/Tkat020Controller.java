@@ -2,7 +2,6 @@ package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.security.token.support.core.api.Unprotected;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,16 +35,6 @@ public class Tkat020Controller {
 		return ResponseEntity.ok(dokumenttypeInfoer);
 	}
 
-	@GetMapping("/dokumenttype/{dokumentTypeKode}")
-	public ResponseEntity<List<DokumenttypeInfoTo>> findAllByDokumentType(@PathVariable DokumentTypeKode dokumentTypeKode) {
-		log.info("tkat020 har mottatt kall om å hente dokumenttypeInfoer med dokumentTypeKode={}", dokumentTypeKode);
-
-		var dokumenttypeInfoer = dokumenttypeService.findAllByDokumentType(dokumentTypeKode);
-		log.info("tkat020 har hentet dokumenttypeInfoer med dokumentTypeKode={}", dokumentTypeKode);
-
-		return ResponseEntity.ok(dokumenttypeInfoer);
-	}
-
 	@GetMapping("/{dokumenttypeId}")
 	public ResponseEntity<DokumenttypeInfoTo> findDokumenttypeInfoByDokumentTypeId(@PathVariable String dokumenttypeId) {
 		String safeDokumenttypeId = removeUnsafeChars(dokumenttypeId);
@@ -55,17 +44,6 @@ public class Tkat020Controller {
 		log.info("tkat020 har hentet dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId);
 
 		return ResponseEntity.ok(dokumenttypeInfo);
-	}
-
-	@GetMapping("/brevpakke/{navn}")
-	public ResponseEntity<List<DokumenttypeInfoTo>> findDokumenttypeInfoByBrevpakke(@PathVariable String navn) {
-		String safeNavn = removeUnsafeChars(navn);
-		log.info("tkat020 har mottatt kall om å hente dokumenttypeInfoer for brevpakke={}", safeNavn);
-
-		var dokumenttypeInfoer = dokumenttypeService.findDokumenttypeInfoByBrevpakke(navn);
-		log.info("tkat020 har hentet dokumenttypeInfoer for brevpakke={}", safeNavn);
-
-		return ResponseEntity.ok(dokumenttypeInfoer);
 	}
 
 }

@@ -1,9 +1,9 @@
 package no.nav.dokmet.web.tkat021;
 
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.exceptions.VarselInfoNotFoundException;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
-import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,6 @@ class VarselInfoServiceTest {
 
 	private VarselInfo varselInfo;
 	private VarselInfoTo varselInfoTo;
-
 
 	@BeforeEach
 	void setUp() {
@@ -113,11 +112,4 @@ class VarselInfoServiceTest {
 		assertTrue(result.getMessage().contains("Fant ikke varselInfo med varseltypeId=" + varselInfoTo.getVarseltypeId()));
 	}
 
-	@Test
-	void shouldDeleteVarselInfo() {
-
-		varselInfoService.deleteVarselInfo(varselInfoTo.getVarseltypeId());
-		verify(varselInfoRepository).deleteByVarseltypeId(varselInfoTo.getVarseltypeId());
-		verifyNoMoreInteractions(varselInfoRepository);
-	}
 }

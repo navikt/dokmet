@@ -1,7 +1,6 @@
 package no.nav.dokmet.web.config;
 
 import no.nav.dokmet.core.repository.DokumenttypeInfoRepository;
-import no.nav.dokmet.core.repository.EksternDokumentTypeRepository;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
 import no.nav.dokmet.core.repository.XsdFileRepository;
 import no.nav.security.mock.oauth2.MockOAuth2Server;
@@ -42,7 +41,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @AutoConfigureWireMock(port = 0)
 @EntityScan(basePackages = {"no.nav.dokmet.core.domain.entities"})
 @SpringBootTest(classes = {AbstractITest.TestConfig.class, ApplicationTestConfig.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AbstractITest {
+public abstract class AbstractITest {
 
 	protected static final String APP_CLAIM_SUB = "a2fb96a7-5294-48ea-a1de-a30599f95eb4";
 	protected static final String REPO_USER_ID = "repoTest";
@@ -58,9 +57,6 @@ public class AbstractITest {
 
 	@Autowired
 	protected DokumenttypeInfoRepository dokumenttypeInfoRepository;
-
-	@Autowired
-	protected EksternDokumentTypeRepository eksternDokumentTypeRepository;
 
 	@Autowired
 	protected VarselInfoRepository varselInfoRepository;
@@ -80,7 +76,6 @@ public class AbstractITest {
 	public void emptyDatabases() {
 		varselInfoRepository.deleteAll();
 		dokumenttypeInfoRepository.deleteAll();
-		eksternDokumentTypeRepository.deleteAll();
 		xsdFileRepository.deleteAll();
 		commitAndBeginNewTransaction();
 	}

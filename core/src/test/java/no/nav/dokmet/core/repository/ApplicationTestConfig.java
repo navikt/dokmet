@@ -1,11 +1,10 @@
-package repository.config;
+package no.nav.dokmet.core.repository;
 
 import no.nav.dokmet.core.config.DokmetProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Profile("itest")

@@ -1,4 +1,4 @@
-package repository.itest;
+package no.nav.dokmet.core.repository;
 
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.transaction.TestTransaction;
-import repository.config.AbstractTest;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -38,14 +37,11 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DokumenttypeInfoRepositoryTest extends AbstractTest {
+public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 	private static final String DOKUMENT_TYPE_ID = "NAV-01-02-03";
-	public static final String BREVPAKKE = "Gosys";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "EDT_ID_2";
 	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
@@ -57,6 +53,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		if (MDC.get(MDC_USER_ID) == null) {
 			MDC.put(MDC_USER_ID, REPO_USER_ID);
 		}
+
 		super.emptyDatabases();
 	}
 
@@ -83,7 +80,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID), false);
 	}
 
-
 	@Test
 	public void shouldFindAllDokumenttypeInfo() {
 		DokumenttypeInfo info1 = createDokumenttypeInfo("1");
@@ -96,7 +92,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 
 		assertThat(dokumenttypeInfos, hasSize(2));
 	}
-
 
 	@Test
 	public void shouldSaveNewDokumenttypeInfo() {
@@ -111,20 +106,10 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetDato(), notNullValue());
-
-		EksternDokumentType eksternDokumentType = eksternDokumentTypeRepository.findEksternDokumentTypeByEksternDokumentTypeIdAndEksternIdType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE);
-		assertThat(eksternDokumentType, notNullValue());
-		assertEquals(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 2);
-		assertEquals(eksternDokumentType.getEksternDokumentTypeId(), EKSTERN_DOKUMENT_TYPE_ID_1);
-		assertThat(eksternDokumentType.getVersion(), is(1L));
-		assertEquals(eksternDokumentType.getDokumenttypeInfo(), dokumenttypeInfo);
-		assertEquals(eksternDokumentType.getEksternIdType(), EKSTERN_DOKUMENT_TYPE);
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetDato(), notNullValue());
 	}
 
 	@Test
-	public void shouldSaveNewDokumenttypeInfoInngaaende() throws Exception {
+	public void shouldSaveNewDokumenttypeInfoInngaaende() {
 		DokumenttypeInfo dokInfo = createDokumentTypeInfoInngaaende(DOKUMENT_TYPE_ID);
 		dokumenttypeInfoRepository.save(dokInfo);
 		commitAndBeginNewTransaction();
@@ -171,96 +156,14 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		assertThat(updatedDkumenttypeInfo.getEksternDokumentType().size(), is(2));
 		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretAv(), is(REPO_USER_ID));
 		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretDato(), notNullValue());
-
-		EksternDokumentType eksternDokumentType = eksternDokumentTypeRepository.findEksternDokumentTypeByEksternDokumentTypeIdAndEksternIdType(EKSTERN_DOKUMENT_TYPE_ID_3, EKSTERN_DOKUMENT_TYPE);
-		assertThat(eksternDokumentType, notNullValue());
-		assertEquals(eksternDokumentType.getEksternDokumentTypeId(), EKSTERN_DOKUMENT_TYPE_ID_3);
-		assertThat(eksternDokumentType.getVersion(), is(1L));
-		assertEquals(eksternDokumentType.getDokumenttypeInfo(), updatedDkumenttypeInfo);
-		assertEquals(eksternDokumentType.getEksternIdType(), EKSTERN_DOKUMENT_TYPE);
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetDato(), notNullValue());
 	}
 
 	@Test
-	public void shouldAddNewEksternDokumentType() {
-		DokumenttypeInfo newDokkat = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		dokumenttypeInfoRepository.save(newDokkat);
-		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 2);
-
-		newDokkat.setDokumentKategori("nyKategori");
-		newDokkat.getDokumentProduksjonsInfo().setRedigerbarMalId("malid2");
-
-		Set<EksternDokumentType> newEksternDokumentTypeSet = new HashSet<>(newDokkat.getEksternDokumentType());
-
-		EksternDokumentType newEksternDokumentType = createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_3, EKSTERN_DOKUMENT_TYPE);
-		newEksternDokumentType.setDokumenttypeInfo(newDokkat);
-		newEksternDokumentTypeSet.add(newEksternDokumentType);
-		newDokkat.setEksternDokumentType(newEksternDokumentTypeSet);
-
-		dokumenttypeInfoRepository.save(newDokkat);
-
-		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-		assertThat(dokumenttypeInfo.getDokumentKategori(), is("nyKategori"));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId(), is("malid2"));
-		assertThat(dokumenttypeInfo.getVersion(), is(2L));
-		assertThat(dokumenttypeInfo.getChangeStamp().getEndretAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getChangeStamp().getEndretDato(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getVersion(), is(2L));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretDato(), notNullValue());
-
-		EksternDokumentType eksternDokumentType = eksternDokumentTypeRepository.findEksternDokumentTypeByEksternDokumentTypeIdAndEksternIdType(EKSTERN_DOKUMENT_TYPE_ID_3, EKSTERN_DOKUMENT_TYPE);
-
-		assertThat(eksternDokumentType, notNullValue());
-		assertEquals(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 3);
-		assertEquals(eksternDokumentType.getEksternDokumentTypeId(), EKSTERN_DOKUMENT_TYPE_ID_3);
-		assertThat(eksternDokumentType.getVersion(), is(1L));
-		assertEquals(eksternDokumentType.getDokumenttypeInfo(), dokumenttypeInfo);
-		assertEquals(eksternDokumentType.getEksternIdType(), EKSTERN_DOKUMENT_TYPE);
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(eksternDokumentType.getChangeStamp().getOpprettetDato(), notNullValue());
-	}
-
-	@Test
-	public void shouldDeleteEksternDokumenType() {
-		DokumenttypeInfo newDokkat = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		dokumenttypeInfoRepository.save(newDokkat);
-		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 2);
-
-		Set<EksternDokumentType> newEksternDokumentType = newDokkat.getEksternDokumentType();
-		newEksternDokumentType = newEksternDokumentType.stream()
-				.filter(EDType -> EDType.getEksternDokumentTypeId().equals(EKSTERN_DOKUMENT_TYPE_ID_1))
-				.collect(Collectors.toSet());
-		newDokkat.setEksternDokumentType(newEksternDokumentType);
-
-		dokumenttypeInfoRepository.save(newDokkat);
-
-		commitAndBeginNewTransaction();
-
-		assertEquals(StreamSupport.stream(eksternDokumentTypeRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
-	}
-
-	@Test
-	public void shouldDelete() {
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID+1));
-		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 2);
-
-		dokumenttypeInfoRepository.deleteBydokumenttypeId(DOKUMENT_TYPE_ID);
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
-	}
-
-	@Test
-	public void shouldThrowIfDeleteInvalid()  {
+	public void shouldThrowIllegalValueExceptionIfConstraintViolation() {
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 		commitAndBeginNewTransaction();
-		assertEquals(StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList()).size(), 1);
-		dokumenttypeInfoRepository.deleteBydokumenttypeId(DOKUMENT_TYPE_ID + 1);
-
+		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
+		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
 	}
 
 	private DokumenttypeInfo createDokumenttypeInfo(String dokumenttypeId) {
@@ -271,12 +174,12 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 				.sensitivt(true)
 				.dokumentType(DokumentTypeKode.U)
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
-				.eksternDokumentType(new HashSet<>(
-						Arrays.asList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
-								createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
+				.eksternDokumentType(new HashSet<>(Arrays.asList(
+						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
+						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
 	}
 
-	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) throws Exception {
+	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) {
 		return DokumenttypeInfoBuilder.builder()
 				.dokumenttypeId(dokumentTypeId)
 				.dokumentTittel("NAV Dokument")
@@ -285,9 +188,9 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 				.dokumentType(DokumentTypeKode.I)
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
 				.dokumentMottakInfo(createDokumentMottaksInfo())
-				.eksternDokumentType(new HashSet<>(
-						Arrays.asList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
-								createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
+				.eksternDokumentType(new HashSet<>(Arrays.asList(
+						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
+						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
 	}
 
 	private DokumentMottakInfo createDokumentMottaksInfo() {
@@ -386,62 +289,4 @@ public class DokumenttypeInfoRepositoryTest extends AbstractTest {
 		assertThat(expectedEksternDokumenType.getEksternDokumentTypeId(), is(actualEksternDokumenType.getEksternDokumentTypeId()));
 	}
 
-	@Test
-	public void shouldThrowIllegalValueExceptionIfConstraintViolation() {
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		commitAndBeginNewTransaction();
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
-	}
-
-	@Test
-	public void shouldFindAllXsds() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalXsdReferanse("15.xsd");
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-
-		List<String> allXsds = dokumenttypeInfoRepository.findAllXsds();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("000001.xsd", "15.xsd")));
-	}
-
-	@Test
-	public void shouldFindAllMalFiler() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		commitAndBeginNewTransaction();
-		List<String> allXsds = dokumenttypeInfoRepository.findAllMalFiler();
-
-		assertThat(allXsds, hasSize(2));
-		assertTrue(allXsds.containsAll(Arrays.asList("ARENA", "Gosys")));
-	}
-
-	@Test
-	public void shouldFindDokumenttypeInfoByBrevpakke() {
-		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
-		DokumentProduksjonsInfo dpi = createDokumentProduksjonsInfo();
-		dpi.setMalLogikkFil(BREVPAKKE);
-		dpi.setDokumenttypeInfo(dokumenttypeInfo);
-		dokumenttypeInfo.setDokumentProduksjonsInfo(dpi);
-		dokumenttypeInfoRepository.save(dokumenttypeInfo);
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 1));
-		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID + 2));
-		List<DokumenttypeInfo> gosys = dokumenttypeInfoRepository.findDokumenttypeInfosByDokumentProduksjonsInfoMalLogikkFil(BREVPAKKE);
-
-		assertThat(gosys, hasSize(1));
-		assertThat(gosys.get(0).getDokumentProduksjonsInfo().getMalLogikkFil(), is(BREVPAKKE));
-	}
 }

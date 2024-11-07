@@ -1,4 +1,4 @@
-package repository.itest;
+package no.nav.dokmet.core.repository;
 
 import no.nav.dokmet.core.builders.builder.VarselInfoBuilder;
 import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.transaction.TransactionSystemException;
-import repository.config.AbstractTest;
 
 import java.util.Collections;
 
@@ -25,7 +24,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class VarselInfoRepositoryTest extends AbstractTest{
+public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 
 	public static final String VARSELTYPE_ID = "varseltypeIden";
 	public static final VarselKategoriKode VARSEL_KATEGORI = VarselKategoriKode.DISTRIBUSJON;
@@ -37,7 +36,6 @@ public class VarselInfoRepositoryTest extends AbstractTest{
 	public static final KanalKode KANAL = KanalKode.EPOST;
 	public static final String FOERSTEGANGSVARSEL_TEKST = "forestagang tekst";
 	public static final String REVARSLING_TEKST = "revarseltekst";
-	public static final String MAL_VERSION = "1.14.1";
 	public static final String VARSEL_NAVN = "varselNavn";
 	public static final String VARSEL_URL = "VARSEL_URL";
 	protected static final String REPO_USER_ID = "repoTest";
@@ -47,8 +45,8 @@ public class VarselInfoRepositoryTest extends AbstractTest{
 		if (MDC.get(MDC_USER_ID) == null) {
 			MDC.put(MDC_USER_ID, REPO_USER_ID);
 		}
+
 		super.emptyDatabases();
-		commitAndBeginNewTransaction();
 	}
 
 	@Test
@@ -86,16 +84,6 @@ public class VarselInfoRepositoryTest extends AbstractTest{
 		varselInfoRepository.save(varselInfo);
 
 		assertThat(varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID).getPreferertKanal(), contains(KanalKode.DITT_NAV));
-	}
-
-	@Test
-	public void delete() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
-		commitAndBeginNewTransaction();
-		varselInfoRepository.deleteByVarseltypeId(VARSELTYPE_ID);
-		commitAndBeginNewTransaction();
-
-		assertThat(varselInfoRepository.findAll(), hasSize(0));
 	}
 
 	@Test

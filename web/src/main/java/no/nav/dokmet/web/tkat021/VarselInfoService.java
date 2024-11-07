@@ -1,9 +1,9 @@
 package no.nav.dokmet.web.tkat021;
 
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.exceptions.VarselInfoNotFoundException;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
-import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +49,7 @@ public class VarselInfoService {
 	public String updateVarselInfo(String varseltypeId, VarselInfoTo varselInfoTo) {
 		VarselInfo existingVarselInfo = varselInfoRepository.findByVarseltypeId(varseltypeId);
 
-		if(existingVarselInfo == null) {
+		if (existingVarselInfo == null) {
 			throw new VarselInfoNotFoundException(format("Fant ikke varselInfo med varseltypeId=%s", varselInfoTo.getVarseltypeId()));
 		}
 
@@ -58,8 +58,4 @@ public class VarselInfoService {
 		return updatedVarselInfo.getVarseltypeId();
 	}
 
-	@Transactional
-	public void deleteVarselInfo(String varseltypeId) {
-		varselInfoRepository.deleteByVarseltypeId(varseltypeId);
-	}
 }

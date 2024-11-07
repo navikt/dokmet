@@ -13,5 +13,4 @@ public interface VarselInfoRepository extends CrudRepository<VarselInfo, Long> {
 
 	VarselInfo save(VarselInfo varselInfo);
 
-	void deleteByVarseltypeId(String varseltypeId);
 }

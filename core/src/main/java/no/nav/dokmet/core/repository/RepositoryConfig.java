@@ -28,7 +28,6 @@ import java.util.Properties;
 })
 @EnableJpaRepositories(basePackageClasses = {
 		DokumenttypeInfoRepository.class,
-		EksternDokumentTypeRepository.class,
 		VarselInfoRepository.class,
 		XsdFileRepository.class
 })
