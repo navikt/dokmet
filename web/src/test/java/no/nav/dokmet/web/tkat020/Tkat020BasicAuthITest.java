@@ -159,8 +159,6 @@ public class Tkat020BasicAuthITest extends AbstractITest {
 		assertThat(response.isUtledRegisterInfo()).isFalse();
 		assertThat(response.getTema()).isNull();
 		assertThat(response.getArkivSystem()).isEqualTo(JOARK.name());
-		assertThat(response.getBehandlingstema()).isNull();
-		assertThat(response.getArtifaktId()).isNull();
 
 		assertThat(response.getChangeStamp())
 				.satisfies(changeStamp -> {

@@ -1,6 +1,5 @@
 package no.nav.dokmet.core.builders.builder;
 
-
 import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
@@ -21,8 +20,6 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 	private boolean utledRegisterInfo;
 	private String tema;
 	private ArkivSystemKode arkivSystem = ArkivSystemKode.JOARK;
-	private String behandlingstema;
-	private String artifaktId;
 	private DokumentProduksjonsInfo dokumentProduksjonsInfo;
 	private DokumentMottakInfo dokumentMottakInfo;
 	private DokumentTypeKode dokumentType;
@@ -44,8 +41,6 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 		dokumenttypeInfo.setSensitivt(sensitivt);
 		dokumenttypeInfo.setUtledRegisterInfo(utledRegisterInfo);
 		dokumenttypeInfo.setTema(tema);
-		dokumenttypeInfo.setBehandlingstema(behandlingstema);
-		dokumenttypeInfo.setArtifaktId(artifaktId);
 		dokumenttypeInfo.setDokumentType(dokumentType);
 		dokumenttypeInfo.setArkivSystem(arkivSystem);
 		dokumenttypeInfo.setDokumentProduksjonsInfo(dokumentProduksjonsInfo);
@@ -99,17 +94,6 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 
 	public DokumenttypeInfoBuilder tema(String tema) {
 		this.tema = tema;
-		return this;
-	}
-	
-	public DokumenttypeInfoBuilder behandlingstema(String behandlingstema) {
-		this.behandlingstema = behandlingstema;
-		return this;
-	}
-	
-	
-	public DokumenttypeInfoBuilder artifaktId(String artifaktId) {
-		this.artifaktId = artifaktId;
 		return this;
 	}
 	

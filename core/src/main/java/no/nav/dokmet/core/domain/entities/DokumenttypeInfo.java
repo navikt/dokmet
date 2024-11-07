@@ -65,12 +65,6 @@ public class DokumenttypeInfo extends AbstractDomainObject {
 
 	@Column(name = "tema")
 	private String tema;
-	
-	@Column(name = "behandlingstema")
-	private String behandlingstema;
-	
-	@Column(name = "artifakt_id")
-	private String artifaktId;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "K_PREDEFINERT_ARKIV_SYSTEM", nullable = false)

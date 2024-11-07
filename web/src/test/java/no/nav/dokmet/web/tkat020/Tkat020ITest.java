@@ -52,8 +52,6 @@ public class Tkat020ITest extends AbstractITest {
 	private static final String DOKUMENT_TITTEL = "dokumentTittel";
 	private static final String DOKUMENT_KATEGORI = "dokumentKategori";
 	private static final String TEMA = "Tema";
-	private static final String BEHANDLINGSTEMA = "Behandlingstema";
-	private static final String ARTIFAKT_ID = "ArtifaktId";
 	private static final String SPRAAK_NN = "nn";
 	private static final String MAL_LOGIKK_FIL = "ARENA";
 	private static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
@@ -139,8 +137,6 @@ public class Tkat020ITest extends AbstractITest {
 				.dokumentKategori(DOKUMENT_KATEGORI)
 				.sensitivt(false)
 				.tema(TEMA)
-				.behandlingstema(BEHANDLINGSTEMA)
-				.artifaktId(ARTIFAKT_ID)
 				.arkivSystem(arkivSystem)
 				.dokumentType(dokumentTypeKode)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo()
@@ -192,9 +188,7 @@ public class Tkat020ITest extends AbstractITest {
 		assertThat(dokumenttypeInfo.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
 		assertThat(dokumenttypeInfo.getSensitivt()).isFalse();
 		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
-		assertThat(dokumenttypeInfo.getBehandlingstema()).isEqualTo(BEHANDLINGSTEMA);
 		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(arkivSystem);
-		assertThat(dokumenttypeInfo.getArtifaktId()).isEqualTo(ARTIFAKT_ID);
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getVedlegg()).isFalse();
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getEksternVedlegg()).isFalse();
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos()).hasSize(1);

@@ -55,8 +55,6 @@ public class DokumenttypeInfoMapper {
 		dokumentTypeInfo.setSensitivt(to.getSensitivt());
 		dokumentTypeInfo.setUtledRegisterInfo(to.isUtledRegisterInfo());
 		dokumentTypeInfo.setTema(to.getTema());
-		dokumentTypeInfo.setBehandlingstema(to.getBehandlingstema());
-		dokumentTypeInfo.setArtifaktId(to.getArtifaktId());
 		dokumentTypeInfo.setDokumentType(stringToEnum(DokumentTypeKode.class, to.getDokumentType()));
 
 		if (to.getDokumentMottakInfo() != null) {

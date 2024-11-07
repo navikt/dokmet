@@ -42,8 +42,6 @@ public class DokumenttypeInfoToMapper {
 		to.setUtledRegisterInfo(domain.isUtledRegisterInfo());
 		to.setTema(domain.getTema());
 		to.setArkivSystem(enumToString(domain.getArkivSystem()));
-		to.setBehandlingstema(domain.getBehandlingstema());
-		to.setArtifaktId(domain.getArtifaktId());
 		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}

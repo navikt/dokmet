@@ -38,8 +38,6 @@ import java.util.stream.Stream;
 import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
-import static no.nav.dokmet.web.TestDataUtils.ARTIFAKT_ID;
-import static no.nav.dokmet.web.TestDataUtils.BEHANDLINGSTEMA;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
@@ -189,10 +187,8 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(to.getDokumentTittel(), is(DOKUMENT_TITTEL));
 		assertThat(to.getSensitivt(), is(true));
 		assertThat(to.isUtledRegisterInfo(), is(true));
-		assertThat(to.getArtifaktId(), is(ARTIFAKT_ID));
 		assertThat(to.getTema(), is(TEMA));
 		assertThat(to.getArkivSystem(), is(JOARK.name()));
-		assertThat(to.getBehandlingstema(), is(BEHANDLINGSTEMA));
 
 		assertThat(to.getDokumentProduksjonsInfo().getEksternVedlegg(), is(true));
 		assertThat(to.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(), is(IKKE_REDIGERBAR_MALID));
@@ -265,8 +261,6 @@ public class DokumenttypeInfoToMapperTest {
 				.utledRegisterInfo(true)
 				.tema(TEMA)
 				.arkivSystem(ArkivSystemKode.JOARK)
-				.behandlingstema(BEHANDLINGSTEMA)
-				.artifaktId(ARTIFAKT_ID)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo()
 						.redigerbarMalId(REDIGERBAR_MALID)
 						.ikkeRedigerbarMalId(IKKE_REDIGERBAR_MALID)

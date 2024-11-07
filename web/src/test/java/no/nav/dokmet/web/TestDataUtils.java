@@ -29,9 +29,7 @@ public class TestDataUtils {
 	public static final String PORTO = "porto";
 	public static final boolean SENSITIVT = false;
 	public static final boolean UTLED_REGISTER_INFO = false;
-	public static final String ARTIFAKT_ID = "artifakt_id";
 	public static final String TEMA = "teema";
-	public static final String BEHANDLINGSTEMA = "behandlingstema";
 	public static final boolean VEDLEGG = true;
 	public static final boolean EKSTERN_VEDLEGG = true;
 	public static final String IKKE_REDIGERBAR_MALID = "ikkered_malid";

@@ -26,8 +26,6 @@ import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOT
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
-import static no.nav.dokmet.web.TestDataUtils.ARTIFAKT_ID;
-import static no.nav.dokmet.web.TestDataUtils.BEHANDLINGSTEMA;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_DITT_NAV;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
@@ -156,9 +154,7 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(dokumenttypeInfo.getDokumentTittel(), is(DOKUMENT_TITTEL));
 		assertThat(dokumenttypeInfo.getSensitivt(), is(SENSITIVT));
 		assertThat(dokumenttypeInfo.isUtledRegisterInfo(), is(UTLED_REGISTER_INFO));
-		assertThat(dokumenttypeInfo.getArtifaktId(), is(ARTIFAKT_ID));
 		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
 		assertThat(dokumenttypeInfo.getDokumentKategori(), is(DOKUMENT_KATEGORI));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil(), is(MAL_LOGIKK_FIL));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
@@ -178,10 +174,8 @@ public class DokumenttypeInfoMapperTest {
 				.dokumentKategori(DOKUMENT_KATEGORI)
 				.sensitivt(SENSITIVT)
 				.utledRegisterInfo(UTLED_REGISTER_INFO)
-				.artifaktId(ARTIFAKT_ID)
 				.arkivSystem(JOARK.name())
 				.tema(TEMA)
-				.behandlingstema(BEHANDLINGSTEMA)
 				.dokumentType(DOKUMENT_TYPE_INNGAAENDE)
 				.dokumentMottakInfo(createDokumentMottakInfo())
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo()).build();
