@@ -2,7 +2,6 @@ package no.nav.dokmet.web.tkat020;
 
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

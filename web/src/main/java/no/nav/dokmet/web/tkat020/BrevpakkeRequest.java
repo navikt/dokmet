@@ -1,4 +1,4 @@
-package no.nav.dokmet.web.tkat030;
+package no.nav.dokmet.web.tkat020;
 
 import java.util.List;
 

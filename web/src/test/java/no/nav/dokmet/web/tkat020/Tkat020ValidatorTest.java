@@ -2,8 +2,7 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
+import no.nav.dokmet.web.tkat020.BrevpakkeRequest.XsdFilTo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

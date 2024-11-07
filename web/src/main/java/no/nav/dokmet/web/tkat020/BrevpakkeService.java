@@ -2,7 +2,6 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.core.domain.entities.XsdFil;
 import no.nav.dokmet.core.repository.XsdFileRepository;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

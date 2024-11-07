@@ -5,8 +5,7 @@ import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.exceptions.InvalidInputException;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
+import no.nav.dokmet.web.tkat020.BrevpakkeRequest.XsdFilTo;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

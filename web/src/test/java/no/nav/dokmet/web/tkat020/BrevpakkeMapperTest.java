@@ -1,8 +1,7 @@
 package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.core.domain.entities.XsdFil;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest;
-import no.nav.dokmet.web.tkat030.BrevpakkeRequest.XsdFilTo;
+import no.nav.dokmet.web.tkat020.BrevpakkeRequest.XsdFilTo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
