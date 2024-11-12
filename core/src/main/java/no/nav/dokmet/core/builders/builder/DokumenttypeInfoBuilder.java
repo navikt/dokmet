@@ -1,14 +1,9 @@
 package no.nav.dokmet.core.builders.builder;
 
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 	
@@ -21,10 +16,8 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 	private String tema;
 	private ArkivSystemKode arkivSystem = ArkivSystemKode.JOARK;
 	private DokumentProduksjonsInfo dokumentProduksjonsInfo;
-	private DokumentMottakInfo dokumentMottakInfo;
 	private DokumentTypeKode dokumentType;
-	private Set<EksternDokumentType> eksternDokumentType;
-	
+
 	private DokumenttypeInfoBuilder() {
 	}
 	
@@ -44,19 +37,9 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 		dokumenttypeInfo.setDokumentType(dokumentType);
 		dokumenttypeInfo.setArkivSystem(arkivSystem);
 		dokumenttypeInfo.setDokumentProduksjonsInfo(dokumentProduksjonsInfo);
-		dokumenttypeInfo.setDokumentMottakInfo(dokumentMottakInfo);
-		
+
 		if (dokumentProduksjonsInfo != null) {
 			dokumenttypeInfo.getDokumentProduksjonsInfo().setDokumenttypeInfo(dokumenttypeInfo);
-		}
-		
-		if (dokumentMottakInfo != null) {
-			dokumenttypeInfo.getDokumentMottakInfo().setDokumenttypeInfo(dokumenttypeInfo);
-		}
-		
-		if (eksternDokumentType != null) {
-			addDokumenttypeInfoToEksternDokumentTypes(eksternDokumentType, dokumenttypeInfo);
-			dokumenttypeInfo.setEksternDokumentType(eksternDokumentType);
 		}
 		
 		return dokumenttypeInfo;
@@ -102,11 +85,6 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 		return this;
 	}
 	
-	public DokumenttypeInfoBuilder dokumentMottakInfo(DokumentMottakInfo dokumentMottakInfo) {
-		this.dokumentMottakInfo = dokumentMottakInfo;
-		return this;
-	}
-	
 	public DokumenttypeInfoBuilder dokumentType(DokumentTypeKode dokumentType) {
 		this.dokumentType = dokumentType;
 		return this;
@@ -115,17 +93,6 @@ public final class DokumenttypeInfoBuilder extends Builder<DokumenttypeInfo> {
 	public DokumenttypeInfoBuilder arkivSystem(ArkivSystemKode arkivSystem) {
 		this.arkivSystem = arkivSystem;
 		return this;
-	}
-	
-	public DokumenttypeInfoBuilder eksternDokumentType(Set<EksternDokumentType> eksternDokumentType) {
-		this.eksternDokumentType = new HashSet<>(eksternDokumentType);
-		return this;
-	}
-	
-	private void addDokumenttypeInfoToEksternDokumentTypes(Set<EksternDokumentType> eksternDokumentTypes, DokumenttypeInfo dokumenttypeInfo) {
-		eksternDokumentTypes.forEach(eksternDokumentType -> {
-			eksternDokumentType.setDokumenttypeInfo(dokumenttypeInfo);
-		});
 	}
 	
 }

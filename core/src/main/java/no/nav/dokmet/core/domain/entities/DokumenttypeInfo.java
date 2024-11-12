@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.SequenceGenerator;
@@ -22,9 +21,6 @@ import lombok.Setter;
 import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -74,28 +70,10 @@ public class DokumenttypeInfo extends AbstractDomainObject {
 	@PrimaryKeyJoinColumn
 	@JoinColumn(name = "id", nullable = false)
 	private DokumentProduksjonsInfo dokumentProduksjonsInfo;
-	
-	@OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-	@PrimaryKeyJoinColumn
-	private DokumentMottakInfo dokumentMottakInfo;
-
-	@OneToMany(mappedBy = "dokumenttypeInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<EksternDokumentType> eksternDokumentType = new HashSet<>();
 
 	public DokumenttypeInfo(Long id, long version) {
 		this.id = id;
 		setVersion(version);
 	}
 
-	/**
-	 * Delete EksternDokumenType before setting the value
-	 *
-	 * @param eksternDokumentType Set of eksternDokumentType objects that belongs to DokumentTypeInfo
-	 */
-	public void setEksternDokumentType(Set<EksternDokumentType> eksternDokumentType) {
-		this.eksternDokumentType.clear();
-		if (eksternDokumentType != null) {
-			this.eksternDokumentType.addAll(eksternDokumentType);
-		}
-	}
 }

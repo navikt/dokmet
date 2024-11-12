@@ -1,11 +1,9 @@
 package no.nav.dokmet.web.tkat020;
 
-
 import no.nav.dokmet.api.tkat020.ChangeStampTo;
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.api.tkat020.SpraakInfoTo;
 import no.nav.dokmet.core.builders.builder.DistribusjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
@@ -13,9 +11,7 @@ import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
@@ -27,27 +23,18 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
-import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_INNGAAENDE;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_UTGAAENDE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_1;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_2;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE_KODE;
 import static no.nav.dokmet.web.TestDataUtils.ENDRET_AV;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MALID;
 import static no.nav.dokmet.web.TestDataUtils.MAL_LOGIKK_FIL;
@@ -65,7 +52,6 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DokumenttypeInfoToMapperTest {
 
@@ -75,19 +61,6 @@ public class DokumenttypeInfoToMapperTest {
 	public void setUp() {
 		changeStamp = new ChangeStamp(OPPRETTET_AV);
 		changeStamp.updatedBy(ENDRET_AV);
-	}
-
-	@Test
-	public void shouldMapToEksternDokumentTypeTo() {
-		Set<EksternDokumentType> eksternDokumentTypes = new HashSet<>(Arrays.asList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1),
-				createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2)));
-		List<EksternDokumentTypeTo> eksternDokumentTypeTo = DokumenttypeInfoToMapper.mapToEksternDokumentTyperTo(eksternDokumentTypes);
-		assertThat(eksternDokumentTypeTo.size(), is(2));
-
-		String eksternDokumentTypeId_0 = eksternDokumentTypeTo.get(0).getEksternDokumentTypeId();
-		String eksternDokumentTypeId_1 = eksternDokumentTypeTo.get(1).getEksternDokumentTypeId();
-		assertTrue(eksternDokumentTypeId_0.equals(EKSTERN_DOKUMENT_TYPE_ID_1) || eksternDokumentTypeId_0.equals(EKSTERN_DOKUMENT_TYPE_ID_2));
-		assertTrue(eksternDokumentTypeId_1.equals(EKSTERN_DOKUMENT_TYPE_ID_1) || eksternDokumentTypeId_1.equals(EKSTERN_DOKUMENT_TYPE_ID_2));
 	}
 
 	@Test
@@ -142,17 +115,6 @@ public class DokumenttypeInfoToMapperTest {
 	}
 
 	@Test
-	public void shouldMapDokumenttypeInfoToDokumentInfoToMissingMottakInfoUtgaaende() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_UTGAAENDE));
-		domain.setDokumentMottakInfo(null);
-
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
-
-		assertThat(map.getDokumentType(), is(DOKUMENT_TYPE_UTGAAENDE));
-		assertThat(map.getDokumentMottakInfo(), nullValue());
-	}
-
-	@Test
 	public void shouldMapDokumenttypeInfoToDokumentInfoToUtgaaende() {
 		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_UTGAAENDE));
 
@@ -204,7 +166,6 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), is(notNullValue()));
 
 		assertChangeStamp(to.getChangeStamp());
-		assertChangeStamp(to.getDokumentMottakInfo().getChangeStamp());
 		assertChangeStamp(to.getDokumentProduksjonsInfo().getChangeStamp());
 		assertChangeStamp(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getChangeStamp());
 
@@ -226,15 +187,6 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(varselTo.getVarselForDistribusjonKanal(), is(DIST_KANAL_SDP));
 		assertThat(varselTo.getVarseltypeId(), is(VARSELTYPE_ID));
 		assertChangeStamp(varselTo.getChangeStamp());
-
-		assertThat(to.getDokumentMottakInfo().getArkivBehandling(), is(ARKIVER_FRA_MOTTAK.name()));
-		assertThat(to.getDokumentMottakInfo().getKonverteringsBehandling(), is(XML_TO_PDFA.name()));
-
-		EksternDokumentTypeTo eksternDokumentTypeTo = to.getDokumentMottakInfo()
-				.getEksternDokumentTyper()
-				.getFirst();
-		assertThat(eksternDokumentTypeTo.getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_1));
-		assertThat(eksternDokumentTypeTo.getEksternIdType(), is(EKSTERN_ID_TYPE));
 	}
 
 	private void assertChangeStamp(ChangeStampTo to) {
@@ -243,12 +195,6 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(to.getEndretAv(), is(ENDRET_AV));
 		assertThat(to.getOpprettetDato().toString(), is(changeStamp.getOpprettetDato().toString()));
 		assertThat(to.getEndretDato().toString(), is(changeStamp.getEndretDato().toString()));
-	}
-
-	private EksternDokumentType createEksternDokumentType(String id) {
-		return EksternDokumentType.builder()
-				.eksternDokumentTypeId(id)
-				.eksternIdType(EKSTERN_ID_TYPE_KODE).build();
 	}
 
 	private DokumenttypeInfo buildDokumenttypeInfo(DokumentTypeKode dokumentTypeKode) {
@@ -277,18 +223,10 @@ public class DokumenttypeInfoToMapperTest {
 												.varseltypeId(VARSELTYPE_ID).build())
 								.build())
 						.build())
-
-				.dokumentMottakInfo(DokumentMottakInfo.builder()
-						.arkivBehandling(ARKIVER_FRA_MOTTAK)
-						.konverteringBehandling(XML_TO_PDFA)
-						.build())
-				.eksternDokumentType(new HashSet<>(
-						Collections.singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1))))
 				.build();
 
 		build.setChangeStamp(changeStamp);
 		build.getDokumentProduksjonsInfo().setChangeStamp(changeStamp);
-		build.getDokumentMottakInfo().setChangeStamp(changeStamp);
 		build.getDokumentProduksjonsInfo().getDistribusjonInfo().setChangeStamp(changeStamp);
 		build.getDokumentProduksjonsInfo()
 				.getDistribusjonInfo()

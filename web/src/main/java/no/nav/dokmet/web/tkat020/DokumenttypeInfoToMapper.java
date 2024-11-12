@@ -3,21 +3,16 @@ package no.nav.dokmet.web.tkat020;
 import no.nav.dokmet.api.tkat020.ChangeStampTo;
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
-import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
 import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.api.tkat020.SpraakInfoTo;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
 import no.nav.dokmet.core.domain.entities.DistribusjonInfo;
 import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.entities.SpraakInfo;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,11 +23,6 @@ public class DokumenttypeInfoToMapper {
 
 		if (domain.getDokumentProduksjonsInfo() != null)
 			to.setDokumentProduksjonsInfo(mapToDokumentProduksjonsInfoTo(domain.getDokumentProduksjonsInfo()));
-
-		if (domain.getDokumentMottakInfo() != null) {
-			to.setDokumentMottakInfo(mapToDokumentMottakInfoTo(domain.getDokumentMottakInfo()));
-			to.getDokumentMottakInfo().setEksternDokumentTyper(mapToEksternDokumentTyperTo(domain.getEksternDokumentType()));
-		}
 
 		to.setDokumenttypeId(domain.getDokumenttypeId());
 		to.setDokumentTittel(domain.getDokumentTittel());
@@ -46,19 +36,6 @@ public class DokumenttypeInfoToMapper {
 		return to;
 	}
 
-	protected static List<EksternDokumentTypeTo> mapToEksternDokumentTyperTo(Set<EksternDokumentType> eksternDokTypeSet) {
-		return eksternDokTypeSet.stream()
-				.map(DokumenttypeInfoToMapper::mapToEksternDokumentTypeTo)
-				.toList();
-	}
-
-	private static EksternDokumentTypeTo mapToEksternDokumentTypeTo(EksternDokumentType e) {
-		return EksternDokumentTypeTo.builder()
-				.eksternIdType(enumToString(e.getEksternIdType()))
-				.eksternDokumentTypeId(e.getEksternDokumentTypeId())
-				.build();
-	}
-
 	private static Set<SpraakInfoTo> mapToSpraakInfoTos(Set<SpraakInfo> spraakInfos) {
 		return spraakInfos.stream()
 				.map(DokumenttypeInfoToMapper::mapToSpraakInfoTo)
@@ -69,14 +46,6 @@ public class DokumenttypeInfoToMapper {
 		SpraakInfoTo to = new SpraakInfoTo();
 		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		to.setSpraaklag(domain.getSpraaklag());
-		return to;
-	}
-
-	private static DokumentMottakInfoTo mapToDokumentMottakInfoTo(DokumentMottakInfo domain) {
-		DokumentMottakInfoTo to = new DokumentMottakInfoTo();
-		to.setArkivBehandling(enumToString(domain.getArkivBehandling()));
-		to.setKonverteringsBehandling(enumToString(domain.getKonverteringBehandling()));
-		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}
 

@@ -9,12 +9,9 @@ import no.nav.dokmet.core.builders.builder.DistribusjonVarselBuilder;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,18 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static java.lang.Boolean.FALSE;
-import static java.util.Collections.singletonList;
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.I;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
-import static no.nav.dokmet.core.domain.kode.EksternIdTypeKode.SERVICE_CODE;
-import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
 import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
 import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
@@ -62,10 +52,6 @@ public class Tkat020ITest extends AbstractITest {
 
 	private static final DokumentTypeKode INNGAAENDE = I;
 	private static final DokumentTypeKode UTGAAENDE = U;
-	private static final EksternIdTypeKode EKSTERN_ID_TYPE = SERVICE_CODE;
-
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE = "EDT_ID_1_INN";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE = "EDT_ID_1_UT";
 
 	@Autowired
 	protected ObjectMapper objectMapper;
@@ -75,10 +61,8 @@ public class Tkat020ITest extends AbstractITest {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
 		emptyDatabases();
-		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_INNGAAENDE, INNGAAENDE, JOARK,
-				new HashSet<>(singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE, EKSTERN_ID_TYPE)))).build());
-		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_UTGAAENDE, UTGAAENDE, INGEN,
-				new HashSet<>(singletonList(createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE, EKSTERN_ID_TYPE)))).build());
+		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_INNGAAENDE, INNGAAENDE, JOARK).build());
+		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_UTGAAENDE, UTGAAENDE, INGEN).build());
 		commitAndBeginNewTransaction();
 
 		MDC.remove(MDC_USER_ID);
@@ -123,14 +107,7 @@ public class Tkat020ITest extends AbstractITest {
 		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}
 
-	private EksternDokumentType createEksternDokumentType(String eksternDokumentTypeId, EksternIdTypeKode eksternIdTypeKode) {
-		return EksternDokumentType.builder()
-				.eksternDokumentTypeId(eksternDokumentTypeId)
-				.eksternIdType(eksternIdTypeKode)
-				.build();
-	}
-
-	private DokumenttypeInfoBuilder dokkat(String dokumentTypeId, DokumentTypeKode dokumentTypeKode, ArkivSystemKode arkivSystem, Set<EksternDokumentType> eksternDokumentTypes) {
+	private DokumenttypeInfoBuilder dokkat(String dokumentTypeId, DokumentTypeKode dokumentTypeKode, ArkivSystemKode arkivSystem) {
 		return DokumenttypeInfoBuilder.builder()
 				.dokumenttypeId(dokumentTypeId)
 				.dokumentTittel(DOKUMENT_TITTEL)
@@ -158,13 +135,7 @@ public class Tkat020ITest extends AbstractITest {
 										.varselForDistribusjonKanal(DistribusjonKanalKode.SDP)
 										.varseltypeId(VARSELTYPE_ID).build())
 								.build())
-						.build())
-				.dokumentMottakInfo(DokumentMottakInfo.builder()
-						.arkivBehandling(ARKIVER_FRA_MOTTAK)
-						.konverteringBehandling(XML_TO_PDFA)
-						.build()
-				)
-				.eksternDokumentType(eksternDokumentTypes);
+						.build());
 	}
 
 	private void assertDokumenttypeInfoTo(DokumentTypeKode dokumentTypeKode, DokumenttypeInfoTo dokumenttypeInfo, String... dokumentInfo) {
@@ -193,22 +164,6 @@ public class Tkat020ITest extends AbstractITest {
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getEksternVedlegg()).isFalse();
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos()).hasSize(1);
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getSpraakInfos().get(0).getSpraaklag()).isEqualTo(SPRAAK_NN);
-
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getArkivBehandling()).isEqualTo(ARKIVER_FRA_MOTTAK.name());
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringsBehandling()).isEqualTo(XML_TO_PDFA.name());
-
-		if (dokumentTypeKode.equals(INNGAAENDE)) {
-			assertThat(dokumenttypeInfo.getDokumentMottakInfo()
-					.getEksternDokumentTyper()
-					.get(0)
-					.getEksternDokumentTypeId()).isEqualTo(EKSTERN_DOKUMENT_TYPE_ID_INNGAAENDE);
-		} else if (dokumentTypeKode.equals(UTGAAENDE)) {
-			assertThat(dokumenttypeInfo.getDokumentMottakInfo()
-					.getEksternDokumentTyper()
-					.get(0)
-					.getEksternDokumentTypeId()).isEqualTo(EKSTERN_DOKUMENT_TYPE_ID_UTGAAENDE);
-
-		}
 
 		assertThat(dokumenttypeInfo.getChangeStamp()).isNotNull();
 	}

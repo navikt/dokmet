@@ -197,8 +197,7 @@ public class Tkat030ITest extends AbstractITest {
 						.eksternVedlegg(false)
 						.malLogikkFil("Pesys01")
 						.vedlegg(false)
-						.build())
-				.dokumentMottakInfo(null);
+						.build());
 	}
 
 	private static String lesBrevdataFraFil(String path) throws IOException {

@@ -3,38 +3,27 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
-import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
 import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
-import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_DITT_NAV;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_INNGAAENDE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_1;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE_KODE;
 import static no.nav.dokmet.web.TestDataUtils.EKSTERN_VEDLEGG;
 import static no.nav.dokmet.web.TestDataUtils.ENDRET_AV;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MALID;
@@ -63,14 +52,6 @@ public class DokumenttypeInfoMapperTest {
 	public void setUp() {
 		changeStamp = new ChangeStamp(OPPRETTET_AV);
 		changeStamp.updatedBy(ENDRET_AV);
-	}
-
-	@Test
-	public void shouldMapToEksternDokumentType() {
-		List<EksternDokumentTypeTo> eksternDokumentTypes = Collections.singletonList(createEksternDokumentTypeTo());
-		Set<EksternDokumentType> eksternDokumentType = DokumenttypeInfoMapper.mapToEksternDokumentType(eksternDokumentTypes);
-		assertThat(eksternDokumentType.size(), is(1));
-		assertThat(eksternDokumentType.iterator().next().getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_1));
 	}
 
 	@Test
@@ -146,7 +127,6 @@ public class DokumenttypeInfoMapperTest {
 		return DokumenttypeInfoBuilder.builder()
 				.arkivSystem(JOARK)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo().build())
-				.dokumentMottakInfo(DokumentMottakInfo.builder().build())
 				.build();
 	}
 
@@ -158,14 +138,7 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(dokumenttypeInfo.getDokumentKategori(), is(DOKUMENT_KATEGORI));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil(), is(MAL_LOGIKK_FIL));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getArkivBehandling(), is(ARKIVER_FRA_MOTTAK));
 		assertThat(dokumenttypeInfo.getArkivSystem(), is(arkivSystem));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringBehandling(), is(XML_TO_PDFA));
-		assertThat(dokumenttypeInfo.getEksternDokumentType()
-				.iterator()
-				.next()
-				.getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_1));
-		assertThat(dokumenttypeInfo.getEksternDokumentType().iterator().next().getEksternIdType(), is(EKSTERN_ID_TYPE_KODE));
 	}
 
 	private DokumenttypeInfoTo create() {
@@ -177,28 +150,7 @@ public class DokumenttypeInfoMapperTest {
 				.arkivSystem(JOARK.name())
 				.tema(TEMA)
 				.dokumentType(DOKUMENT_TYPE_INNGAAENDE)
-				.dokumentMottakInfo(createDokumentMottakInfo())
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo()).build();
-
-	}
-
-	private EksternDokumentTypeTo createEksternDokumentTypeTo() {
-		EksternDokumentTypeTo to = new EksternDokumentTypeTo();
-
-		to.setEksternDokumentTypeId(EKSTERN_DOKUMENT_TYPE_ID_1);
-		to.setEksternIdType(EKSTERN_ID_TYPE);
-
-		return to;
-	}
-
-	private DokumentMottakInfoTo createDokumentMottakInfo() {
-		DokumentMottakInfoTo to = new DokumentMottakInfoTo();
-
-		to.setArkivBehandling(ARKIVER_FRA_MOTTAK.name());
-		to.setKonverteringsBehandling(XML_TO_PDFA.name());
-		to.setEksternDokumentTyper(Collections.singletonList(createEksternDokumentTypeTo()));
-
-		return to;
 	}
 
 	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfo() {
