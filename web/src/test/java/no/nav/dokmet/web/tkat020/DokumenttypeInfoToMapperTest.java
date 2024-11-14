@@ -23,6 +23,9 @@ import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +33,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
@@ -106,7 +110,7 @@ public class DokumenttypeInfoToMapperTest {
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
 
-		assertThat(distribusjonInfoTo.isTosidigPrint(), is(true));
+		assertThat(distribusjonInfoTo.getTosidigPrint(), is(true));
 		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
 		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.X.name()));
 	}
@@ -123,7 +127,7 @@ public class DokumenttypeInfoToMapperTest {
 		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
-		assertThat(distribusjonInfoTo.isTosidigPrint(), is(false));
+		assertThat(distribusjonInfoTo.getTosidigPrint(), is(false));
 		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
 		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.W.name()));
 	}
@@ -158,6 +162,25 @@ public class DokumenttypeInfoToMapperTest {
 
 		assertDokumentInfoTo(map);
 		assertThat(map.getDokumentType(), is(DOKUMENT_TYPE_UTGAAENDE));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void shouldMapTosidigPrint(Boolean tosidigPrint, boolean expected) {
+		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_UTGAAENDE));
+		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(tosidigPrint);
+
+		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+
+		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getTosidigPrint(), is(expected));
+	}
+
+	private static Stream<Arguments> shouldMapTosidigPrint() {
+		return Stream.of(
+				Arguments.of(null, true),
+				Arguments.of(true, true),
+				Arguments.of(false, false)
+		);
 	}
 
 	private void assertDokumentInfoTo(DokumenttypeInfoTo to) {

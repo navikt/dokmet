@@ -141,7 +141,7 @@ public class DokumenttypeInfoMapper {
 		distribusjonInfo.setPortoklasse(to.getPortoklasse());
 		distribusjonInfo.setPredefinertDistKanal(stringToEnum(DistribusjonKanalKode.class, to.getPredefinertDistKanal()));
 		distribusjonInfo.setSikkerhetsnivaa(to.getSikkerhetsnivaa());
-		distribusjonInfo.setTosidigPrint(to.isTosidigPrint());
+		distribusjonInfo.setTosidigPrint(mapTosidigPrint(to.getTosidigPrint()));
 		distribusjonInfo.setSentralPrintDokumentType(stringToEnum(SentralPrintDokumentTypeCode.class, to.getSentralPrintDokumentType()));
 		distribusjonInfo.setKonvoluttvinduType(stringToEnum(KonvoluttvinduTypeCode.class, to.getKonvoluttvinduType()));
 
@@ -152,6 +152,10 @@ public class DokumenttypeInfoMapper {
 			distribusjonInfo.addDistribusjonVarsel(distribusjonVarsel);
 		}
 		return distribusjonInfo;
+	}
+
+	private static Boolean mapTosidigPrint(Boolean tosidigPrint) {
+		return tosidigPrint == null || tosidigPrint;
 	}
 
 	private static <E extends Enum<E>> E stringToEnum(Class<E> enumClass, String enumName) {

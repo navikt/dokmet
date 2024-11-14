@@ -15,7 +15,7 @@ public class DistribusjonInfoTo extends AbstractToObject {
 	private String predefinertDistKanal;
 	private String portoklasse;
 	private Integer sikkerhetsnivaa;
-	private boolean tosidigPrint;
+	private Boolean tosidigPrint;
 	private String sentralPrintDokumentType;
 	private String konvoluttvinduType;
 	private List<DistribusjonVarselTo> distribusjonVarsels = new ArrayList<>();
