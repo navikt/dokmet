@@ -103,8 +103,8 @@ public class DistribusjonInfo extends AbstractDomainObject {
 		this.sikkerhetsnivaa = sikkerhetsnivaa;
 	}
 
-	public boolean getTosidigPrint() {
-		return tosidigPrint == null ? true : tosidigPrint;
+	public Boolean getTosidigPrint() {
+		return tosidigPrint == null || tosidigPrint;
 	}
 
 	public SentralPrintDokumentTypeCode getSentralPrintDokumentType() {
