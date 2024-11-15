@@ -18,12 +18,12 @@ import java.util.Collections;
 
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_DITT_NAV;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
-import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_INNGAAENDE;
 import static no.nav.dokmet.web.TestDataUtils.EKSTERN_VEDLEGG;
 import static no.nav.dokmet.web.TestDataUtils.ENDRET_AV;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MALID;
@@ -149,8 +149,9 @@ public class DokumenttypeInfoMapperTest {
 				.utledRegisterInfo(UTLED_REGISTER_INFO)
 				.arkivSystem(JOARK.name())
 				.tema(TEMA)
-				.dokumentType(DOKUMENT_TYPE_INNGAAENDE)
-				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo()).build();
+				.dokumentType(U.name())
+				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
+				.build();
 	}
 
 	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfo() {

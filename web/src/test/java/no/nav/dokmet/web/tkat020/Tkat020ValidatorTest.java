@@ -20,7 +20,7 @@ public class Tkat020ValidatorTest {
 	private final Tkat020Validator tkat020Validator = new Tkat020Validator();
 
 	@Test
-	public void shouldValidateUtgaaende() {
+	public void shouldValidate() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 
 		assertDoesNotThrow(() -> tkat020Validator.validate(to, true));
@@ -53,7 +53,7 @@ public class Tkat020ValidatorTest {
 
 
 	@Test
-	public void shouldValidateMissingRedigerbarMalIdUtgaaende() {
+	public void shouldValidateMissingRedigerbarMalId() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.getDokumentProduksjonsInfo().setIkkeRedigerbarMalId("ikkeRedigerbarMalId");
 		to.getDokumentProduksjonsInfo().setRedigerbarMalId(null);
@@ -62,7 +62,7 @@ public class Tkat020ValidatorTest {
 	}
 
 	@Test
-	public void shouldValidateMissingIkkeRedigerbarMalIdUtgaaende() {
+	public void shouldValidateMissingIkkeRedigerbarMalId() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.getDokumentProduksjonsInfo().setIkkeRedigerbarMalId(null);
 		to.getDokumentProduksjonsInfo().setRedigerbarMalId("redigerbarMalId");

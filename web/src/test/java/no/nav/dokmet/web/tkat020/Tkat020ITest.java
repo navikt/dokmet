@@ -11,7 +11,6 @@ import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import static java.lang.Boolean.FALSE;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
-import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.I;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
 import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
@@ -46,12 +44,9 @@ public class Tkat020ITest extends AbstractITest {
 	private static final String MAL_LOGIKK_FIL = "ARENA";
 	private static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
 	private static final String IKKE_REDIGERBAR_MAL_ID = "ikkeRedigerbarMalId";
-	private static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
-	private static final String DOKUMENTTYPE_ID_UTGAAENDE = "010002";
-	private static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
-
-	private static final DokumentTypeKode INNGAAENDE = I;
-	private static final DokumentTypeKode UTGAAENDE = U;
+	private static final String DOKUMENTTYPE_ID_1 = "000001";
+	private static final String DOKUMENTTYPE_ID_2 = "000002";
+	private static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_1 + ".xsd";
 
 	@Autowired
 	protected ObjectMapper objectMapper;
@@ -61,8 +56,8 @@ public class Tkat020ITest extends AbstractITest {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
 		emptyDatabases();
-		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_INNGAAENDE, INNGAAENDE, JOARK).build());
-		dokumenttypeInfoRepository.save(dokkat(DOKUMENTTYPE_ID_UTGAAENDE, UTGAAENDE, INGEN).build());
+		dokumenttypeInfoRepository.save(lagDokumenttypeinfo(DOKUMENTTYPE_ID_1, JOARK).build());
+		dokumenttypeInfoRepository.save(lagDokumenttypeinfo(DOKUMENTTYPE_ID_2, INGEN).build());
 		commitAndBeginNewTransaction();
 
 		MDC.remove(MDC_USER_ID);
@@ -78,9 +73,9 @@ public class Tkat020ITest extends AbstractITest {
 		var result = response.getBody();
 		assertThat(result).hasSize(2);
 
-		assertDokumenttypeInfoTo(INNGAAENDE, result[0], DOKUMENTTYPE_ID_INNGAAENDE, MAL_LOGIKK_FIL);
+		assertDokumenttypeInfoTo(JOARK.name(), result[0], DOKUMENTTYPE_ID_1, MAL_LOGIKK_FIL);
 		assertDistribusjonInfoTo(result[0].getDokumentProduksjonsInfo().getDistribusjonInfo());
-		assertDokumenttypeInfoTo(UTGAAENDE, INGEN.name(), result[1], DOKUMENTTYPE_ID_UTGAAENDE, MAL_LOGIKK_FIL);
+		assertDokumenttypeInfoTo(INGEN.name(), result[1], DOKUMENTTYPE_ID_2, MAL_LOGIKK_FIL);
 		assertDistribusjonInfoTo(result[1].getDokumentProduksjonsInfo().getDistribusjonInfo());
 	}
 
@@ -88,12 +83,12 @@ public class Tkat020ITest extends AbstractITest {
 	public void skalHenteDokumenttypeInfoMedDokumenttypeId() {
 		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
 
-		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_INNGAAENDE, GET, requestHttpEntity, DokumenttypeInfoTo.class);
+		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_1, GET, requestHttpEntity, DokumenttypeInfoTo.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		DokumenttypeInfoTo dokInfo = response.getBody();
 
-		assertDokumenttypeInfoTo(INNGAAENDE, dokInfo, DOKUMENTTYPE_ID_INNGAAENDE, MAL_LOGIKK_FIL);
+		assertDokumenttypeInfoTo(JOARK.name(), dokInfo, DOKUMENTTYPE_ID_1, MAL_LOGIKK_FIL);
 		assertDistribusjonInfoTo(dokInfo.getDokumentProduksjonsInfo().getDistribusjonInfo());
 	}
 
@@ -107,7 +102,7 @@ public class Tkat020ITest extends AbstractITest {
 		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}
 
-	private DokumenttypeInfoBuilder dokkat(String dokumentTypeId, DokumentTypeKode dokumentTypeKode, ArkivSystemKode arkivSystem) {
+	private DokumenttypeInfoBuilder lagDokumenttypeinfo(String dokumentTypeId, ArkivSystemKode arkivSystem) {
 		return DokumenttypeInfoBuilder.builder()
 				.dokumenttypeId(dokumentTypeId)
 				.dokumentTittel(DOKUMENT_TITTEL)
@@ -115,7 +110,7 @@ public class Tkat020ITest extends AbstractITest {
 				.sensitivt(false)
 				.tema(TEMA)
 				.arkivSystem(arkivSystem)
-				.dokumentType(dokumentTypeKode)
+				.dokumentType(U)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo()
 						.redigerbarMalId(REDIGERBAR_MAL_ID)
 						.ikkeRedigerbarMalId(IKKE_REDIGERBAR_MAL_ID)
@@ -138,15 +133,11 @@ public class Tkat020ITest extends AbstractITest {
 						.build());
 	}
 
-	private void assertDokumenttypeInfoTo(DokumentTypeKode dokumentTypeKode, DokumenttypeInfoTo dokumenttypeInfo, String... dokumentInfo) {
-		assertDokumenttypeInfoTo(dokumentTypeKode, JOARK.name(), dokumenttypeInfo, dokumentInfo);
-	}
-
-	private void assertDokumenttypeInfoTo(DokumentTypeKode dokumentTypeKode, String arkivSystem, DokumenttypeInfoTo dokumenttypeInfo, String... dokumentInfo) {
+	private void assertDokumenttypeInfoTo(String arkivSystem, DokumenttypeInfoTo dokumenttypeInfo, String... dokumentInfo) {
 		String dokumentttypeId = dokumentInfo[0];
 
 		assertThat(dokumenttypeInfo.getDokumenttypeId()).isEqualTo(dokumentttypeId);
-		assertThat(dokumenttypeInfo.getDokumentType()).isEqualTo(dokumentTypeKode.name());
+		assertThat(dokumenttypeInfo.getDokumentType()).isEqualTo(U.name());
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId()).isEqualTo(IKKE_REDIGERBAR_MAL_ID);
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId()).isEqualTo(REDIGERBAR_MAL_ID);
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse()).isEqualTo(MAL_XSD_REFERANSE);

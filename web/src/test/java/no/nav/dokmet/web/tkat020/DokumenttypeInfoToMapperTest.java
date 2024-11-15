@@ -14,7 +14,6 @@ import no.nav.dokmet.core.domain.entities.ChangeStamp;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,16 +24,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
-import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_INNGAAENDE;
-import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_UTGAAENDE;
 import static no.nav.dokmet.web.TestDataUtils.ENDRET_AV;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MALID;
 import static no.nav.dokmet.web.TestDataUtils.MAL_LOGIKK_FIL;
@@ -64,18 +61,17 @@ public class DokumenttypeInfoToMapperTest {
 	}
 
 	@Test
-	public void shouldMapDokumenttypeInfoToDokumentInfoToInngaaende() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_INNGAAENDE));
+	public void shouldMapDokumenttypeInfoToDokumentInfoTo() {
+		DokumenttypeInfo domain = buildDokumenttypeInfo();
 
 		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
 
 		assertDokumentInfoTo(map);
-		assertThat(map.getDokumentType(), is(DOKUMENT_TYPE_INNGAAENDE));
 	}
 
 	@Test
 	public void shouldMapDokumentDistribusjonWithDefaultValues() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_INNGAAENDE));
+		DokumenttypeInfo domain = buildDokumenttypeInfo();
 
 		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
 
@@ -88,7 +84,7 @@ public class DokumenttypeInfoToMapperTest {
 
 	@Test
 	public void shouldMapDokumentDistribusjonWithSpecifiedValues() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_INNGAAENDE));
+		DokumenttypeInfo domain = buildDokumenttypeInfo();
 		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(Boolean.FALSE);
 		domain.getDokumentProduksjonsInfo()
 				.getDistribusjonInfo()
@@ -104,30 +100,19 @@ public class DokumenttypeInfoToMapperTest {
 	}
 
 	@Test
-	public void shouldMapDokumenttypeInfoToDokumentInfoToMissingProduksjonsInfoInngaaende() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_INNGAAENDE));
+	public void shouldMapDokumenttypeInfoToDokumentInfoToMissingProduksjonsInfo() {
+		DokumenttypeInfo domain = buildDokumenttypeInfo();
 		domain.setDokumentProduksjonsInfo(null);
 
 		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
 
-		assertThat(map.getDokumentType(), is(DOKUMENT_TYPE_INNGAAENDE));
 		assertThat(map.getDokumentProduksjonsInfo(), nullValue());
-	}
-
-	@Test
-	public void shouldMapDokumenttypeInfoToDokumentInfoToUtgaaende() {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_UTGAAENDE));
-
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
-
-		assertDokumentInfoTo(map);
-		assertThat(map.getDokumentType(), is(DOKUMENT_TYPE_UTGAAENDE));
 	}
 
 	@ParameterizedTest
 	@MethodSource
 	void shouldMapTosidigPrint(Boolean tosidigPrint, boolean expected) {
-		DokumenttypeInfo domain = buildDokumenttypeInfo(DokumentTypeKode.valueOf(DOKUMENT_TYPE_UTGAAENDE));
+		DokumenttypeInfo domain = buildDokumenttypeInfo();
 		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(tosidigPrint);
 
 		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
@@ -147,6 +132,7 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(to.getDokumenttypeId(), is(no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID));
 		assertThat(to.getDokumentKategori(), is(DOKUMENT_KATEGORI));
 		assertThat(to.getDokumentTittel(), is(DOKUMENT_TITTEL));
+		assertThat(to.getDokumentType(), is(U.name()));
 		assertThat(to.getSensitivt(), is(true));
 		assertThat(to.isUtledRegisterInfo(), is(true));
 		assertThat(to.getTema(), is(TEMA));
@@ -197,12 +183,12 @@ public class DokumenttypeInfoToMapperTest {
 		assertThat(to.getEndretDato().toString(), is(changeStamp.getEndretDato().toString()));
 	}
 
-	private DokumenttypeInfo buildDokumenttypeInfo(DokumentTypeKode dokumentTypeKode) {
+	private DokumenttypeInfo buildDokumenttypeInfo() {
 		DokumenttypeInfo build = DokumenttypeInfoBuilder.builder()
 				.dokumenttypeId(DOKUMENTTYPE_ID)
 				.dokumentKategori(DOKUMENT_KATEGORI)
 				.dokumentTittel(DOKUMENT_TITTEL)
-				.dokumentType(dokumentTypeKode)
+				.dokumentType(U)
 				.sensitivt(true)
 				.utledRegisterInfo(true)
 				.tema(TEMA)

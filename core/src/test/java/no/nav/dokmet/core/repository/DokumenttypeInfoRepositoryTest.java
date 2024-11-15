@@ -9,7 +9,6 @@ import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
 import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -64,7 +64,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
 		assertThat(dokumenttypeInfo, notNullValue());
-		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID), false);
+		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 	}
 
 	@Test
@@ -87,22 +87,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		commitAndBeginNewTransaction();
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
-		assertDokumenttypeInfo(dokinfo, dokumenttypeInfo, false);
-		assertThat(dokumenttypeInfo.getVersion(), is(1L));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetDato(), notNullValue());
-	}
-
-	@Test
-	public void shouldSaveNewDokumenttypeInfoInngaaende() {
-		DokumenttypeInfo dokInfo = createDokumentTypeInfoInngaaende(DOKUMENT_TYPE_ID);
-		dokumenttypeInfoRepository.save(dokInfo);
-		commitAndBeginNewTransaction();
-		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-
-		assertDokumenttypeInfo(dokumenttypeInfo, dokInfo, true);
+		assertDokumenttypeInfo(dokinfo, dokumenttypeInfo);
 		assertThat(dokumenttypeInfo.getVersion(), is(1L));
 		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
 		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
@@ -147,18 +132,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 				.dokumentTittel("NAV Dokument")
 				.dokumentKategori("Brev")
 				.sensitivt(true)
-				.dokumentType(DokumentTypeKode.U)
-				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
-				.build();
-	}
-
-	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) {
-		return DokumenttypeInfoBuilder.builder()
-				.dokumenttypeId(dokumentTypeId)
-				.dokumentTittel("NAV Dokument")
-				.dokumentKategori("Brev")
-				.sensitivt(true)
-				.dokumentType(DokumentTypeKode.I)
+				.dokumentType(U)
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
 				.build();
 	}
@@ -190,7 +164,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 						.build()).build();
 	}
 
-	private void assertDokumenttypeInfo(DokumenttypeInfo actual, DokumenttypeInfo expected, boolean inngaaende) {
+	private void assertDokumenttypeInfo(DokumenttypeInfo actual, DokumenttypeInfo expected) {
 		assertThat("DokumentTypeId", expected.getDokumenttypeId(), is(actual.getDokumenttypeId()));
 		assertThat("DokumentTittel", expected.getDokumentTittel(), is(actual.getDokumentTittel()));
 		assertThat("DokumentKategori", expected.getDokumentKategori(), is(actual.getDokumentKategori()));

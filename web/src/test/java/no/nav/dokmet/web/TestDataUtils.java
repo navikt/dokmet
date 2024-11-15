@@ -18,8 +18,8 @@ public class TestDataUtils {
 	public static final String MAL_LOGIKK_FIL = "ARENA";
 	public static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
 	public static final String IKKE_REDIGERBAR_MAL_ID = "ikkeRedigerbarMalId";
-	public static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
-	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
+	public static final String DOKUMENTTYPE_ID = "000001";
+	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID + ".xsd";
 
 	public static final String ENDRET_AV = "endretAv";
 	public static final String OPPRETTET_AV = "opprettetAv";
@@ -31,7 +31,6 @@ public class TestDataUtils {
 	public static final boolean EKSTERN_VEDLEGG = true;
 	public static final String IKKE_REDIGERBAR_MALID = "ikkered_malid";
 	public static final String REDIGERBAR_MALID = "ikkered_malid";
-	public static final String DOKUMENTTYPE_ID = "000001";
 	public static final int SIKKERHETSNIVAA = 4;
 	public static final String SPRAAK_NO = "no";
 	public static final String SPRAAK_EN = "en";
@@ -39,8 +38,6 @@ public class TestDataUtils {
 	public static final String VARSELTYPE_ID1 = "varseltypeId1";
 	public static final String VARSELTYPE_ID2 = "varseltypeId2";
 	public static final String DIST_KANAL_DITT_NAV = "DITT_NAV";
-	public static final String DOKUMENT_TYPE_INNGAAENDE = "I";
-	public static final String DOKUMENT_TYPE_UTGAAENDE = "U";
 
 	public static final VarselKategoriKode VARSEL_KATEGORI = DISTRIBUSJON;
 	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = VED_DITT_NAV_OGSA_PRINT;
