@@ -17,6 +17,8 @@ import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import no.nav.dokmet.core.exceptions.IllegalValueException;
 
+import java.util.Arrays;
+
 import static java.lang.String.format;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
@@ -114,7 +116,10 @@ public class DokumenttypeInfoMapper {
 		try {
 			return enumName == null ? null : Enum.valueOf(enumClass, enumName);
 		} catch (IllegalArgumentException e) {
-			throw new IllegalValueException(format("%s er ikke en gyldig kodeverdi for %s", enumName, enumClass));
+			throw new IllegalValueException(format("%s er ikke en gyldig kodeverdi for %s. Gyldige verdier=%s",
+					enumName,
+					enumClass.getSimpleName(),
+					Arrays.toString(enumClass.getEnumConstants())));
 		}
 	}
 }

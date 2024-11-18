@@ -10,8 +10,12 @@ import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
+import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
+import no.nav.dokmet.core.exceptions.IllegalValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,6 +43,7 @@ import static no.nav.dokmet.web.TestDataUtils.UTLED_REGISTER_INFO;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID1;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID2;
 import static no.nav.dokmet.web.TestDataUtils.VEDLEGG;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
@@ -56,7 +61,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoUpdate() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
 		assertThat(map.getDokumenttypeId(), nullValue());
@@ -65,7 +70,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoWhenArkivSystemIsIngen() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(INGEN.name());
 
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
@@ -78,7 +83,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shoulNotMapArkivSystemWhenToArkivSystemIsNullAndDomainArkivSystemIsNotNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(null);
 
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
@@ -91,7 +96,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoUpdateWhenNonMandatoryfieldsIsNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(null);
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setPredefinertDistKanal(null);
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setDistribusjonVarsels(Collections.emptyList());
@@ -104,7 +109,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoUpdateWhenDistribusjonInfoIsNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
@@ -114,7 +119,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumentTypeInfoNew() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setDokumenttypeId(DOKUMENTTYPE_ID);
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to);
@@ -122,6 +127,18 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(map.getDokumenttypeId(), is(DOKUMENTTYPE_ID));
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {"I", "N"})
+	void shouldThrowExceptionWhenDokumenttypeIsNotUtgaaende(String dokumentType) {
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
+		to.setDokumentType(dokumentType);
+
+ 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
+
+		assertThatExceptionOfType(IllegalValueException.class)
+				.isThrownBy(() -> DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo))
+				.withMessage("%s er ikke en gyldig kodeverdi for %s. Gyldige verdier=[U]", dokumentType, DokumentTypeKode.class.getSimpleName());
+	}
 
 	private DokumenttypeInfo createDokumentTypeInfo() {
 		return DokumenttypeInfoBuilder.builder()
@@ -141,7 +158,7 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(dokumenttypeInfo.getArkivSystem(), is(arkivSystem));
 	}
 
-	private DokumenttypeInfoTo create() {
+	private DokumenttypeInfoTo createDokumenttypeInfoTo() {
 		return DokumenttypeInfoTo.builder()
 				.dokumentTittel(DOKUMENT_TITTEL)
 				.dokumentKategori(DOKUMENT_KATEGORI)
@@ -150,11 +167,11 @@ public class DokumenttypeInfoMapperTest {
 				.arkivSystem(JOARK.name())
 				.tema(TEMA)
 				.dokumentType(U.name())
-				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
+				.dokumentProduksjonsInfo(createDokumentProduksjonsInfoTo())
 				.build();
 	}
 
-	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfo() {
+	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfoTo() {
 		DokumentProduksjonsInfoTo to = new DokumentProduksjonsInfoTo();
 
 		to.setVedlegg(VEDLEGG);
