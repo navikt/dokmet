@@ -6,15 +6,9 @@ import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.domain.entities.DistribusjonInfo;
 import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
-import no.nav.dokmet.core.domain.kode.ArkivBehandlingKode;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
-import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
-import no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode;
 import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
 import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,15 +17,12 @@ import org.slf4j.MDC;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.transaction.TestTransaction;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -42,10 +33,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 	private static final String DOKUMENT_TYPE_ID = "NAV-01-02-03";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "EDT_ID_1";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "EDT_ID_2";
-	private static final String EKSTERN_DOKUMENT_TYPE_ID_3 = "EDT_ID_3";
-	private static final EksternIdTypeKode EKSTERN_DOKUMENT_TYPE = EksternIdTypeKode.SERVICE_CODE;
 	protected static final String REPO_USER_ID = "repoTest";
 
 	@BeforeEach
@@ -77,7 +64,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
 		assertThat(dokumenttypeInfo, notNullValue());
-		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID), false);
+		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 	}
 
 	@Test
@@ -100,7 +87,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		commitAndBeginNewTransaction();
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
-		assertDokumenttypeInfo(dokinfo, dokumenttypeInfo, false);
+		assertDokumenttypeInfo(dokinfo, dokumenttypeInfo);
 		assertThat(dokumenttypeInfo.getVersion(), is(1L));
 		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
 		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
@@ -109,40 +96,14 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void shouldSaveNewDokumenttypeInfoInngaaende() {
-		DokumenttypeInfo dokInfo = createDokumentTypeInfoInngaaende(DOKUMENT_TYPE_ID);
-		dokumenttypeInfoRepository.save(dokInfo);
-		commitAndBeginNewTransaction();
-		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-
-		assertDokumenttypeInfo(dokumenttypeInfo, dokInfo, true);
-		assertThat(dokumenttypeInfo.getVersion(), is(1L));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetDato(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getChangeStamp().getOpprettetDato(), notNullValue());
-	}
-
-	@Test
-	public void shouldUpdateDokumenttypeInfoAndEksternDokumentType() {
+	public void shouldUpdateDokumenttypeInfo() {
 		DokumenttypeInfo dokumenttypeInfo = createDokumenttypeInfo(DOKUMENT_TYPE_ID);
 		dokumenttypeInfoRepository.save(dokumenttypeInfo);
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo dokinfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-
 		dokinfo.setDokumentKategori("nyKategori");
 		dokinfo.getDokumentProduksjonsInfo().setRedigerbarMalId("malid2");
-
-		Set<EksternDokumentType> newEksternDokumentType = new HashSet<>(dokumenttypeInfo.getEksternDokumentType());
-		newEksternDokumentType.forEach(e -> e.setId(null));
-		newEksternDokumentType.stream()
-				.filter(EDType -> EDType.getEksternDokumentTypeId().equals(EKSTERN_DOKUMENT_TYPE_ID_1))
-				.findAny().get().setEksternDokumentTypeId(EKSTERN_DOKUMENT_TYPE_ID_3);
-		dokinfo.setEksternDokumentType(newEksternDokumentType);
-
 		dokumenttypeInfoRepository.save(dokinfo);
 		commitAndBeginNewTransaction();
 
@@ -153,7 +114,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretAv(), is(REPO_USER_ID));
 		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretDato(), notNullValue());
 		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getVersion(), is(2L));
-		assertThat(updatedDkumenttypeInfo.getEksternDokumentType().size(), is(2));
 		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretAv(), is(REPO_USER_ID));
 		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretDato(), notNullValue());
 	}
@@ -172,38 +132,9 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 				.dokumentTittel("NAV Dokument")
 				.dokumentKategori("Brev")
 				.sensitivt(true)
-				.dokumentType(DokumentTypeKode.U)
+				.dokumentType(U)
 				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
-				.eksternDokumentType(new HashSet<>(Arrays.asList(
-						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
-						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
-	}
-
-	private DokumenttypeInfo createDokumentTypeInfoInngaaende(String dokumentTypeId) {
-		return DokumenttypeInfoBuilder.builder()
-				.dokumenttypeId(dokumentTypeId)
-				.dokumentTittel("NAV Dokument")
-				.dokumentKategori("Brev")
-				.sensitivt(true)
-				.dokumentType(DokumentTypeKode.I)
-				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo())
-				.dokumentMottakInfo(createDokumentMottaksInfo())
-				.eksternDokumentType(new HashSet<>(Arrays.asList(
-						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_1, EKSTERN_DOKUMENT_TYPE),
-						createEksternDokumentType(EKSTERN_DOKUMENT_TYPE_ID_2, EKSTERN_DOKUMENT_TYPE)))).build();
-	}
-
-	private DokumentMottakInfo createDokumentMottaksInfo() {
-		return DokumentMottakInfo.builder()
-				.arkivBehandling(ArkivBehandlingKode.ARKIVER_FRA_MOTTAK)
-				.konverteringBehandling(KonverteringBehandlingKode.XML_TO_PDFA)
 				.build();
-	}
-
-	private EksternDokumentType createEksternDokumentType(String eksternDokumentTypeId, EksternIdTypeKode eksternIdTypeKode) {
-		return EksternDokumentType.builder()
-				.eksternDokumentTypeId(eksternDokumentTypeId)
-				.eksternIdType(eksternIdTypeKode).build();
 	}
 
 	private DokumentProduksjonsInfo createDokumentProduksjonsInfo() {
@@ -233,22 +164,13 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 						.build()).build();
 	}
 
-	private void assertDokumenttypeInfo(DokumenttypeInfo actual, DokumenttypeInfo expected, boolean inngaaende) {
+	private void assertDokumenttypeInfo(DokumenttypeInfo actual, DokumenttypeInfo expected) {
 		assertThat("DokumentTypeId", expected.getDokumenttypeId(), is(actual.getDokumenttypeId()));
 		assertThat("DokumentTittel", expected.getDokumentTittel(), is(actual.getDokumentTittel()));
 		assertThat("DokumentKategori", expected.getDokumentKategori(), is(actual.getDokumentKategori()));
 		assertThat("DokumentType", expected.getDokumentType(), is(actual.getDokumentType()));
 		assertThat("Sensitivt", expected.getSensitivt(), is(actual.getSensitivt()));
 		assertThat("Version", expected.getVersion(), is(actual.getVersion()));
-
-		if (inngaaende) {
-			assertThat(actual.getDokumentMottakInfo().getArkivBehandling(), is(expected.getDokumentMottakInfo()
-					.getArkivBehandling()));
-			assertThat(actual.getDokumentMottakInfo().getKonverteringBehandling(), is(expected.getDokumentMottakInfo()
-					.getKonverteringBehandling()));
-		} else {
-			assertThat(actual.getDokumentMottakInfo(), is(nullValue()));
-		}
 
 		DokumentProduksjonsInfo expectedDokProdInfo = expected.getDokumentProduksjonsInfo();
 		DokumentProduksjonsInfo actualDokProdInfo = actual.getDokumentProduksjonsInfo();
@@ -283,10 +205,6 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 				is(actualDistribusjonVarsel.getVarseltypeId()));
 		assertThat("VarselForDistribusjonKanal", expectedDistribusjonVarsel.getVarselForDistribusjonKanal(),
 				is(actualDistribusjonVarsel.getVarselForDistribusjonKanal()));
-
-		EksternDokumentType expectedEksternDokumenType = expected.getEksternDokumentType().iterator().next();
-		EksternDokumentType actualEksternDokumenType = expected.getEksternDokumentType().iterator().next();
-		assertThat(expectedEksternDokumenType.getEksternDokumentTypeId(), is(actualEksternDokumenType.getEksternDokumentTypeId()));
 	}
 
 }

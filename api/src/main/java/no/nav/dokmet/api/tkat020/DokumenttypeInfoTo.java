@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"dokumenttypeId", "dokumentTittel", "dokumentType", "dokumentKategori", "sensitivt", "utledRegisterInfo", "tema", "behandlingstema", "arkivBehandling", "arkivSystem", "artifaktId",
-		"dokumentProduksjonsInfo", "dokumentMottakInfo"})
+@JsonPropertyOrder({"dokumenttypeId", "dokumentTittel", "dokumentType", "dokumentKategori", "sensitivt", "utledRegisterInfo", "tema", "arkivBehandling", "arkivSystem",
+		"dokumentProduksjonsInfo"})
 public class DokumenttypeInfoTo extends AbstractToObject {
 
 	private String dokumenttypeId;
@@ -23,10 +23,7 @@ public class DokumenttypeInfoTo extends AbstractToObject {
 	private Boolean sensitivt;
 	private boolean utledRegisterInfo;
 	private String tema;
-	private String behandlingstema;
 	private String arkivSystem;
-	private String artifaktId;
 
 	private DokumentProduksjonsInfoTo dokumentProduksjonsInfo;
-	private DokumentMottakInfoTo dokumentMottakInfo;
 }

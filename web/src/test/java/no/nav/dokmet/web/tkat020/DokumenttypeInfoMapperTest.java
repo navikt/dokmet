@@ -3,40 +3,31 @@ package no.nav.dokmet.web.tkat020;
 
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
-import no.nav.dokmet.api.tkat020.DokumentMottakInfoTo;
 import no.nav.dokmet.api.tkat020.DokumentProduksjonsInfoTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
-import no.nav.dokmet.api.tkat020.EksternDokumentTypeTo;
 import no.nav.dokmet.core.builders.builder.DokumentProduksjonInfoBuilder;
 import no.nav.dokmet.core.builders.builder.DokumenttypeInfoBuilder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
-import no.nav.dokmet.core.domain.entities.DokumentMottakInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.entities.EksternDokumentType;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
+import no.nav.dokmet.core.domain.kode.DokumentTypeKode;
+import no.nav.dokmet.core.exceptions.IllegalValueException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
-import static no.nav.dokmet.core.domain.kode.ArkivBehandlingKode.ARKIVER_FRA_MOTTAK;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
-import static no.nav.dokmet.core.domain.kode.KonverteringBehandlingKode.XML_TO_PDFA;
-import static no.nav.dokmet.web.TestDataUtils.ARTIFAKT_ID;
-import static no.nav.dokmet.web.TestDataUtils.BEHANDLINGSTEMA;
+import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_DITT_NAV;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TITTEL;
-import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_TYPE_INNGAAENDE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_DOKUMENT_TYPE_ID_1;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE;
-import static no.nav.dokmet.web.TestDataUtils.EKSTERN_ID_TYPE_KODE;
 import static no.nav.dokmet.web.TestDataUtils.EKSTERN_VEDLEGG;
 import static no.nav.dokmet.web.TestDataUtils.ENDRET_AV;
 import static no.nav.dokmet.web.TestDataUtils.IKKE_REDIGERBAR_MALID;
@@ -52,6 +43,7 @@ import static no.nav.dokmet.web.TestDataUtils.UTLED_REGISTER_INFO;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID1;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID2;
 import static no.nav.dokmet.web.TestDataUtils.VEDLEGG;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
@@ -68,16 +60,8 @@ public class DokumenttypeInfoMapperTest {
 	}
 
 	@Test
-	public void shouldMapToEksternDokumentType() {
-		List<EksternDokumentTypeTo> eksternDokumentTypes = Collections.singletonList(createEksternDokumentTypeTo());
-		Set<EksternDokumentType> eksternDokumentType = DokumenttypeInfoMapper.mapToEksternDokumentType(eksternDokumentTypes);
-		assertThat(eksternDokumentType.size(), is(1));
-		assertThat(eksternDokumentType.iterator().next().getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_1));
-	}
-
-	@Test
 	public void shouldMapDokumenttypeInfoUpdate() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
 		assertThat(map.getDokumenttypeId(), nullValue());
@@ -86,7 +70,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoWhenArkivSystemIsIngen() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(INGEN.name());
 
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
@@ -99,7 +83,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shoulNotMapArkivSystemWhenToArkivSystemIsNullAndDomainArkivSystemIsNotNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(null);
 
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
@@ -112,7 +96,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoUpdateWhenNonMandatoryfieldsIsNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(null);
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setPredefinertDistKanal(null);
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setDistribusjonVarsels(Collections.emptyList());
@@ -125,7 +109,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumenttypeInfoUpdateWhenDistribusjonInfoIsNull() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
@@ -135,7 +119,7 @@ public class DokumenttypeInfoMapperTest {
 
 	@Test
 	public void shouldMapDokumentTypeInfoNew() {
-		DokumenttypeInfoTo to = create();
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setDokumenttypeId(DOKUMENTTYPE_ID);
 
 		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to);
@@ -143,12 +127,23 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(map.getDokumenttypeId(), is(DOKUMENTTYPE_ID));
 	}
 
+	@ParameterizedTest
+	@ValueSource(strings = {"I", "N"})
+	void shouldThrowExceptionWhenDokumenttypeIsNotUtgaaende(String dokumentType) {
+		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
+		to.setDokumentType(dokumentType);
+
+ 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
+
+		assertThatExceptionOfType(IllegalValueException.class)
+				.isThrownBy(() -> DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo))
+				.withMessage("%s er ikke en gyldig kodeverdi for %s. Gyldige verdier=[U]", dokumentType, DokumentTypeKode.class.getSimpleName());
+	}
 
 	private DokumenttypeInfo createDokumentTypeInfo() {
 		return DokumenttypeInfoBuilder.builder()
 				.arkivSystem(JOARK)
 				.dokumentProduksjonsInfo(DokumentProduksjonInfoBuilder.aDokumentProduksjonInfo().build())
-				.dokumentMottakInfo(DokumentMottakInfo.builder().build())
 				.build();
 	}
 
@@ -156,58 +151,27 @@ public class DokumenttypeInfoMapperTest {
 		assertThat(dokumenttypeInfo.getDokumentTittel(), is(DOKUMENT_TITTEL));
 		assertThat(dokumenttypeInfo.getSensitivt(), is(SENSITIVT));
 		assertThat(dokumenttypeInfo.isUtledRegisterInfo(), is(UTLED_REGISTER_INFO));
-		assertThat(dokumenttypeInfo.getArtifaktId(), is(ARTIFAKT_ID));
 		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getBehandlingstema(), is(BEHANDLINGSTEMA));
 		assertThat(dokumenttypeInfo.getDokumentKategori(), is(DOKUMENT_KATEGORI));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil(), is(MAL_LOGIKK_FIL));
 		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getArkivBehandling(), is(ARKIVER_FRA_MOTTAK));
 		assertThat(dokumenttypeInfo.getArkivSystem(), is(arkivSystem));
-		assertThat(dokumenttypeInfo.getDokumentMottakInfo().getKonverteringBehandling(), is(XML_TO_PDFA));
-		assertThat(dokumenttypeInfo.getEksternDokumentType()
-				.iterator()
-				.next()
-				.getEksternDokumentTypeId(), is(EKSTERN_DOKUMENT_TYPE_ID_1));
-		assertThat(dokumenttypeInfo.getEksternDokumentType().iterator().next().getEksternIdType(), is(EKSTERN_ID_TYPE_KODE));
 	}
 
-	private DokumenttypeInfoTo create() {
+	private DokumenttypeInfoTo createDokumenttypeInfoTo() {
 		return DokumenttypeInfoTo.builder()
 				.dokumentTittel(DOKUMENT_TITTEL)
 				.dokumentKategori(DOKUMENT_KATEGORI)
 				.sensitivt(SENSITIVT)
 				.utledRegisterInfo(UTLED_REGISTER_INFO)
-				.artifaktId(ARTIFAKT_ID)
 				.arkivSystem(JOARK.name())
 				.tema(TEMA)
-				.behandlingstema(BEHANDLINGSTEMA)
-				.dokumentType(DOKUMENT_TYPE_INNGAAENDE)
-				.dokumentMottakInfo(createDokumentMottakInfo())
-				.dokumentProduksjonsInfo(createDokumentProduksjonsInfo()).build();
-
+				.dokumentType(U.name())
+				.dokumentProduksjonsInfo(createDokumentProduksjonsInfoTo())
+				.build();
 	}
 
-	private EksternDokumentTypeTo createEksternDokumentTypeTo() {
-		EksternDokumentTypeTo to = new EksternDokumentTypeTo();
-
-		to.setEksternDokumentTypeId(EKSTERN_DOKUMENT_TYPE_ID_1);
-		to.setEksternIdType(EKSTERN_ID_TYPE);
-
-		return to;
-	}
-
-	private DokumentMottakInfoTo createDokumentMottakInfo() {
-		DokumentMottakInfoTo to = new DokumentMottakInfoTo();
-
-		to.setArkivBehandling(ARKIVER_FRA_MOTTAK.name());
-		to.setKonverteringsBehandling(XML_TO_PDFA.name());
-		to.setEksternDokumentTyper(Collections.singletonList(createEksternDokumentTypeTo()));
-
-		return to;
-	}
-
-	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfo() {
+	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfoTo() {
 		DokumentProduksjonsInfoTo to = new DokumentProduksjonsInfoTo();
 
 		to.setVedlegg(VEDLEGG);

@@ -1,12 +1,10 @@
 package no.nav.dokmet.web;
 
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.EksternIdTypeKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 
 import static no.nav.dokmet.core.domain.kode.DistribusjonKanalKode.VED_DITT_NAV_OGSA_PRINT;
-import static no.nav.dokmet.core.domain.kode.EksternIdTypeKode.SERVICE_CODE;
 import static no.nav.dokmet.core.domain.kode.KanalKode.EPOST;
 import static no.nav.dokmet.core.domain.kode.VarselKategoriKode.DISTRIBUSJON;
 
@@ -20,23 +18,19 @@ public class TestDataUtils {
 	public static final String MAL_LOGIKK_FIL = "ARENA";
 	public static final String REDIGERBAR_MAL_ID = "redigerbarMalId";
 	public static final String IKKE_REDIGERBAR_MAL_ID = "ikkeRedigerbarMalId";
-	public static final String DOKUMENTTYPE_ID_INNGAAENDE = "010001";
-	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_INNGAAENDE + ".xsd";
-	public static final String EKSTERN_ID_TYPE = SERVICE_CODE.toString();
-	
+	public static final String DOKUMENTTYPE_ID = "000001";
+	public static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID + ".xsd";
+
 	public static final String ENDRET_AV = "endretAv";
 	public static final String OPPRETTET_AV = "opprettetAv";
 	public static final String PORTO = "porto";
 	public static final boolean SENSITIVT = false;
 	public static final boolean UTLED_REGISTER_INFO = false;
-	public static final String ARTIFAKT_ID = "artifakt_id";
 	public static final String TEMA = "teema";
-	public static final String BEHANDLINGSTEMA = "behandlingstema";
 	public static final boolean VEDLEGG = true;
 	public static final boolean EKSTERN_VEDLEGG = true;
 	public static final String IKKE_REDIGERBAR_MALID = "ikkered_malid";
 	public static final String REDIGERBAR_MALID = "ikkered_malid";
-	public static final String DOKUMENTTYPE_ID = "000001";
 	public static final int SIKKERHETSNIVAA = 4;
 	public static final String SPRAAK_NO = "no";
 	public static final String SPRAAK_EN = "en";
@@ -44,11 +38,6 @@ public class TestDataUtils {
 	public static final String VARSELTYPE_ID1 = "varseltypeId1";
 	public static final String VARSELTYPE_ID2 = "varseltypeId2";
 	public static final String DIST_KANAL_DITT_NAV = "DITT_NAV";
-	public static final String DOKUMENT_TYPE_INNGAAENDE = "I";
-	public static final String DOKUMENT_TYPE_UTGAAENDE = "U";
-	public static final String EKSTERN_DOKUMENT_TYPE_ID_1 = "ID_1";
-	public static final String EKSTERN_DOKUMENT_TYPE_ID_2 = "ID_2";
-	public static final EksternIdTypeKode EKSTERN_ID_TYPE_KODE = SERVICE_CODE;
 
 	public static final VarselKategoriKode VARSEL_KATEGORI = DISTRIBUSJON;
 	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = VED_DITT_NAV_OGSA_PRINT;
