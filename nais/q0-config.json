@@ -17,7 +17,7 @@
   "AZURE_REPLYURLS": [
     "https://dokmet-q0.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
   ],
-  "AZURE_ACCESS_GROUP" : "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
+  "AZURE_ACCESS_GROUP": "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
   "AZURE_IAC_RULES": [
     {
       "app": "dokprod-q0",

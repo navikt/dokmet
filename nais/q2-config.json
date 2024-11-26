@@ -17,95 +17,10 @@
   "AZURE_REPLYURLS": [
     "https://dokmet.dev.intern.nav.no/rest/varseladmin/oauth/authenticated"
   ],
-  "AZURE_ACCESS_GROUP" : "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
+  "AZURE_ACCESS_GROUP": "877eae90-48ec-4b2f-9495-01ab6a4a42e3",
   "AZURE_IAC_RULES": [
     {
-      "app": "dokdistfordeling",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistdpi-2",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal-q0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal-q4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistkanal-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
       "app": "dokprod",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-q0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-q4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokprod-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistsentralprint",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "foerstesidegenerator",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-q0",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-q2",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-q4",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "regoppslag-q5",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "dev-fss"
-    },
-    {
-      "app": "dokdistfordeling",
       "namespace": "teamdokumenthandtering",
       "cluster": "dev-fss"
     }
