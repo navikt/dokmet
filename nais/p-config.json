@@ -20,42 +20,7 @@
   "AZURE_ACCESS_GROUP" : "58fb0f7f-3685-41ba-9702-e7225eb985d8",
   "AZURE_IAC_RULES": [
     {
-      "app": "dokdistfordeling",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "dokdistdpi-2",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "dokdistkanal",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
       "app": "dokprod",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "dokdistsentralprint",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "foerstesidegenerator",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "regoppslag",
-      "namespace": "teamdokumenthandtering",
-      "cluster": "prod-fss"
-    },
-    {
-      "app": "dokdistfordeling",
       "namespace": "teamdokumenthandtering",
       "cluster": "prod-fss"
     }
