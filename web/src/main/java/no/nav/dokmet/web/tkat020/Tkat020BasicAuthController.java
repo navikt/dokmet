@@ -44,12 +44,12 @@ public class Tkat020BasicAuthController {
 
 	@PostMapping
 	public ResponseEntity<DokumenttypeInfoTo> saveNewDokumenttypeInfo(@RequestBody DokumenttypeInfoTo request) {
-		String safeDokumenttype = removeUnsafeChars(request.getDokumentType());
-		log.info("tkat020 (basic auth) har mottatt kall om å opprette dokumenttypeInfo med dokumentType={}", safeDokumenttype);
+		String safeDokumenttypeId = removeUnsafeChars(request.getDokumenttypeId());
+		log.info("tkat020 (basic auth) har mottatt kall om å opprette dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId);
 		validator.validate(request, true);
 
 		var dokumenttypeInfo = dokumenttypeService.saveNewDokumenttypeInfo(request);
-		log.info("tkat020 (basic auth) har opprettet dokumenttypeInfo med dokumentType={}", safeDokumenttype);
+		log.info("tkat020 (basic auth) har opprettet dokumenttypeInfo med dokumenttypeId={}", safeDokumenttypeId);
 
 		return ResponseEntity.status(CREATED).body(dokumenttypeInfo);
 	}
