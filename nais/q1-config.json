@@ -9,7 +9,7 @@
   "DOKMET_SCOPES_FOR_BFF": "api://dev-fss.teamdokumenthandtering.dokmet-q1/.default",
   "DOKMET_BASE_URL": "https://dokmet-q1.dev.intern.nav.no",
   "DOKMET_DS": "/oracle/data/dev/creds/dokkat_q1-dokmet",
-  "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@dmv12-scan.adeo.no:1521/dokkat_q1_ha",
+  "SPRING_DATASOURCE_URL": "jdbc:oracle:thin:@dmv07-scan.adeo.no:1521/dokkat_q1_ha",
   "LDAP_ADMIN_USER": "/serviceuser/data/dev/srvssolinux",
   "SPRING_LDAP_URLS": "ldaps://ldapgw.preprod.local",
   "SPRING_LDAP_BASE": "ou=ServiceAccounts,dc=preprod,dc=local",
