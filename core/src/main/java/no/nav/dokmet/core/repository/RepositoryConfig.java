@@ -1,6 +1,7 @@
 package no.nav.dokmet.core.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import no.nav.dokmet.core.config.DataSourceAdditionalProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
 import oracle.jdbc.pool.OracleDataSource;
 import oracle.net.ns.SQLnetDef;
@@ -20,6 +21,8 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 @Slf4j
 @Configuration
 @EnableTransactionManagement
@@ -37,6 +40,7 @@ public class RepositoryConfig {
 	@Bean
 	@Primary
 	DataSource dataSource(final DataSourceProperties dataSourceProperties,
+						  final DataSourceAdditionalProperties dataSourceAdditionalProperties,
 						  final DokmetProperties dokmetProperties) throws SQLException {
 		PoolDataSource poolDataSource = PoolDataSourceFactory.getPoolDataSource();
 		poolDataSource.setConnectionFactoryClassName(OracleDataSource.class.getName());
@@ -44,6 +48,19 @@ public class RepositoryConfig {
 		poolDataSource.setUser(dataSourceProperties.getUsername());
 		poolDataSource.setPassword(dataSourceProperties.getPassword());
 		poolDataSource.registerConnectionInitializationCallback(connection -> connection.setSchema("dokkat"));
+
+		if (isOracleFastConnectionFailoverSupported(dataSourceProperties.getUrl(), dataSourceAdditionalProperties.onshosts())) {
+			poolDataSource.setFastConnectionFailoverEnabled(true);
+			String onsConfiguration = "nodes=" + dataSourceAdditionalProperties.onshosts();
+			poolDataSource.setONSConfiguration(onsConfiguration);
+			log.info("RepositoryConfig - Skrur på FCF/FAN. onsConfiguration={}", onsConfiguration);
+		} else {
+			// Har ikke fått system property -Doracle.jdbc.fanEnabled=false til å fungere med programmatisk oppsett av Oracle UCP.
+			// Derfor er denne else blokken her
+			poolDataSource.setFastConnectionFailoverEnabled(false);
+			poolDataSource.setONSConfiguration("");
+			log.info("RepositoryConfig - FCF/FAN er skrudd av");
+		}
 
 		Properties connProperties = new Properties();
 		connProperties.setProperty(SQLnetDef.TCP_CONNTIMEOUT_STR, "3000");
@@ -65,5 +82,10 @@ public class RepositoryConfig {
 	@Primary
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate(final DataSource dataSource) {
 		return new NamedParameterJdbcTemplate(dataSource);
+	}
+
+
+	private boolean isOracleFastConnectionFailoverSupported(String jdbcurl, String onshosts) {
+		return jdbcurl.toLowerCase().contains("failover") && isNotBlank(onshosts);
 	}
 }

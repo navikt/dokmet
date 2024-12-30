@@ -58,8 +58,10 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: {{ DOKMET_DS }}
-        mountPath: "/var/run/secrets/nais.io/dokmetDS"
+      - kvPath: {{ DOKMET_DS_CREDS }}
+        mountPath: "/var/run/secrets/nais.io/db_creds"
+      - kvPath: {{ DOKMET_DS_CONFIG }}
+        mountPath: "/var/run/secrets/nais.io/db_config"
       - kvPath: {{ LDAP_ADMIN_USER }}
         mountPath: "/var/run/secrets/nais.io/ldap"
   webproxy: true
