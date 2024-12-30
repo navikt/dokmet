@@ -1,31 +1,15 @@
-api
+Api for tkat020/tkat021
 =====================
-dokmet api
 
-`no.nav.dokkat.api`
--------------------
-Request/response klasser for tkat020 / tkat021 API. Kompatibilitet med apper som bruker avhengigheter under. 
+Request/response-klasser for følgende tjenester:
+* tkat020 - les-operasjoner for metadata om dokument produsert av metaforce.
+* tkat021 - operasjoner for oversikt og oppdatering av varselmaler.
 
-Klassene er kompatible med tkat020 / tkat021 API men ikke identiske på klassenivå.
-
-Deprekert. Bruk klassene i `no.nav.dokmet.api` i stedet.
-
+Legg til følgende i Maven-pom for å bruke pakken. Siste versjon finnes i [Github Package Registry](https://github.com/navikt/dokmet/packages/1830491).
 ```
 <dependency>
-    <groupId>no.nav.dokkat</groupId>
-    <artifactId>dokkat-api</artifactId>
-    <version>${dokkat.version}</version>
-</dependency>
-<dependency>
-    <groupId>no.nav.dokkat</groupId>
-    <artifactId>dokkat-schemas</artifactId>
-    <version>${dokkat.version}</version>
+    <groupId>no.nav.dokmet</groupId>
+    <artifactId>api</artifactId>
+    <version>${dokmet-api.version}</version>
 </dependency>
 ```
-
-`no.nav.dokmet.api`
--------------------
-
-Request/response klasser for tkat020 / tkat021 tjenestene.
-
-Brukes av dokmet.
