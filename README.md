@@ -5,13 +5,17 @@ Dokmet tilbyr fylgjande Rest-tenester
 * tkat020 (basic auth) - operasjonar for henting, oppdatering og oppretting av dokumenttypeinfo.
 * tkat030 - validering av ei XML-fil opp mot ei dokumenttype sitt XSD-skjema.
 
-Rest-endepunktet med basic auth skal <ins>kun</ins> brukast av aura-maven-plugin og løpet
+Rest-endepunkta i tkat020 (basic auth) skal <ins>kun</ins> brukast av aura-maven-plugin og løpet
 for deploy av brevpakkar.
 
 Dokmet tilbyr også eit Varseladmin-GUI for å administrere varselmalar, i tillegg til ei pakke med API-klasser som blir 
 publisert til Github Packages.
 
-Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet (dokumentkatalog)](https://confluence.adeo.no/display/BOA/Dokumentkatalog+-+Tjenester+som+tilbys).
+Varseladmin-GUIet må opnast i Chrome SKSS og er tilgjengeleg i alle dev-miljø (også q0, q4 og q5):
+* [Varseladmin i q1](https://dokmet-q1.intern.nav.no/dokmet/varseladmin)
+* [Varseladmin i q2](https://dokmet.intern.nav.no/dokmet/varseladmin)
+
+Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet](https://confluence.adeo.no/display/BOA/Dokmet+-+Tjenester).
 
 ## Førespurnadar
 Spørsmål om koda eller prosjektet kan stillast på [Slack-kanalen for \#Team  Dokumentløsninger](https://nav-it.slack.com/archives/C6W9E5GPJ)
