@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 @Configuration
 @EnableCaching
@@ -23,9 +23,10 @@ public class CacheConfig {
 		SimpleCacheManager manager = new SimpleCacheManager();
 		manager.setCaches(List.of(
 				new CaffeineCache(BREVPAKKE_CACHE, Caffeine.newBuilder()
-						.expireAfterWrite(1, DAYS)
+						.expireAfterWrite(5, MINUTES)
 						.maximumSize(20)
 						.build())));
 		return manager;
 	}
+
 }
