@@ -51,7 +51,7 @@ public class VarselAdminBFFController {
 
 		final CloseableHttpClient httpClient = createHttpClient(httpClientConnectionManager);
 		this.restTemplate = restTemplateBuilder
-				.setConnectTimeout(Duration.ofSeconds(3))
+				.connectTimeout(Duration.ofSeconds(3))
 				.requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient))
 				.build();
 	}

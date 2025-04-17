@@ -1,6 +1,5 @@
 package no.nav.dokmet.web.tkat020;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import no.nav.dokmet.api.tkat020.DistribusjonInfoTo;
 import no.nav.dokmet.api.tkat020.DistribusjonVarselTo;
 import no.nav.dokmet.api.tkat020.DokumenttypeInfoTo;
@@ -15,9 +14,11 @@ import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+
+import java.net.URI;
 
 import static java.lang.Boolean.FALSE;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.INGEN;
@@ -33,7 +34,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class Tkat020ITest extends AbstractITest {
 
-	private static final String DOKMET_BASE_URL = "/rest/dokumenttypeinfo/";
+	private static final URI DOKMET_BASE_URL = URI.create("/rest/dokumenttypeinfo/");
 	private static final String SDP = "SDP";
 	private static final String VARSELTYPE_ID = "varseltypeId";
 	private static final String PORTO_KLASSE = "C5";
@@ -47,9 +48,6 @@ public class Tkat020ITest extends AbstractITest {
 	private static final String DOKUMENTTYPE_ID_1 = "000001";
 	private static final String DOKUMENTTYPE_ID_2 = "000002";
 	private static final String MAL_XSD_REFERANSE = DOKUMENTTYPE_ID_1 + ".xsd";
-
-	@Autowired
-	protected ObjectMapper objectMapper;
 
 	@BeforeEach
 	public void setUp() {
@@ -65,9 +63,8 @@ public class Tkat020ITest extends AbstractITest {
 
 	@Test
 	public void skalHenteAlleDokumenttypeInfo() {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
-
-		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(DOKMET_BASE_URL, GET, requestHttpEntity, DokumenttypeInfoTo[].class);
+		RequestEntity<Void> requestEntity = RequestEntity.get(DOKMET_BASE_URL).build();
+		ResponseEntity<DokumenttypeInfoTo[]> response = restTemplate.exchange(requestEntity, DokumenttypeInfoTo[].class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		var result = response.getBody();
@@ -81,9 +78,8 @@ public class Tkat020ITest extends AbstractITest {
 
 	@Test
 	public void skalHenteDokumenttypeInfoMedDokumenttypeId() {
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
-
-		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(DOKMET_BASE_URL + DOKUMENTTYPE_ID_1, GET, requestHttpEntity, DokumenttypeInfoTo.class);
+		RequestEntity<Void> requestEntity = RequestEntity.get(DOKMET_BASE_URL.resolve(DOKUMENTTYPE_ID_1)).build();
+		ResponseEntity<DokumenttypeInfoTo> response = restTemplate.exchange(requestEntity, DokumenttypeInfoTo.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		DokumenttypeInfoTo dokInfo = response.getBody();
@@ -95,9 +91,8 @@ public class Tkat020ITest extends AbstractITest {
 	@Test
 	public void skalReturnereNotFoundHvisDokumenttypeIdIkkeFinnes() {
 		var dokumenttypeIdSomIkkeEksisterer = "125";
-		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
-
-		ResponseEntity<String> response = restTemplate.exchange(DOKMET_BASE_URL + dokumenttypeIdSomIkkeEksisterer, GET, requestHttpEntity, String.class);
+		RequestEntity<Void> requestEntity = RequestEntity.get(DOKMET_BASE_URL.resolve(dokumenttypeIdSomIkkeEksisterer)).build();
+		ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}
