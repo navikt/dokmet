@@ -212,7 +212,9 @@ public class Tkat030ITest extends AbstractITest {
 					.forEach(path -> {
 						try {
 							String content = Files.readString(path);
-							String filsti = path.toString().replaceFirst(".*/xsd/", "");
+							String filsti = path.toString().replaceFirst(".*/xsd/", "")
+									.replaceFirst(".*\\\\xsd\\\\", "") // Windows tilpasning
+									.replaceAll("\\\\", "/"); // Windows tilpasning
 							XsdFil xsdFile = XsdFil.builder()
 									.brevpakke(brevpakke)
 									.filnavn(path.getFileName().toString())
