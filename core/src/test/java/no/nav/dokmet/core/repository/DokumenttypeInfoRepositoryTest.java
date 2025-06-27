@@ -8,9 +8,6 @@ import no.nav.dokmet.core.domain.entities.DistribusjonInfo;
 import no.nav.dokmet.core.domain.entities.DistribusjonVarsel;
 import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
-import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
-import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
@@ -21,13 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.lang.Boolean.FALSE;
+import static no.nav.dokmet.core.domain.kode.DistribusjonKanalKode.SDP;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
+import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
+import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
@@ -63,8 +60,8 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
-		assertThat(dokumenttypeInfo, notNullValue());
-		assertDokumenttypeInfo(dokumenttypeInfo, createDokumenttypeInfo(DOKUMENT_TYPE_ID));
+		assertThat(dokumenttypeInfo).isNotNull();
+		assertDokumenttypeInfo(dokumenttypeInfo, info);
 	}
 
 	@Test
@@ -77,7 +74,7 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 
 		List<DokumenttypeInfo> dokumenttypeInfos = StreamSupport.stream(dokumenttypeInfoRepository.findAll().spliterator(), false).collect(Collectors.toList());
 
-		assertThat(dokumenttypeInfos, hasSize(2));
+		assertThat(dokumenttypeInfos).hasSize(2);
 	}
 
 	@Test
@@ -88,11 +85,11 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		DokumenttypeInfo dokumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
 
 		assertDokumenttypeInfo(dokinfo, dokumenttypeInfo);
-		assertThat(dokumenttypeInfo.getVersion(), is(1L));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato(), notNullValue());
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetAv(), is(REPO_USER_ID));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetDato(), notNullValue());
+		assertThat(dokumenttypeInfo.getVersion()).isEqualTo(1L);
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetAv()).isEqualTo(REPO_USER_ID);
+		assertThat(dokumenttypeInfo.getChangeStamp().getOpprettetDato()).isNotNull();
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetAv()).isEqualTo(REPO_USER_ID);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getOpprettetDato()).isNotNull();
 	}
 
 	@Test
@@ -108,14 +105,15 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		commitAndBeginNewTransaction();
 
 		DokumenttypeInfo updatedDkumenttypeInfo = dokumenttypeInfoRepository.findDokumenttypeInfoByDokumenttypeId(DOKUMENT_TYPE_ID);
-		assertThat(updatedDkumenttypeInfo.getDokumentKategori(), is("nyKategori"));
-		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId(), is("malid2"));
-		assertThat(updatedDkumenttypeInfo.getVersion(), is(2L));
-		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretAv(), is(REPO_USER_ID));
-		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretDato(), notNullValue());
-		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getVersion(), is(2L));
-		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretAv(), is(REPO_USER_ID));
-		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretDato(), notNullValue());
+
+		assertThat(updatedDkumenttypeInfo.getDokumentKategori()).isEqualTo("nyKategori");
+		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getRedigerbarMalId()).isEqualTo("malid2");
+		assertThat(updatedDkumenttypeInfo.getVersion()).isEqualTo(2L);
+		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretAv()).isEqualTo(REPO_USER_ID);
+		assertThat(updatedDkumenttypeInfo.getChangeStamp().getEndretDato()).isNotNull();
+		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getVersion()).isEqualTo(2L);
+		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretAv()).isEqualTo(REPO_USER_ID);
+		assertThat(updatedDkumenttypeInfo.getDokumentProduksjonsInfo().getChangeStamp().getEndretDato()).isNotNull();
 	}
 
 	@Test
@@ -123,7 +121,8 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
 		commitAndBeginNewTransaction();
 		dokumenttypeInfoRepository.save(createDokumenttypeInfo(DOKUMENT_TYPE_ID));
-		assertThrows(DataIntegrityViolationException.class, () -> commitAndBeginNewTransaction());
+
+		assertThrows(DataIntegrityViolationException.class, this::commitAndBeginNewTransaction);
 	}
 
 	private DokumenttypeInfo createDokumenttypeInfo(String dokumenttypeId) {
@@ -154,57 +153,48 @@ public class DokumenttypeInfoRepositoryTest extends AbstractRepositoryTest {
 				.aDistribusjonInfo()
 				.portoklasse("portoklasse")
 				.sikkerhetsnivaa(3)
-				.predefinertDistKanal(DistribusjonKanalKode.SDP)
-				.tosidigPrint(Boolean.FALSE)
-				.sentralPrintDokumentType(SentralPrintDokumentTypeCode.NAV_STANDARD)
-				.konvoluttvinduType(KonvoluttvinduTypeCode.W)
+				.predefinertDistKanal(SDP)
+				.tosidigPrint(FALSE)
+				.sentralPrintDokumentType(NAV_STANDARD)
+				.konvoluttvinduType(W)
 				.distribusjonVarsel(DistribusjonVarselBuilder.aDistribusjonVarsel()
 						.varseltypeId("VarseltypeId")
-						.varselForDistribusjonKanal(DistribusjonKanalKode.SDP)
+						.varselForDistribusjonKanal(SDP)
 						.build()).build();
 	}
 
 	private void assertDokumenttypeInfo(DokumenttypeInfo actual, DokumenttypeInfo expected) {
-		assertThat("DokumentTypeId", expected.getDokumenttypeId(), is(actual.getDokumenttypeId()));
-		assertThat("DokumentTittel", expected.getDokumentTittel(), is(actual.getDokumentTittel()));
-		assertThat("DokumentKategori", expected.getDokumentKategori(), is(actual.getDokumentKategori()));
-		assertThat("DokumentType", expected.getDokumentType(), is(actual.getDokumentType()));
-		assertThat("Sensitivt", expected.getSensitivt(), is(actual.getSensitivt()));
-		assertThat("Version", expected.getVersion(), is(actual.getVersion()));
+		assertThat(expected.getDokumenttypeId()).isEqualTo(actual.getDokumenttypeId());
+		assertThat(expected.getDokumentTittel()).isEqualTo(actual.getDokumentTittel());
+		assertThat(expected.getDokumentKategori()).isEqualTo(actual.getDokumentKategori());
+		assertThat(expected.getDokumentType()).isEqualTo(actual.getDokumentType());
+		assertThat(expected.getSensitivt()).isEqualTo(actual.getSensitivt());
+		assertThat(expected.getVersion()).isEqualTo(actual.getVersion());
 
 		DokumentProduksjonsInfo expectedDokProdInfo = expected.getDokumentProduksjonsInfo();
 		DokumentProduksjonsInfo actualDokProdInfo = actual.getDokumentProduksjonsInfo();
-		assertThat("ikkeRedigerbarMalId", expectedDokProdInfo.getIkkeRedigerbarMalId(), is(actualDokProdInfo.getIkkeRedigerbarMalId()));
-		assertThat("redigerbarMalId", expectedDokProdInfo.getRedigerbarMalId(), is(actualDokProdInfo.getRedigerbarMalId()));
-		assertThat("MalXsdReferanse", expectedDokProdInfo.getMalXsdReferanse(), is(actualDokProdInfo.getMalXsdReferanse()));
-		assertThat("MalLogikkFil", expectedDokProdInfo.getMalLogikkFil(), is(actualDokProdInfo.getMalLogikkFil()));
-		assertThat("vedlegg", expectedDokProdInfo.getVedlegg(), is(actualDokProdInfo.getVedlegg()));
+		assertThat(expectedDokProdInfo.getIkkeRedigerbarMalId()).isEqualTo(actualDokProdInfo.getIkkeRedigerbarMalId());
+		assertThat(expectedDokProdInfo.getRedigerbarMalId()).isEqualTo(actualDokProdInfo.getRedigerbarMalId());
+		assertThat(expectedDokProdInfo.getMalXsdReferanse()).isEqualTo(actualDokProdInfo.getMalXsdReferanse());
+		assertThat(expectedDokProdInfo.getMalLogikkFil()).isEqualTo(actualDokProdInfo.getMalLogikkFil());
+		assertThat(expectedDokProdInfo.getVedlegg()).isEqualTo(actualDokProdInfo.getVedlegg());
 		DistribusjonInfo expectedDistribusjonInfo = expectedDokProdInfo.getDistribusjonInfo();
 		DistribusjonInfo actualDistribusjonInfo = actualDokProdInfo.getDistribusjonInfo();
 
-		assertThat("PortoKlasse", expectedDistribusjonInfo.getPortoklasse(),
-				is(actualDistribusjonInfo.getPortoklasse()));
-		assertThat("sikkerhetsnivaa", expectedDistribusjonInfo.getSikkerhetsnivaa(),
-				is(actualDistribusjonInfo.getSikkerhetsnivaa()));
-		assertThat("predefinertDistKanal", expectedDistribusjonInfo.getPredefinertDistKanal(),
-				is(actualDistribusjonInfo.getPredefinertDistKanal()));
-		assertThat("tosidigPrint", expectedDistribusjonInfo.getTosidigPrint(),
-				is(actualDistribusjonInfo.getTosidigPrint()));
-		assertThat("sentralPrintDokumentType", expectedDistribusjonInfo.getSentralPrintDokumentType(),
-				is(actualDistribusjonInfo.getSentralPrintDokumentType()));
-		assertThat("konvoluttvinduType", expectedDistribusjonInfo.getKonvoluttvinduType(),
-				is(actualDistribusjonInfo.getKonvoluttvinduType()));
+		assertThat(expectedDistribusjonInfo.getPortoklasse()).isEqualTo(actualDistribusjonInfo.getPortoklasse());
+		assertThat(expectedDistribusjonInfo.getSikkerhetsnivaa()).isEqualTo(actualDistribusjonInfo.getSikkerhetsnivaa());
+		assertThat(expectedDistribusjonInfo.getPredefinertDistKanal()).isEqualTo(actualDistribusjonInfo.getPredefinertDistKanal());
+		assertThat(expectedDistribusjonInfo.getTosidigPrint()).isEqualTo(actualDistribusjonInfo.getTosidigPrint());
+		assertThat(expectedDistribusjonInfo.getSentralPrintDokumentType()).isEqualTo(actualDistribusjonInfo.getSentralPrintDokumentType());
+		assertThat(expectedDistribusjonInfo.getKonvoluttvinduType()).isEqualTo(actualDistribusjonInfo.getKonvoluttvinduType());
 
-		assertThat(expectedDistribusjonInfo.getDistribusjonVarsels().size(),
-				equalTo(actualDistribusjonInfo.getDistribusjonVarsels().size()));
+		assertThat(expectedDistribusjonInfo.getDistribusjonVarsels().size()).isEqualTo(actualDistribusjonInfo.getDistribusjonVarsels().size());
 
 		DistribusjonVarsel expectedDistribusjonVarsel = expectedDistribusjonInfo.getDistribusjonVarsels().iterator().next();
 		DistribusjonVarsel actualDistribusjonVarsel = actualDistribusjonInfo.getDistribusjonVarsels().iterator().next();
 
-		assertThat("VarseltypeId", expectedDistribusjonVarsel.getVarseltypeId(),
-				is(actualDistribusjonVarsel.getVarseltypeId()));
-		assertThat("VarselForDistribusjonKanal", expectedDistribusjonVarsel.getVarselForDistribusjonKanal(),
-				is(actualDistribusjonVarsel.getVarselForDistribusjonKanal()));
+		assertThat(expectedDistribusjonVarsel.getVarseltypeId()).isEqualTo(actualDistribusjonVarsel.getVarseltypeId());
+		assertThat(expectedDistribusjonVarsel.getVarselForDistribusjonKanal()).isEqualTo(actualDistribusjonVarsel.getVarselForDistribusjonKanal());
 	}
 
 }

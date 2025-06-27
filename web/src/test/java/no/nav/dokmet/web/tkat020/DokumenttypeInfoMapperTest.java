@@ -43,11 +43,9 @@ import static no.nav.dokmet.web.TestDataUtils.UTLED_REGISTER_INFO;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID1;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID2;
 import static no.nav.dokmet.web.TestDataUtils.VEDLEGG;
+import static no.nav.dokmet.web.tkat020.DokumenttypeInfoMapper.mapToDokumentTypeInfo;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static org.hamcrest.core.Is.is;
 
 public class DokumenttypeInfoMapperTest {
 
@@ -63,8 +61,9 @@ public class DokumenttypeInfoMapperTest {
 	public void shouldMapDokumenttypeInfoUpdate() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
-		assertThat(map.getDokumenttypeId(), nullValue());
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to, createDokumentTypeInfo());
+
+		assertThat(map.getDokumenttypeId()).isNull();
 		assertDokumentTypeInfo(map, JOARK);
 	}
 
@@ -72,12 +71,12 @@ public class DokumenttypeInfoMapperTest {
 	public void shouldMapDokumenttypeInfoWhenArkivSystemIsIngen() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(INGEN.name());
-
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
 		dokumenttypeInfo.setArkivSystem(null);
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo);
-		assertThat(map.getDokumenttypeId(), nullValue());
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to, dokumenttypeInfo);
+
+		assertThat(map.getDokumenttypeId()).isNull();
 		assertDokumentTypeInfo(map, INGEN);
 	}
 
@@ -85,12 +84,12 @@ public class DokumenttypeInfoMapperTest {
 	public void shoulNotMapArkivSystemWhenToArkivSystemIsNullAndDomainArkivSystemIsNotNull() {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setArkivSystem(null);
-
 		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
 		dokumenttypeInfo.setArkivSystem(INGEN);
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo);
-		assertThat(map.getDokumenttypeId(), nullValue());
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to, dokumenttypeInfo);
+
+		assertThat(map.getDokumenttypeId()).isNull();
 		assertDokumentTypeInfo(map, INGEN);
 	}
 
@@ -101,10 +100,11 @@ public class DokumenttypeInfoMapperTest {
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setPredefinertDistKanal(null);
 		to.getDokumentProduksjonsInfo().getDistribusjonInfo().setDistribusjonVarsels(Collections.emptyList());
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
-		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getPredefinertDistKanal(), nullValue());
-		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), is(empty()));
-		assertThat(map.getArkivSystem().name(), is(JOARK.name()));
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to, createDokumentTypeInfo());
+
+		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getPredefinertDistKanal()).isNull();
+		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).isEmpty();
+		assertThat(map.getArkivSystem().name()).isEqualTo(JOARK.name());
 	}
 
 	@Test
@@ -112,9 +112,9 @@ public class DokumenttypeInfoMapperTest {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.getDokumentProduksjonsInfo().setDistribusjonInfo(null);
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, createDokumentTypeInfo());
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to, createDokumentTypeInfo());
 
-		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo(), nullValue());
+		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNull();
 	}
 
 	@Test
@@ -122,9 +122,10 @@ public class DokumenttypeInfoMapperTest {
 		DokumenttypeInfoTo to = createDokumenttypeInfoTo();
 		to.setDokumenttypeId(DOKUMENTTYPE_ID);
 
-		DokumenttypeInfo map = DokumenttypeInfoMapper.mapToDokumentTypeInfo(to);
+		DokumenttypeInfo map = mapToDokumentTypeInfo(to);
+
 		assertDokumentTypeInfo(map, JOARK);
-		assertThat(map.getDokumenttypeId(), is(DOKUMENTTYPE_ID));
+		assertThat(map.getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID);
 	}
 
 	@ParameterizedTest
@@ -136,7 +137,7 @@ public class DokumenttypeInfoMapperTest {
  		DokumenttypeInfo dokumenttypeInfo = createDokumentTypeInfo();
 
 		assertThatExceptionOfType(IllegalValueException.class)
-				.isThrownBy(() -> DokumenttypeInfoMapper.mapToDokumentTypeInfo(to, dokumenttypeInfo))
+				.isThrownBy(() -> mapToDokumentTypeInfo(to, dokumenttypeInfo))
 				.withMessage("%s er ikke en gyldig kodeverdi for %s. Gyldige verdier=[U]", dokumentType, DokumentTypeKode.class.getSimpleName());
 	}
 
@@ -148,14 +149,14 @@ public class DokumenttypeInfoMapperTest {
 	}
 
 	private void assertDokumentTypeInfo(DokumenttypeInfo dokumenttypeInfo, ArkivSystemKode arkivSystem) {
-		assertThat(dokumenttypeInfo.getDokumentTittel(), is(DOKUMENT_TITTEL));
-		assertThat(dokumenttypeInfo.getSensitivt(), is(SENSITIVT));
-		assertThat(dokumenttypeInfo.isUtledRegisterInfo(), is(UTLED_REGISTER_INFO));
-		assertThat(dokumenttypeInfo.getTema(), is(TEMA));
-		assertThat(dokumenttypeInfo.getDokumentKategori(), is(DOKUMENT_KATEGORI));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil(), is(MAL_LOGIKK_FIL));
-		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
-		assertThat(dokumenttypeInfo.getArkivSystem(), is(arkivSystem));
+		assertThat(dokumenttypeInfo.getDokumentTittel()).isEqualTo(DOKUMENT_TITTEL);
+		assertThat(dokumenttypeInfo.getSensitivt()).isEqualTo(SENSITIVT);
+		assertThat(dokumenttypeInfo.isUtledRegisterInfo()).isEqualTo(UTLED_REGISTER_INFO);
+		assertThat(dokumenttypeInfo.getTema()).isEqualTo(TEMA);
+		assertThat(dokumenttypeInfo.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalLogikkFil()).isEqualTo(MAL_LOGIKK_FIL);
+		assertThat(dokumenttypeInfo.getDokumentProduksjonsInfo().getMalXsdReferanse()).isEqualTo(MAL_XSD_REFERANSE);
+		assertThat(dokumenttypeInfo.getArkivSystem()).isEqualTo(arkivSystem);
 	}
 
 	private DokumenttypeInfoTo createDokumenttypeInfoTo() {
