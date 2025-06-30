@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.4.7</version>
 	</parent>
 
 	<groupId>no.nav.dokmet</groupId>
@@ -35,14 +35,14 @@
 		<java.version>21</java.version>
 
 		<logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
-		<token-support.version>5.0.24</token-support.version>
+		<token-support.version>5.0.30</token-support.version>
 
 		<!-- test -->
-		<spring-cloud-starter-contract-stub-runner.version>4.2.1</spring-cloud-starter-contract-stub-runner.version>
+		<spring-cloud-starter-contract-stub-runner.version>4.3.0</spring-cloud-starter-contract-stub-runner.version>
 
 		<!-- plugins -->
 		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
-		<exec-maven-plugin.version>3.4.1</exec-maven-plugin.version>
+		<exec-maven-plugin.version>3.5.1</exec-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -77,6 +77,7 @@
 				<artifactId>varseladmin-bff</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>no.nav.security</groupId>
 				<artifactId>token-validation-spring</artifactId>

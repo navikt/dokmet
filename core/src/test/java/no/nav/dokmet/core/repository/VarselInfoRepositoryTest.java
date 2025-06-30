@@ -3,7 +3,6 @@ package no.nav.dokmet.core.repository;
 import no.nav.dokmet.core.builders.builder.VarselInfoBuilder;
 import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
-import no.nav.dokmet.core.domain.entities.VarselMal;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
@@ -12,15 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.transaction.TransactionSystemException;
 
-import java.util.Collections;
-
+import static java.util.Collections.singleton;
 import static no.nav.dokmet.core.builders.builder.VarselMalBuilder.aVarselMal;
+import static no.nav.dokmet.core.domain.kode.KanalKode.DITT_NAV;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,7 +28,7 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 	public static final int REVARSLING_INTERVALL = 5;
 	public static final int ANTALL_REVARSLINGER = 2;
 	public static final String TITTEL = "tittel";
-	public static final KanalKode KANAL = KanalKode.EPOST;
+	public static final KanalKode KANAL_EPOST = KanalKode.EPOST;
 	public static final String FOERSTEGANGSVARSEL_TEKST = "forestagang tekst";
 	public static final String REVARSLING_TEKST = "revarseltekst";
 	public static final String VARSEL_NAVN = "varselNavn";
@@ -50,65 +45,65 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 	}
 
 	@Test
-	public void findAll() {
+	public void shouldFindByVarseltypeId() {
 		varselInfoRepository.save(createDomainVarselInfo().build());
-		varselInfoRepository.save(createDomainVarselInfo().varseltypeId("varseltypeId2").build());
-
-		commitAndBeginNewTransaction();
-		assertThat(varselInfoRepository.findAll(), hasSize(2));
-	}
-
-	@Test
-	public void findByVarseltypeId() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
-
 		commitAndBeginNewTransaction();
 
 		VarselInfo varselInfo = varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID);
-		assertThat(varselInfo, notNullValue());
 
+		assertThat(varselInfo).isNotNull();
 		assertVarselInfo(varselInfo);
 	}
 
 	@Test
-	public void saveNew() {
+	public void shouldFindAllVarselInfo() {
 		varselInfoRepository.save(createDomainVarselInfo().build());
-		assertThat(varselInfoRepository.findAll(), hasSize(1));
+		varselInfoRepository.save(createDomainVarselInfo().varseltypeId("varseltypeId2").build());
+
+		commitAndBeginNewTransaction();
+		assertThat(varselInfoRepository.findAll()).hasSize(2);
 	}
 
 	@Test
-	public void update() {
-		VarselInfo varselInfo = varselInfoRepository.save(createDomainVarselInfo().build());
+	public void shouldSaveNewVarselInfo() {
+		varselInfoRepository.save(createDomainVarselInfo().build());
 
-		varselInfo.setPreferertKanal(Collections.singleton(KanalKode.DITT_NAV));
+		assertThat(varselInfoRepository.findAll()).hasSize(1);
+	}
+
+	@Test
+	public void shouldUpdateVarselInfo() {
+		VarselInfo varselInfo = varselInfoRepository.save(createDomainVarselInfo().build());
+		varselInfo.setPreferertKanal(singleton(DITT_NAV));
+
 		varselInfoRepository.save(varselInfo);
 
-		assertThat(varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID).getPreferertKanal(), contains(KanalKode.DITT_NAV));
+		assertThat(varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID).getPreferertKanal()).contains(DITT_NAV);
 	}
 
 	@Test
-	public void shouldFailSaveInvalidFoersteVarselTekst() {
+	public void shouldFailSaveInvalidFoerstegangsvarselTekst() {
 		varselInfoRepository.save(createDomainVarselInfo()
-				.varselmals(Collections.singleton(createVarselMalBuilder()
+				.varselmals(singleton(createVarselMalBuilder()
 						.foerstegangsvarselTekst("dette er en tekst med ugyldig {dato:formatering}")
 						.build()))
 				.build());
 
 		//Custom constrainten valideres først når transactionen committes til db
-		TransactionSystemException e = assertThrows(TransactionSystemException.class, () -> commitTransaction());
+		TransactionSystemException e = assertThrows(TransactionSystemException.class, this::commitTransaction);
 		assertTrue(e.getCause().getCause().getMessage().contains("Parameter '{dato:formatering}' har ikke et gyldig datoformat"));
 	}
 
 	@Test
-	public void shouldFailSaveInvalidReVarselTekst() {
+	public void shouldFailSaveInvalidRevarslingTekst() {
 		varselInfoRepository.save(createDomainVarselInfo()
-				.varselmals(Collections.singleton(createVarselMalBuilder()
+				.varselmals(singleton(createVarselMalBuilder()
 						.revarslingTekst("dette er en tekst med ugyldig {parameter navn}")
 						.build()))
 				.build());
 
 		//Custom constrainten valideres først når transactionen committes til db
-		TransactionSystemException e = assertThrows(TransactionSystemException.class, () -> commitTransaction());
+		TransactionSystemException e = assertThrows(TransactionSystemException.class, this::commitTransaction);
 		assertTrue(e.getCause().getCause().getMessage().contains("Parameter '{parameter navn}' er ikke et gyldig parameternavn"));
 	}
 
@@ -122,8 +117,8 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 				.revarslingIntervall(REVARSLING_INTERVALL)
 				.antallRevarslinger(ANTALL_REVARSLINGER)
 				.varselURL(VARSEL_URL)
-				.preferertKanal(Collections.singleton(KANAL))
-				.varselmals(Collections.singleton(
+				.preferertKanal(singleton(KANAL_EPOST))
+				.varselmals(singleton(
 						createVarselMalBuilder()
 								.build()
 				));
@@ -131,30 +126,32 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 
 	private static VarselMalBuilder createVarselMalBuilder() {
 		return aVarselMal()
-				.kanal(KANAL)
+				.kanal(KANAL_EPOST)
 				.varselTittel(TITTEL)
 				.foerstegangsvarselTekst(FOERSTEGANGSVARSEL_TEKST)
 				.revarslingTekst(REVARSLING_TEKST);
 	}
 
 	public static void assertVarselInfo(VarselInfo varselInfo) {
-		assertThat(varselInfo.getVarseltypeId(), is(VARSELTYPE_ID));
-		assertThat(varselInfo.getVarselNavn(), is(VARSEL_NAVN));
-		assertThat(varselInfo.getVarselKategori(), is(VARSEL_KATEGORI));
-		assertThat(varselInfo.getVarselForDistribusjonKanal(), is(VARSEL_FOR_DISTRIBUSJON_KANAL));
-		assertThat(varselInfo.getInaktiv(), is(INAKTIV));
-		assertThat(varselInfo.getRevarslingIntervall(), is(REVARSLING_INTERVALL));
-		assertThat(varselInfo.getAntallRevarslinger(), is(ANTALL_REVARSLINGER));
-		assertThat(varselInfo.getVarselURL(), is(VARSEL_URL));
-		assertThat(varselInfo.getPreferertKanal(), hasSize(1));
-		assertThat(varselInfo.getPreferertKanal().iterator().next(), is(KANAL));
-		assertThat(varselInfo.getVarselmals(), hasSize(1));
+		assertThat(varselInfo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
+		assertThat(varselInfo.getVarselNavn()).isEqualTo(VARSEL_NAVN);
+		assertThat(varselInfo.getVarselKategori()).isEqualTo(VARSEL_KATEGORI);
+		assertThat(varselInfo.getVarselForDistribusjonKanal()).isEqualTo(VARSEL_FOR_DISTRIBUSJON_KANAL);
+		assertThat(varselInfo.getInaktiv()).isEqualTo(INAKTIV);
+		assertThat(varselInfo.getRevarslingIntervall()).isEqualTo(REVARSLING_INTERVALL);
+		assertThat(varselInfo.getAntallRevarslinger()).isEqualTo(ANTALL_REVARSLINGER);
+		assertThat(varselInfo.getVarselURL()).isEqualTo(VARSEL_URL);
+		assertThat(varselInfo.getPreferertKanal())
+				.hasSize(1)
+				.contains(KANAL_EPOST);
 
-		VarselMal varselMal = varselInfo.getVarselmals().iterator().next();
-		assertThat(varselMal.getKanal(), is(KANAL));
-		assertThat(varselMal.getVarselTittel(), is(TITTEL));
-		assertThat(varselMal.getFoerstegangsvarselTekst(), is(FOERSTEGANGSVARSEL_TEKST));
-		assertThat(varselMal.getRevarslingTekst(), is(REVARSLING_TEKST));
+		assertThat(varselInfo.getVarselmals()).hasSize(1)
+				.allSatisfy(varselMal -> {
+					assertThat(varselMal.getKanal()).isEqualTo(KANAL_EPOST);
+					assertThat(varselMal.getVarselTittel()).isEqualTo(TITTEL);
+					assertThat(varselMal.getFoerstegangsvarselTekst()).isEqualTo(FOERSTEGANGSVARSEL_TEKST);
+					assertThat(varselMal.getRevarslingTekst()).isEqualTo(REVARSLING_TEKST);
+				});
 	}
 
 }

@@ -13,9 +13,6 @@ import no.nav.dokmet.core.builders.builder.SpraakInfoBuilder;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.kode.ArkivSystemKode;
-import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
-import no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode;
-import no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,8 +23,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.lang.Boolean.FALSE;
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
+import static no.nav.dokmet.core.domain.kode.DistribusjonKanalKode.SDP;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
+import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
+import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.X;
+import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.web.TestDataUtils.DIST_KANAL_SDP;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID;
 import static no.nav.dokmet.web.TestDataUtils.DOKUMENT_KATEGORI;
@@ -44,11 +46,8 @@ import static no.nav.dokmet.web.TestDataUtils.SPRAAK_EN;
 import static no.nav.dokmet.web.TestDataUtils.SPRAAK_NO;
 import static no.nav.dokmet.web.TestDataUtils.TEMA;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.core.Is.is;
+import static no.nav.dokmet.web.tkat020.DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DokumenttypeInfoToMapperTest {
 
@@ -64,7 +63,7 @@ public class DokumenttypeInfoToMapperTest {
 	public void shouldMapDokumenttypeInfoToDokumentInfoTo() {
 		DokumenttypeInfo domain = buildDokumenttypeInfo();
 
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+		DokumenttypeInfoTo map = mapToDokumentTypeInfoTo(domain);
 
 		assertDokumentInfoTo(map);
 	}
@@ -73,30 +72,30 @@ public class DokumenttypeInfoToMapperTest {
 	public void shouldMapDokumentDistribusjonWithDefaultValues() {
 		DokumenttypeInfo domain = buildDokumenttypeInfo();
 
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+		DokumenttypeInfoTo map = mapToDokumentTypeInfoTo(domain);
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
 
-		assertThat(distribusjonInfoTo.getTosidigPrint(), is(true));
-		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
-		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.X.name()));
+		assertThat(distribusjonInfoTo.getTosidigPrint()).isTrue();
+		assertThat(distribusjonInfoTo.getSentralPrintDokumentType()).isEqualTo(NAV_STANDARD.name());
+		assertThat(distribusjonInfoTo.getKonvoluttvinduType()).isEqualTo(X.name());
 	}
 
 	@Test
 	public void shouldMapDokumentDistribusjonWithSpecifiedValues() {
 		DokumenttypeInfo domain = buildDokumenttypeInfo();
-		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(Boolean.FALSE);
+		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(FALSE);
 		domain.getDokumentProduksjonsInfo()
 				.getDistribusjonInfo()
-				.setSentralPrintDokumentType(SentralPrintDokumentTypeCode.NAV_STANDARD);
-		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setKonvoluttvinduType(KonvoluttvinduTypeCode.W);
+				.setSentralPrintDokumentType(NAV_STANDARD);
+		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setKonvoluttvinduType(W);
 
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+		DokumenttypeInfoTo map = mapToDokumentTypeInfoTo(domain);
 
 		DistribusjonInfoTo distribusjonInfoTo = map.getDokumentProduksjonsInfo().getDistribusjonInfo();
-		assertThat(distribusjonInfoTo.getTosidigPrint(), is(false));
-		assertThat(distribusjonInfoTo.getSentralPrintDokumentType(), is(SentralPrintDokumentTypeCode.NAV_STANDARD.name()));
-		assertThat(distribusjonInfoTo.getKonvoluttvinduType(), is(KonvoluttvinduTypeCode.W.name()));
+		assertThat(distribusjonInfoTo.getTosidigPrint()).isFalse();
+		assertThat(distribusjonInfoTo.getSentralPrintDokumentType()).isEqualTo(NAV_STANDARD.name());
+		assertThat(distribusjonInfoTo.getKonvoluttvinduType()).isEqualTo(W.name());
 	}
 
 	@Test
@@ -104,9 +103,9 @@ public class DokumenttypeInfoToMapperTest {
 		DokumenttypeInfo domain = buildDokumenttypeInfo();
 		domain.setDokumentProduksjonsInfo(null);
 
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+		DokumenttypeInfoTo map = mapToDokumentTypeInfoTo(domain);
 
-		assertThat(map.getDokumentProduksjonsInfo(), nullValue());
+		assertThat(map.getDokumentProduksjonsInfo()).isNull();
 	}
 
 	@ParameterizedTest
@@ -115,9 +114,9 @@ public class DokumenttypeInfoToMapperTest {
 		DokumenttypeInfo domain = buildDokumenttypeInfo();
 		domain.getDokumentProduksjonsInfo().getDistribusjonInfo().setTosidigPrint(tosidigPrint);
 
-		DokumenttypeInfoTo map = DokumenttypeInfoToMapper.mapToDokumentTypeInfoTo(domain);
+		DokumenttypeInfoTo map = mapToDokumentTypeInfoTo(domain);
 
-		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getTosidigPrint(), is(expected));
+		assertThat(map.getDokumentProduksjonsInfo().getDistribusjonInfo().getTosidigPrint()).isEqualTo(expected);
 	}
 
 	private static Stream<Arguments> shouldMapTosidigPrint() {
@@ -129,27 +128,27 @@ public class DokumenttypeInfoToMapperTest {
 	}
 
 	private void assertDokumentInfoTo(DokumenttypeInfoTo to) {
-		assertThat(to.getDokumenttypeId(), is(no.nav.dokmet.web.TestDataUtils.DOKUMENTTYPE_ID));
-		assertThat(to.getDokumentKategori(), is(DOKUMENT_KATEGORI));
-		assertThat(to.getDokumentTittel(), is(DOKUMENT_TITTEL));
-		assertThat(to.getDokumentType(), is(U.name()));
-		assertThat(to.getSensitivt(), is(true));
-		assertThat(to.isUtledRegisterInfo(), is(true));
-		assertThat(to.getTema(), is(TEMA));
-		assertThat(to.getArkivSystem(), is(JOARK.name()));
+		assertThat(to.getDokumenttypeId()).isEqualTo(DOKUMENTTYPE_ID);
+		assertThat(to.getDokumentKategori()).isEqualTo(DOKUMENT_KATEGORI);
+		assertThat(to.getDokumentTittel()).isEqualTo(DOKUMENT_TITTEL);
+		assertThat(to.getDokumentType()).isEqualTo(U.name());
+		assertThat(to.getSensitivt()).isTrue();
+		assertThat(to.isUtledRegisterInfo()).isTrue();
+		assertThat(to.getTema()).isEqualTo(TEMA);
+		assertThat(to.getArkivSystem()).isEqualTo(JOARK.name());
 
-		assertThat(to.getDokumentProduksjonsInfo().getEksternVedlegg(), is(true));
-		assertThat(to.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId(), is(IKKE_REDIGERBAR_MALID));
-		assertThat(to.getDokumentProduksjonsInfo().getRedigerbarMalId(), is(REDIGERBAR_MALID));
-		assertThat(to.getDokumentProduksjonsInfo().getMalLogikkFil(), is(MAL_LOGIKK_FIL));
-		assertThat(to.getDokumentProduksjonsInfo().getMalXsdReferanse(), is(MAL_XSD_REFERANSE));
-		assertThat(to.getDokumentProduksjonsInfo().getVedlegg(), is(true));
+		assertThat(to.getDokumentProduksjonsInfo().getEksternVedlegg()).isTrue();
+		assertThat(to.getDokumentProduksjonsInfo().getIkkeRedigerbarMalId()).isEqualTo(IKKE_REDIGERBAR_MALID);
+		assertThat(to.getDokumentProduksjonsInfo().getRedigerbarMalId()).isEqualTo(REDIGERBAR_MALID);
+		assertThat(to.getDokumentProduksjonsInfo().getMalLogikkFil()).isEqualTo(MAL_LOGIKK_FIL);
+		assertThat(to.getDokumentProduksjonsInfo().getMalXsdReferanse()).isEqualTo(MAL_XSD_REFERANSE);
+		assertThat(to.getDokumentProduksjonsInfo().getVedlegg()).isTrue();
 
-		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo(), is(notNullValue()));
-		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getPortoklasse(), is(PORTO_KLASSE));
-		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getPredefinertDistKanal(), is(DIST_KANAL_SDP));
-		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getSikkerhetsnivaa(), is(SIKKERHETSNIVAA));
-		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels(), is(notNullValue()));
+		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo()).isNotNull();
+		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getPortoklasse()).isEqualTo(PORTO_KLASSE);
+		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getPredefinertDistKanal()).isEqualTo(DIST_KANAL_SDP);
+		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getSikkerhetsnivaa()).isEqualTo(SIKKERHETSNIVAA);
+		assertThat(to.getDokumentProduksjonsInfo().getDistribusjonInfo().getDistribusjonVarsels()).isNotNull();
 
 		assertChangeStamp(to.getChangeStamp());
 		assertChangeStamp(to.getDokumentProduksjonsInfo().getChangeStamp());
@@ -159,28 +158,26 @@ public class DokumenttypeInfoToMapperTest {
 		List<SpraakInfoTo> spraakInfoTos = to.getDokumentProduksjonsInfo().getSpraakInfos();
 		spraakInfoTos.sort(Comparator.comparing(SpraakInfoTo::getSpraaklag));
 
-		assertThat(spraakInfoTos, hasSize(2));
-		assertThat(spraakInfoTos.get(0).getSpraaklag(), is(SPRAAK_EN));
-		assertChangeStamp(spraakInfoTos.get(0).getChangeStamp());
-
-		assertThat(spraakInfoTos.get(1).getSpraaklag(), is(SPRAAK_NO));
-		assertChangeStamp(spraakInfoTos.get(1).getChangeStamp());
+		assertThat(spraakInfoTos).hasSize(2)
+				.allSatisfy(el -> assertChangeStamp(el.getChangeStamp()))
+				.extracting(SpraakInfoTo::getSpraaklag)
+				.containsExactlyElementsOf(List.of(SPRAAK_EN, SPRAAK_NO));
 
 		DistribusjonVarselTo varselTo = to.getDokumentProduksjonsInfo()
 				.getDistribusjonInfo()
 				.getDistribusjonVarsels()
 				.getFirst();
-		assertThat(varselTo.getVarselForDistribusjonKanal(), is(DIST_KANAL_SDP));
-		assertThat(varselTo.getVarseltypeId(), is(VARSELTYPE_ID));
+		assertThat(varselTo.getVarselForDistribusjonKanal()).isEqualTo(DIST_KANAL_SDP);
+		assertThat(varselTo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
 		assertChangeStamp(varselTo.getChangeStamp());
 	}
 
-	private void assertChangeStamp(ChangeStampTo to) {
-		assertThat(to, is(notNullValue()));
-		assertThat(to.getOpprettetAv(), is(OPPRETTET_AV));
-		assertThat(to.getEndretAv(), is(ENDRET_AV));
-		assertThat(to.getOpprettetDato().toString(), is(changeStamp.getOpprettetDato().toString()));
-		assertThat(to.getEndretDato().toString(), is(changeStamp.getEndretDato().toString()));
+	private void assertChangeStamp(ChangeStampTo changeStampTo) {
+		assertThat(changeStampTo).isNotNull();
+		assertThat(changeStampTo.getOpprettetAv()).isEqualTo(OPPRETTET_AV);
+		assertThat(changeStampTo.getEndretAv()).isEqualTo(ENDRET_AV);
+		assertThat(changeStampTo.getOpprettetDato().toString()).isEqualTo(changeStamp.getOpprettetDato().toString());
+		assertThat(changeStampTo.getEndretDato().toString()).isEqualTo(changeStamp.getEndretDato().toString());
 	}
 
 	private DokumenttypeInfo buildDokumenttypeInfo() {
@@ -203,9 +200,9 @@ public class DokumenttypeInfoToMapperTest {
 						.spraakInfos(SpraakInfoBuilder.aSoraakInfo().spraaklag(SPRAAK_EN).build())
 						.spraakInfos(SpraakInfoBuilder.aSoraakInfo().spraaklag(SPRAAK_NO).build())
 						.distribusjonInfo(DistribusjonInfoBuilder.aDistribusjonInfo().portoklasse(PORTO_KLASSE)
-								.predefinertDistKanal(DistribusjonKanalKode.SDP).sikkerhetsnivaa(4).distribusjonVarsel(
+								.predefinertDistKanal(SDP).sikkerhetsnivaa(4).distribusjonVarsel(
 										DistribusjonVarselBuilder.aDistribusjonVarsel()
-												.varselForDistribusjonKanal(DistribusjonKanalKode.SDP)
+												.varselForDistribusjonKanal(SDP)
 												.varseltypeId(VARSELTYPE_ID).build())
 								.build())
 						.build())
