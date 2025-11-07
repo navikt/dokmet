@@ -8,10 +8,7 @@
   ],
   "DOKMET_SCOPES_FOR_BFF": "api://dev-fss.teamdokumenthandtering.dokmet/.default",
   "DOKMET_BASE_URL": "https://dokmet.dev.intern.nav.no",
-  "DOKMET_DS_CREDS": "/oracle/data/dev/creds/dokmet_q2-user",
-  "DOKMET_DS_CONFIG": "/oracle/data/dev/config/dokkat_q2",
-  "LDAP_ADMIN_USER": "/serviceuser/data/dev/srvssolinux",
-  "SPRING_LDAP_URLS": "ldaps://ldapgw.preprod.local",
+  "DOKMET_SECRET": "dokmet",
   "SPRING_LDAP_BASE": "ou=ServiceAccounts,dc=preprod,dc=local",
   "NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL": "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration",
   "AZURE_REPLYURLS": [
