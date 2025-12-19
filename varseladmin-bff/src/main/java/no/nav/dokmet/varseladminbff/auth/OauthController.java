@@ -6,13 +6,12 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.AzureProperties;
 import no.nav.dokmet.core.config.DokmetProperties;
-import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static no.nav.dokmet.varseladminbff.auth.OauthService.ACCESS_TOKEN;
 import static no.nav.dokmet.varseladminbff.auth.OauthService.REFRESH_TOKEN;
@@ -55,14 +54,10 @@ public class OauthController {
 			session.removeAttribute(REFRESH_TOKEN);
 
 			String postLogoutRedirect = dokmetProperties.getBaseUrl() + "?loggedout=success";
-			try {
-				URI microsoftLogoutUri = new URIBuilder(URI.create(azureProperties.openidConfig().getLogoutEndpoint()))
-						.setParameter("post_logout_redirect_uri", postLogoutRedirect)
-						.build();
-				return ResponseEntity.status(TEMPORARY_REDIRECT).location(microsoftLogoutUri).build();
-			} catch (URISyntaxException e) {
-				throw new RuntimeException(e);
-			}
+			URI microsoftLogoutUri = UriComponentsBuilder.fromUriString(azureProperties.openidConfig().getLogoutEndpoint())
+					.replaceQueryParam("post_logout_redirect_uri", postLogoutRedirect)
+					.build().toUri();
+			return ResponseEntity.status(TEMPORARY_REDIRECT).location(microsoftLogoutUri).build();
 		}
 		return ResponseEntity.status(TEMPORARY_REDIRECT).location(URI.create("/?loggedout=success")).build();
 	}

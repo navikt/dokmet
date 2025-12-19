@@ -14,7 +14,6 @@ import java.util.Optional;
 import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static org.apache.hc.client5.http.auth.StandardAuthScheme.BASIC;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
@@ -73,7 +72,7 @@ public class BasicAuthRestInterceptor implements HandlerInterceptor {
 
 	private String getBasicAuthToken(HttpServletRequest request) {
 		return Optional.ofNullable(request.getHeader(AUTHORIZATION))
-				.filter(e -> e.startsWith(BASIC))
+				.filter(e -> e.startsWith("Basic"))
 				.orElse(null);
 	}
 

@@ -4,14 +4,11 @@ import com.nimbusds.oauth2.sdk.token.AccessToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.core.config.DokmetProperties;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.client5.http.io.HttpClientConnectionManager;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,22 +40,14 @@ public class VarselAdminBFFController {
 	private final OauthService oauthService;
 
 	public VarselAdminBFFController(RestTemplateBuilder restTemplateBuilder,
-									HttpClientConnectionManager httpClientConnectionManager,
 									DokmetProperties dokmetProperties,
 									OauthService oauthService) {
 		this.dokmetProperties = dokmetProperties;
 		this.oauthService = oauthService;
 
-		final CloseableHttpClient httpClient = createHttpClient(httpClientConnectionManager);
 		this.restTemplate = restTemplateBuilder
 				.connectTimeout(Duration.ofSeconds(3))
-				.requestFactory(() -> new HttpComponentsClientHttpRequestFactory(httpClient))
-				.build();
-	}
-
-	private CloseableHttpClient createHttpClient(HttpClientConnectionManager httpClientConnectionManager) {
-		return HttpClients.custom()
-				.setConnectionManager(httpClientConnectionManager)
+				.requestFactoryBuilder(ClientHttpRequestFactoryBuilder.jdk())
 				.build();
 	}
 

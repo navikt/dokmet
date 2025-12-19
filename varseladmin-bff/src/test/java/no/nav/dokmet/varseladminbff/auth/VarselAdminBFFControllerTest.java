@@ -4,13 +4,18 @@ import no.nav.security.token.support.spring.test.EnableMockOAuth2Server;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,6 +35,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static no.nav.dokmet.varseladminbff.auth.OauthController.OAUTH_BASE_PATH;
 import static no.nav.dokmet.varseladminbff.auth.VarselAdminBFFController.VARSELADMIN_BFF_BASE_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.http.client.ClientHttpRequestFactorySettings.Redirects.DONT_FOLLOW;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.OK;
@@ -43,7 +49,7 @@ import static org.springframework.http.HttpStatus.OK;
 @AutoConfigureTestEntityManager
 @AutoConfigureWireMock(port = 0)
 @EnableMockOAuth2Server
-@SpringBootTest(classes = {VarselAdminBFFControllerTest.Config.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = VarselAdminBFFControllerTest.Config.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VarselAdminBFFControllerTest {
 
 	private static final String PATH_ON_PROXIED_SERVER = "/something/more";
@@ -59,11 +65,22 @@ class VarselAdminBFFControllerTest {
 			  "example_parameter":"example_value"
 			}""";
 
+	@Configuration
 	public static class Config {
 	}
 
+	@TestConfiguration(proxyBeanMethods = false)
+	static class RestTemplateBuilderConfiguration {
+
+		@Bean
+		RestTemplateBuilder restTemplateBuilder() {
+			return new RestTemplateBuilder()
+					.requestFactoryBuilder(ClientHttpRequestFactoryBuilder.jdk());
+		}
+	}
+
 	@Autowired
-	private TestRestTemplate restTemplate;
+	private TestRestTemplate testRestTemplate;
 
 	@BeforeEach
 	public void setup() {
@@ -79,7 +96,7 @@ class VarselAdminBFFControllerTest {
 	public void shouldRouteRequestToOtherPathOnServerWithNoAuthorization() {
 		HttpEntity<String> requestHttpEntity = new HttpEntity<>("");
 
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<String> response = testRestTemplate.withRedirects(DONT_FOLLOW).exchange(
 				VARSELADMIN_BFF_BASE_PATH + PATH_ON_PROXIED_SERVER, GET, requestHttpEntity, String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
@@ -89,7 +106,7 @@ class VarselAdminBFFControllerTest {
 	@Test
 	public void shouldRouteRequestToOtherPathOnServerWithAuthorization() {
 		// hent redirect
-		ResponseEntity<String> initialAuthResponse = restTemplate.exchange(
+		ResponseEntity<String> initialAuthResponse = testRestTemplate.withRedirects(DONT_FOLLOW).exchange(
 				OAUTH_BASE_PATH + "/login", GET, new HttpEntity<>(""), String.class);
 
 		final String sessionCookie = initialAuthResponse.getHeaders().getFirst(SET_COOKIE);
@@ -102,10 +119,10 @@ class VarselAdminBFFControllerTest {
 
 		// gjør kall tilbake med token
 		UUID authorizationCode = UUID.randomUUID();
-		ResponseEntity<String> authCallback = restTemplate.exchange(
+		ResponseEntity<String> authCallback = testRestTemplate.withRedirects(DONT_FOLLOW).exchange(
 				returnUri.substring(22) + "?state=" + returnState + "&code=" + authorizationCode, GET, sessionedHttpEntity, String.class);
 
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<String> response = testRestTemplate.withRedirects(DONT_FOLLOW).exchange(
 				VARSELADMIN_BFF_BASE_PATH + SECURE_PATH_ON_PROXIED_SERVER, GET, sessionedHttpEntity, String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
@@ -115,7 +132,7 @@ class VarselAdminBFFControllerTest {
 	@Test
 	public void shouldSupplyBasicUserinfoAfterAuthorization() {
 		// hent redirect
-		ResponseEntity<String> initialAuthResponse = restTemplate.exchange(
+		ResponseEntity<String> initialAuthResponse = testRestTemplate.withRedirects(DONT_FOLLOW).exchange(
 				OAUTH_BASE_PATH + "/login", GET, new HttpEntity<>(""), String.class);
 
 		final String sessionCookie = initialAuthResponse.getHeaders().getFirst(SET_COOKIE);
@@ -128,10 +145,10 @@ class VarselAdminBFFControllerTest {
 
 		// gjør kall tilbake med token
 		UUID authorizationCode = UUID.randomUUID();
-		ResponseEntity<String> authCallback = restTemplate.exchange(
+		testRestTemplate.exchange(
 				returnUri.substring(22) + "?state=" + returnState + "&code=" + authorizationCode, GET, sessionedHttpEntity, String.class);
 
-		ResponseEntity<String> response = restTemplate.exchange(
+		ResponseEntity<String> response = testRestTemplate.exchange(
 				OAUTH_BASE_PATH + "/me", GET, sessionedHttpEntity, String.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
