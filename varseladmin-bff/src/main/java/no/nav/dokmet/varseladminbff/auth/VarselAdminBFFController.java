@@ -85,9 +85,13 @@ public class VarselAdminBFFController {
 
 		try {
 			ResponseEntity<String> responseFromDownstream = restTemplate.exchange(forwardedRequest, String.class);
-			// vi må fjerne transfer-encoding for å unngå problemer med nginx her
 			LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>(responseFromDownstream.getHeaders());
-			headers.remove(TRANSFER_ENCODING);
+
+			// vi må fjerne transfer-encoding fordi den ikke kan kombineres med content-length og nginx validerer det
+			headers.keySet().stream()
+                .filter(TRANSFER_ENCODING::equalsIgnoreCase)
+                .findAny()
+                .ifPresent(headers::remove);
 
 			return new ResponseEntity<>(responseFromDownstream.getBody(), headers, responseFromDownstream.getStatusCode());
 		} catch (HttpServerErrorException | HttpClientErrorException e) {
