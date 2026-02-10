@@ -38,7 +38,7 @@
 		<token-support.version>5.0.40</token-support.version>
 
 		<!-- test -->
-		<spring-cloud-starter-contract-stub-runner.version>4.3.0</spring-cloud-starter-contract-stub-runner.version>
+		<spring-cloud-starter-contract-stub-runner.version>5.0.2</spring-cloud-starter-contract-stub-runner.version>
 
 		<!-- plugins -->
 		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
