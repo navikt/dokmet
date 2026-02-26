@@ -2,28 +2,24 @@ package no.nav.dokmet.core.interceptor;
 
 import no.nav.dokmet.core.domain.AbstractDomainObject;
 import no.nav.dokmet.core.domain.entities.ChangeStamp;
-import org.hibernate.EmptyInterceptor;
+import org.hibernate.Interceptor;
 import org.hibernate.type.Type;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 
 @Component
-public class ChangeStampInterceptor extends EmptyInterceptor {
-
-	private static final long serialVersionUID = 973776995128953194L;
+public class ChangeStampInterceptor implements Interceptor {
 
 	@Override
-	public boolean onFlushDirty(final Object entity, final Serializable id, final Object[] currentState,
+	public boolean onFlushDirty(final Object entity, final Object id, final Object[] currentState,
 								final Object[] previousState, final String[] propertyNames, final Type[] types) {
 		return updateChangeStamp(entity, currentState, types);
 	}
 
 	@Override
-	public boolean onSave(final Object entity, final Serializable id, final Object[] state, final String[] propertyNames,
+	public boolean onSave(final Object entity, final Object id, final Object[] state, final String[] propertyNames,
 						  final Type[] types) {
 		return createChangeStamp(entity, state, types);
 	}

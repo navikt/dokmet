@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
 import org.springframework.core.io.ClassPathResource;
-import wiremock.org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -201,7 +200,7 @@ public class Tkat030ITest extends AbstractITest {
 	}
 
 	private static String lesBrevdataFraFil(String path) throws IOException {
-		return IOUtils.toString(new ClassPathResource(path).getInputStream(), UTF_8);
+		return new ClassPathResource(path).getContentAsString(UTF_8);
 	}
 
 	private void lagreBrevpakke(String folderPath, String brevpakke) throws IOException, URISyntaxException {

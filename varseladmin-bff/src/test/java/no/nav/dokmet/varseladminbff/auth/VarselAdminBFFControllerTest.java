@@ -5,14 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.data.jpa.test.autoconfigure.AutoConfigureDataJpa;
+import org.springframework.boot.jpa.test.autoconfigure.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
+import org.springframework.boot.restclient.RestTemplateBuilder;
+import org.wiremock.spring.EnableWireMock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,19 +36,20 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static no.nav.dokmet.varseladminbff.auth.OauthController.OAUTH_BASE_PATH;
 import static no.nav.dokmet.varseladminbff.auth.VarselAdminBFFController.VARSELADMIN_BFF_BASE_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.http.client.ClientHttpRequestFactorySettings.Redirects.DONT_FOLLOW;
+import static org.springframework.boot.http.client.HttpRedirects.DONT_FOLLOW;
 import static org.springframework.http.HttpHeaders.SET_COOKIE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.OK;
 
 @AutoConfigureDataJpa
+@AutoConfigureTestRestTemplate
 @ActiveProfiles("itest")
 @ComponentScan(basePackages = {
 		"no.nav.dokmet.varseladminbff"
 })
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
-@AutoConfigureWireMock(port = 0)
+@EnableWireMock
 @EnableMockOAuth2Server
 @SpringBootTest(classes = VarselAdminBFFControllerTest.Config.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VarselAdminBFFControllerTest {
@@ -78,7 +80,6 @@ class VarselAdminBFFControllerTest {
 					.requestFactoryBuilder(ClientHttpRequestFactoryBuilder.jdk());
 		}
 	}
-
 	@Autowired
 	private TestRestTemplate testRestTemplate;
 
