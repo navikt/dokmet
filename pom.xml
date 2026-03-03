@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.10</version>
+		<version>4.0.2</version>
 	</parent>
 
 	<groupId>no.nav.dokmet</groupId>
@@ -35,10 +35,10 @@
 		<java.version>25</java.version>
 
 		<logstash-logback-encoder.version>8.1</logstash-logback-encoder.version>
-		<token-support.version>5.0.40</token-support.version>
+		<token-support.version>6.0.2</token-support.version>
 
 		<!-- test -->
-		<spring-cloud-starter-contract-stub-runner.version>4.3.0</spring-cloud-starter-contract-stub-runner.version>
+		<wiremock-spring-boot.version>4.1.0</wiremock-spring-boot.version>
 
 		<!-- plugins -->
 		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
@@ -97,9 +97,9 @@
 				<scope>test</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-				<version>${spring-cloud-starter-contract-stub-runner.version}</version>
+				<groupId>org.wiremock.integrations</groupId>
+				<artifactId>wiremock-spring-boot</artifactId>
+				<version>${wiremock-spring-boot.version}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>

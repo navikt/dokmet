@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import no.nav.dokmet.core.config.DokmetProperties;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -85,15 +85,14 @@ public class VarselAdminBFFController {
 
 		try {
 			ResponseEntity<String> responseFromDownstream = restTemplate.exchange(forwardedRequest, String.class);
-			LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>(responseFromDownstream.getHeaders());
 
 			// vi må fjerne transfer-encoding fordi den ikke kan kombineres med content-length og nginx validerer det
-			headers.keySet().stream()
+			responseFromDownstream.getHeaders()
+				.toSingleValueMap().keySet().stream()
                 .filter(TRANSFER_ENCODING::equalsIgnoreCase)
-                .findAny()
-                .ifPresent(headers::remove);
+                .forEach((responseFromDownstream.getHeaders())::remove);
 
-			return new ResponseEntity<>(responseFromDownstream.getBody(), headers, responseFromDownstream.getStatusCode());
+			return new ResponseEntity<>(responseFromDownstream.getBody(), responseFromDownstream.getHeaders(), responseFromDownstream.getStatusCode());
 		} catch (HttpServerErrorException | HttpClientErrorException e) {
 			log.warn("kunne ikke forwarde request til dokmet", e);
 			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());

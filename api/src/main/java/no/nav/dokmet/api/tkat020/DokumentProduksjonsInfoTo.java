@@ -18,13 +18,13 @@ import java.util.List;
 @JsonPropertyOrder({"vedlegg", "eksternVedlegg", "ikkeRedigerbarMalId", "redigerbarMalId",
 		"malLogikkFil", "malXsdReferanse", "spraakInfos", "distribusjonInfo"})
 public class DokumentProduksjonsInfoTo extends AbstractToObject {
-	
+
 	private Boolean vedlegg;
 	private Boolean eksternVedlegg;
 	private String ikkeRedigerbarMalId;
 	private String redigerbarMalId;
 	private String malLogikkFil;
 	private String malXsdReferanse;
-	private final List<SpraakInfoTo> spraakInfos = new ArrayList<>();
+	private List<SpraakInfoTo> spraakInfos = new ArrayList<>();
 	private DistribusjonInfoTo distribusjonInfo;
 }
