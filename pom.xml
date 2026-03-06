@@ -38,7 +38,7 @@
 		<token-support.version>6.0.2</token-support.version>
 
 		<!-- test -->
-		<wiremock-spring-boot.version>4.1.0</wiremock-spring-boot.version>
+		<wiremock-spring-boot.version>4.2.0</wiremock-spring-boot.version>
 
 		<!-- plugins -->
 		<maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
