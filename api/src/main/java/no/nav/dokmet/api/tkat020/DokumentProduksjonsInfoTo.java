@@ -5,16 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
-@NoArgsConstructor
 @JsonPropertyOrder({"vedlegg", "eksternVedlegg", "ikkeRedigerbarMalId", "redigerbarMalId",
 		"malLogikkFil", "malXsdReferanse", "spraakInfos", "distribusjonInfo"})
 public class DokumentProduksjonsInfoTo extends AbstractToObject {
@@ -25,6 +23,13 @@ public class DokumentProduksjonsInfoTo extends AbstractToObject {
 	private String redigerbarMalId;
 	private String malLogikkFil;
 	private String malXsdReferanse;
-	private List<SpraakInfoTo> spraakInfos = new ArrayList<>();
+	private List<SpraakInfoTo> spraakInfos;
 	private DistribusjonInfoTo distribusjonInfo;
+
+	public List<SpraakInfoTo> getSpraakInfos() {
+		if (spraakInfos == null) {
+			return Collections.emptyList();
+		}
+		return spraakInfos;
+	}
 }
