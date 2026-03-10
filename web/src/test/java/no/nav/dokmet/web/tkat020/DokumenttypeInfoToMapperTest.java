@@ -156,12 +156,11 @@ public class DokumenttypeInfoToMapperTest {
 
 		//Sjekker språklag
 		List<SpraakInfoTo> spraakInfoTos = to.getDokumentProduksjonsInfo().getSpraakInfos();
-		spraakInfoTos.sort(Comparator.comparing(SpraakInfoTo::getSpraaklag));
 
 		assertThat(spraakInfoTos).hasSize(2)
 				.allSatisfy(el -> assertChangeStamp(el.getChangeStamp()))
 				.extracting(SpraakInfoTo::getSpraaklag)
-				.containsExactlyElementsOf(List.of(SPRAAK_EN, SPRAAK_NO));
+				.containsExactlyInAnyOrder(SPRAAK_EN, SPRAAK_NO);
 
 		DistribusjonVarselTo varselTo = to.getDokumentProduksjonsInfo()
 				.getDistribusjonInfo()

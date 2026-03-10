@@ -173,19 +173,18 @@ public class DokumenttypeInfoMapperTest {
 	}
 
 	private DokumentProduksjonsInfoTo createDokumentProduksjonsInfoTo() {
-		DokumentProduksjonsInfoTo to = new DokumentProduksjonsInfoTo();
+		DokumentProduksjonsInfoTo.DokumentProduksjonsInfoToBuilder to = DokumentProduksjonsInfoTo.builder()
+			.vedlegg(VEDLEGG)
+		.eksternVedlegg(EKSTERN_VEDLEGG)
+		.ikkeRedigerbarMalId(IKKE_REDIGERBAR_MALID)
+		.redigerbarMalId(REDIGERBAR_MALID)
+		.malLogikkFil(MAL_LOGIKK_FIL)
+		.malXsdReferanse(MAL_XSD_REFERANSE);
 
-		to.setVedlegg(VEDLEGG);
-		to.setEksternVedlegg(EKSTERN_VEDLEGG);
-		to.setIkkeRedigerbarMalId(IKKE_REDIGERBAR_MALID);
-		to.setRedigerbarMalId(REDIGERBAR_MALID);
-		to.setMalLogikkFil(MAL_LOGIKK_FIL);
-		to.setMalXsdReferanse(MAL_XSD_REFERANSE);
-
-		DistribusjonInfoTo distribusjonInfo = new DistribusjonInfoTo();
-		distribusjonInfo.setPortoklasse(PORTO);
-		distribusjonInfo.setPredefinertDistKanal(DIST_KANAL_SDP);
-		distribusjonInfo.setSikkerhetsnivaa(SIKKERHETSNIVAA);
+		DistribusjonInfoTo.DistribusjonInfoToBuilder distribusjonInfo = DistribusjonInfoTo.builder()
+			.portoklasse(PORTO)
+			.predefinertDistKanal(DIST_KANAL_SDP)
+			.sikkerhetsnivaa(SIKKERHETSNIVAA);
 
 		DistribusjonVarselTo varsel1 = new DistribusjonVarselTo();
 		varsel1.setVarseltypeId(VARSELTYPE_ID1);
@@ -195,8 +194,8 @@ public class DokumenttypeInfoMapperTest {
 		varsel2.setVarseltypeId(VARSELTYPE_ID2);
 		varsel2.setVarselForDistribusjonKanal(DIST_KANAL_DITT_NAV);
 
-		distribusjonInfo.setDistribusjonVarsels(Arrays.asList(varsel1, varsel2));
-		to.setDistribusjonInfo(distribusjonInfo);
-		return to;
+		distribusjonInfo.distribusjonVarsels(Arrays.asList(varsel1, varsel2));
+		to.distribusjonInfo(distribusjonInfo.build());
+		return to.build();
 	}
 }

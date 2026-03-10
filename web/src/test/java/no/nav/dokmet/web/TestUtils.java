@@ -11,6 +11,7 @@ import no.nav.dokmet.core.builders.builder.VarselMalBuilder;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 
 import java.util.Collections;
+import java.util.List;
 
 import static no.nav.dokmet.core.domain.kode.ArkivSystemKode.JOARK;
 import static no.nav.dokmet.core.domain.kode.DokumentTypeKode.U;
@@ -28,7 +29,7 @@ import static no.nav.dokmet.web.TestDataUtils.VARSEL_NAVN;
 import static no.nav.dokmet.web.TestDataUtils.VARSEL_URL;
 
 public class TestUtils {
-	
+
 	public static DokumenttypeInfoTo createDokumenttypeInfoTo() {
 		DokumenttypeInfoTo to = new DokumenttypeInfoTo();
 
@@ -39,25 +40,26 @@ public class TestUtils {
 		to.setSensitivt(true);
 		to.setDokumentKategori(TestDataUtils.DOKUMENT_KATEGORI);
 
-		DistribusjonInfoTo distribusjonInfo = new DistribusjonInfoTo();
-		distribusjonInfo.setPortoklasse(TestDataUtils.PORTO_KLASSE);
-		distribusjonInfo.setPredefinertDistKanal(TestDataUtils.SDP);
-		distribusjonInfo.setSikkerhetsnivaa(5);
-
 		DistribusjonVarselTo distribusjonVarsel = new DistribusjonVarselTo();
 		distribusjonVarsel.setVarselForDistribusjonKanal(TestDataUtils.SDP);
 		distribusjonVarsel.setVarseltypeId(VARSELTYPE_ID);
 
-		distribusjonInfo.getDistribusjonVarsels().add(distribusjonVarsel);
+		DistribusjonInfoTo distribusjonInfo = DistribusjonInfoTo.builder()
+			.portoklasse(TestDataUtils.PORTO_KLASSE)
+			.predefinertDistKanal(TestDataUtils.SDP)
+			.sikkerhetsnivaa(5)
+			.distribusjonVarsels(List.of(distribusjonVarsel))
+			.build();
 
-		DokumentProduksjonsInfoTo prodTo = new DokumentProduksjonsInfoTo();
-		prodTo.setIkkeRedigerbarMalId(TestDataUtils.IKKE_REDIGERBAR_MAL_ID);
-		prodTo.setRedigerbarMalId(TestDataUtils.REDIGERBAR_MAL_ID);
-		prodTo.setMalLogikkFil(TestDataUtils.MAL_LOGIKK_FIL);
-		prodTo.setEksternVedlegg(true);
-		prodTo.setMalXsdReferanse(TestDataUtils.MAL_XSD_REFERANSE);
-		prodTo.setVedlegg(true);
-		prodTo.setDistribusjonInfo(distribusjonInfo);
+		DokumentProduksjonsInfoTo prodTo = DokumentProduksjonsInfoTo.builder()
+			.ikkeRedigerbarMalId(TestDataUtils.IKKE_REDIGERBAR_MAL_ID)
+			.redigerbarMalId(TestDataUtils.REDIGERBAR_MAL_ID)
+			.malLogikkFil(TestDataUtils.MAL_LOGIKK_FIL)
+			.eksternVedlegg(true)
+			.malXsdReferanse(TestDataUtils.MAL_XSD_REFERANSE)
+			.vedlegg(true)
+			.distribusjonInfo(distribusjonInfo)
+			.build();
 
 		to.setDokumentProduksjonsInfo(prodTo);
 

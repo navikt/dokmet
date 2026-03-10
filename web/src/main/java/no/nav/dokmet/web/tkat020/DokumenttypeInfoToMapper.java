@@ -13,8 +13,8 @@ import no.nav.dokmet.core.domain.entities.DokumentProduksjonsInfo;
 import no.nav.dokmet.core.domain.entities.DokumenttypeInfo;
 import no.nav.dokmet.core.domain.entities.SpraakInfo;
 
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class DokumenttypeInfoToMapper {
 
@@ -36,10 +36,10 @@ public class DokumenttypeInfoToMapper {
 		return to;
 	}
 
-	private static Set<SpraakInfoTo> mapToSpraakInfoTos(Set<SpraakInfo> spraakInfos) {
+	private static List<SpraakInfoTo> mapToSpraakInfoTos(Set<SpraakInfo> spraakInfos) {
 		return spraakInfos.stream()
 				.map(DokumenttypeInfoToMapper::mapToSpraakInfoTo)
-				.collect(Collectors.toSet());
+				.toList();
 	}
 
 	private static SpraakInfoTo mapToSpraakInfoTo(SpraakInfo domain) {
@@ -50,37 +50,39 @@ public class DokumenttypeInfoToMapper {
 	}
 
 	private static DokumentProduksjonsInfoTo mapToDokumentProduksjonsInfoTo(DokumentProduksjonsInfo domain) {
-		DokumentProduksjonsInfoTo to = new DokumentProduksjonsInfoTo();
-		to.setVedlegg(domain.getVedlegg());
-		to.setEksternVedlegg(domain.getEksternVedlegg());
-		to.setIkkeRedigerbarMalId(domain.getIkkeRedigerbarMalId());
-		to.setRedigerbarMalId(domain.getRedigerbarMalId());
-		to.setMalLogikkFil(domain.getMalLogikkFil());
-		to.setMalXsdReferanse(domain.getMalXsdReferanse());
-		to.setDistribusjonInfo(mapToDistribusjonInfoTo(domain.getDistribusjonInfo()));
-		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
-		to.getSpraakInfos().addAll(mapToSpraakInfoTos(domain.getSpraakInfos()));
+		var to = DokumentProduksjonsInfoTo.builder()
+			.vedlegg(domain.getVedlegg())
+			.eksternVedlegg(domain.getEksternVedlegg())
+			.ikkeRedigerbarMalId(domain.getIkkeRedigerbarMalId())
+			.redigerbarMalId(domain.getRedigerbarMalId())
+			.malLogikkFil(domain.getMalLogikkFil())
+			.malXsdReferanse(domain.getMalXsdReferanse())
+			.distribusjonInfo(mapToDistribusjonInfoTo(domain.getDistribusjonInfo()))
+			.spraakInfos(mapToSpraakInfoTos(domain.getSpraakInfos()))
+			.build();
 
+		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
 		return to;
 	}
 
 	private static DistribusjonInfoTo mapToDistribusjonInfoTo(DistribusjonInfo domain) {
-		DistribusjonInfoTo to = new DistribusjonInfoTo();
-		to.setPortoklasse(domain.getPortoklasse());
-		to.setPredefinertDistKanal(enumToString(domain.getPredefinertDistKanal()));
-		to.setSikkerhetsnivaa(domain.getSikkerhetsnivaa());
+		DistribusjonInfoTo to = DistribusjonInfoTo.builder()
+			.portoklasse(domain.getPortoklasse())
+			.predefinertDistKanal(enumToString(domain.getPredefinertDistKanal()))
+			.sikkerhetsnivaa(domain.getSikkerhetsnivaa())
+			.distribusjonVarsels(mapToDistribusjonVarselTos(domain.getDistribusjonVarsels()))
+			.tosidigPrint(domain.getTosidigPrint())
+			.sentralPrintDokumentType(enumToString(domain.getSentralPrintDokumentType()))
+			.konvoluttvinduType(enumToString(domain.getKonvoluttvinduType()))
+			.build();
 		to.setChangeStamp(mapToChangeStampTo(domain.getChangeStamp()));
-		to.getDistribusjonVarsels().addAll(mapToDistribusjonVarselTos(domain.getDistribusjonVarsels()));
-		to.setTosidigPrint(domain.getTosidigPrint());
-		to.setSentralPrintDokumentType(enumToString(domain.getSentralPrintDokumentType()));
-		to.setKonvoluttvinduType(enumToString(domain.getKonvoluttvinduType()));
 		return to;
 	}
 
-	private static Set<DistribusjonVarselTo> mapToDistribusjonVarselTos(Set<DistribusjonVarsel> distribusjonVarsels) {
+	private static List<DistribusjonVarselTo> mapToDistribusjonVarselTos(Set<DistribusjonVarsel> distribusjonVarsels) {
 		return distribusjonVarsels.stream()
 				.map(DokumenttypeInfoToMapper::mapToDistribusjonVarselTo)
-				.collect(Collectors.toSet());
+				.toList();
 	}
 
 	private static DistribusjonVarselTo mapToDistribusjonVarselTo(DistribusjonVarsel domain) {
