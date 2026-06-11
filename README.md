@@ -11,9 +11,9 @@ for deploy av brevpakkar.
 Dokmet tilbyr også eit Varseladmin-GUI for å administrere varselmalar, i tillegg til ei pakke med API-klasser som blir 
 publisert til Github Packages.
 
-Varseladmin-GUIet må opnast i Chrome SKSS og er tilgjengeleg i alle dev-miljø (også q0, q4 og q5):
-* [Varseladmin i q1](https://dokmet-q1.intern.nav.no/dokmet/varseladmin)
-* [Varseladmin i q2](https://dokmet.intern.nav.no/dokmet/varseladmin)
+Varseladmin-GUIet kan opnast i vanleg nettlesar dersom ein er kopla til Naisdevice, og er tilgjengeleg i alle dev-miljø (også q0, q4 og q5):
+* [Varseladmin i q1](https://dokmet-q1.dev.intern.nav.no/dokmet/varseladmin)
+* [Varseladmin i q2](https://dokmet.dev.intern.nav.no/dokmet/varseladmin)
 
 Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet](https://confluence.adeo.no/display/BOA/Dokmet+-+Tjenester).
 

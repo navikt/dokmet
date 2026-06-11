@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<version>4.0.6</version>
 	</parent>
 
 	<groupId>no.nav.dokmet</groupId>
@@ -35,7 +35,7 @@
 		<java.version>25</java.version>
 
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
-		<token-support.version>6.0.3</token-support.version>
+		<token-support.version>6.0.9</token-support.version>
 
 		<!-- test -->
 		<wiremock-spring-boot.version>4.2.1</wiremock-spring-boot.version>
