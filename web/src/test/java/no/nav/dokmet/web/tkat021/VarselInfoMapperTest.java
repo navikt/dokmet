@@ -167,44 +167,44 @@ class VarselInfoMapperTest {
 
 	private static void assertVarselInfo(VarselInfo varselInfo) {
 
-		assertEquals(varselInfo.getVarseltypeId(), VARSELTYPE_ID);
-		assertEquals(varselInfo.getVarselNavn(), VARSEL_NAVN);
-		assertEquals(varselInfo.getVarselKategori(), VARSEL_KATEGORI);
-		assertEquals(varselInfo.getVarselForDistribusjonKanal(), VARSEL_FOR_DISTRIBUSJON_KANAL);
-		assertEquals(varselInfo.getInaktiv(), INAKTIV);
-		assertEquals(varselInfo.getRevarslingIntervall(), REVARSLING_INTERVALL);
-		assertEquals(varselInfo.getAntallRevarslinger(), ANTALL_REVARSLINGER);
-		assertEquals(varselInfo.getVarselURL(), VARSEL_URL);
-		assertEquals(varselInfo.getPreferertKanal().size(), 1);
-		assertEquals(varselInfo.getPreferertKanal().iterator().next(), KANAL);
-		assertEquals(varselInfo.getVarselmals().size(), 1);
+		assertEquals(VARSELTYPE_ID, varselInfo.getVarseltypeId());
+		assertEquals(VARSEL_NAVN, varselInfo.getVarselNavn());
+		assertEquals(VARSEL_KATEGORI, varselInfo.getVarselKategori());
+		assertEquals(VARSEL_FOR_DISTRIBUSJON_KANAL, varselInfo.getVarselForDistribusjonKanal());
+		assertEquals(INAKTIV, varselInfo.getInaktiv());
+		assertEquals(REVARSLING_INTERVALL, varselInfo.getRevarslingIntervall());
+		assertEquals(ANTALL_REVARSLINGER, varselInfo.getAntallRevarslinger());
+		assertEquals(VARSEL_URL, varselInfo.getVarselURL());
+		assertEquals(1, varselInfo.getPreferertKanal().size());
+		assertEquals(KANAL, varselInfo.getPreferertKanal().iterator().next());
+		assertEquals(1, varselInfo.getVarselmals().size());
 
 		VarselMal varselMal = varselInfo.getVarselmals().iterator().next();
-		assertEquals(varselMal.getKanal(), KANAL);
-		assertEquals(varselMal.getVarselTittel(), TITTEL);
-		assertEquals(varselMal.getFoerstegangsvarselTekst(), FOERSTEGANGSVARSEL_TEKST);
-		assertEquals(varselMal.getRevarslingTekst(), REVARSLING_TEKST);
+		assertEquals(KANAL, varselMal.getKanal());
+		assertEquals(TITTEL, varselMal.getVarselTittel());
+		assertEquals(FOERSTEGANGSVARSEL_TEKST, varselMal.getFoerstegangsvarselTekst());
+		assertEquals(REVARSLING_TEKST, varselMal.getRevarslingTekst());
 	}
 
 	private static void assertVarselInfoTo(VarselInfoTo varselInfoTo) {
 
-		assertEquals(varselInfoTo.getVarseltypeId(), VARSELTYPE_ID);
-		assertEquals(varselInfoTo.getVarselNavn(), VARSEL_NAVN);
-		assertEquals(varselInfoTo.getVarselKategori(), VARSEL_KATEGORI.name());
-		assertEquals(varselInfoTo.getVarselForDistribusjonKanal(), VARSEL_FOR_DISTRIBUSJON_KANAL.name());
-		assertEquals(varselInfoTo.getInaktiv(), INAKTIV);
-		assertEquals(varselInfoTo.getRevarslingIntervall(), REVARSLING_INTERVALL);
-		assertEquals(varselInfoTo.getAntallRevarslinger(), ANTALL_REVARSLINGER);
-		assertEquals(varselInfoTo.getVarselURL(), VARSEL_URL);
-		assertEquals(varselInfoTo.getPreferertKanal().size(), 1);
-		assertEquals(varselInfoTo.getPreferertKanal().iterator().next(), KANAL.name());
-		assertEquals(varselInfoTo.getVarselmals().size(), 1);
+		assertEquals(VARSELTYPE_ID, varselInfoTo.getVarseltypeId());
+		assertEquals(VARSEL_NAVN, varselInfoTo.getVarselNavn());
+		assertEquals(VARSEL_KATEGORI.name(), varselInfoTo.getVarselKategori());
+		assertEquals(VARSEL_FOR_DISTRIBUSJON_KANAL.name(), varselInfoTo.getVarselForDistribusjonKanal());
+		assertEquals(INAKTIV, varselInfoTo.getInaktiv());
+		assertEquals(REVARSLING_INTERVALL, varselInfoTo.getRevarslingIntervall());
+		assertEquals(ANTALL_REVARSLINGER, varselInfoTo.getAntallRevarslinger());
+		assertEquals(VARSEL_URL, varselInfoTo.getVarselURL());
+		assertEquals(1, varselInfoTo.getPreferertKanal().size());
+		assertEquals(KANAL.name(), varselInfoTo.getPreferertKanal().iterator().next());
+		assertEquals(1, varselInfoTo.getVarselmals().size());
 
 		VarselMalTo varselMalTo = varselInfoTo.getVarselmals().iterator().next();
-		assertEquals(varselMalTo.getKanal(), KANAL.name());
-		assertEquals(varselMalTo.getVarselTittel(), TITTEL);
-		assertEquals(varselMalTo.getFoerstegangsvarselTekst(), FOERSTEGANGSVARSEL_TEKST);
-		assertEquals(varselMalTo.getRevarslingTekst(), REVARSLING_TEKST);
+		assertEquals(KANAL.name(), varselMalTo.getKanal());
+		assertEquals(TITTEL, varselMalTo.getVarselTittel());
+		assertEquals(FOERSTEGANGSVARSEL_TEKST, varselMalTo.getFoerstegangsvarselTekst());
+		assertEquals(REVARSLING_TEKST, varselMalTo.getRevarslingTekst());
 	}
 
 }

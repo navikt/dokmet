@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
 public interface DokumenttypeInfoRepository extends CrudRepository<DokumenttypeInfo, Long> {
 
 	boolean existsByDokumenttypeId(String dokumenttypeId);

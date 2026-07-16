@@ -14,7 +14,6 @@ import no.nav.dokmet.web.config.AbstractITest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 
@@ -28,7 +27,6 @@ import static no.nav.dokmet.core.domain.kode.KonvoluttvinduTypeCode.W;
 import static no.nav.dokmet.core.domain.kode.SentralPrintDokumentTypeCode.NAV_STANDARD;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
