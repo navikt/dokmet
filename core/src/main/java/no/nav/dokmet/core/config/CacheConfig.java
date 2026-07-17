@@ -25,6 +25,7 @@ public class CacheConfig {
 				new CaffeineCache(BREVPAKKE_CACHE, Caffeine.newBuilder()
 						.expireAfterWrite(5, MINUTES)
 						.maximumSize(20)
+						.recordStats()
 						.build())));
 		return manager;
 	}
