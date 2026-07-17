@@ -1,13 +1,13 @@
 package no.nav.dokmet.web.tkat021;
 
+import no.nav.dokmet.api.tkat021.VarselInfoTo;
+import no.nav.dokmet.api.tkat021.VarselMalTo;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.domain.entities.VarselMal;
 import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 import no.nav.dokmet.core.exceptions.IllegalValueException;
-import no.nav.dokmet.api.tkat021.VarselInfoTo;
-import no.nav.dokmet.api.tkat021.VarselMalTo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -35,11 +35,8 @@ import static no.nav.dokmet.web.TestDataUtils.VARSEL_NAVN;
 import static no.nav.dokmet.web.TestDataUtils.VARSEL_URL;
 import static no.nav.dokmet.web.TestUtils.createVarselInfo;
 import static no.nav.dokmet.web.TestUtils.createVarselInfoTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class VarselInfoMapperTest {
 
@@ -48,12 +45,14 @@ class VarselInfoMapperTest {
 	@Test
 	void shouldMapToVarselInfo() {
 		var result = varselInfoMapper.map(createVarselInfoTo());
+
 		assertVarselInfo(result);
 	}
 
 	@Test
 	void shouldMapToVarselInfoTo() {
 		var result = varselInfoMapper.map(createVarselInfo());
+
 		assertVarselInfoTo(result);
 	}
 
@@ -65,7 +64,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfo);
 
-		assertEquals(result.getVarselKategori(), varselKategoriKode.name());
+		assertThat(result.getVarselKategori()).isEqualTo(varselKategoriKode.name());
 	}
 
 	@ParameterizedTest
@@ -76,7 +75,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfo);
 
-		assertEquals(result.getVarselForDistribusjonKanal(), distribusjonKanalKode.name());
+		assertThat(result.getVarselForDistribusjonKanal()).isEqualTo(distribusjonKanalKode.name());
 	}
 
 	@ParameterizedTest
@@ -87,7 +86,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfo);
 
-		assertEquals(expected, result.getPreferertKanal());
+		assertThat(expected).isEqualTo(result.getPreferertKanal());
 	}
 
 	private static Stream<Arguments> shouldMapPreferertKanal() {
@@ -107,7 +106,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfoTo);
 
-		assertEquals(varselKategoriKode, result.getVarselKategori().name());
+		assertThat(varselKategoriKode).isEqualTo(result.getVarselKategori().name());
 	}
 
 	@ParameterizedTest
@@ -118,7 +117,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfoTo);
 
-		assertEquals(distribusjonKanalKode, result.getVarselForDistribusjonKanal().name());
+		assertThat(distribusjonKanalKode).isEqualTo(result.getVarselForDistribusjonKanal().name());
 	}
 
 	@Test
@@ -129,8 +128,8 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfoTo);
 
-		assertNull(result.getVarselKategori());
-		assertNull(result.getVarselForDistribusjonKanal());
+		assertThat(result.getVarselKategori()).isNull();
+		assertThat(result.getVarselForDistribusjonKanal()).isNull();
 	}
 
 	@ParameterizedTest
@@ -141,7 +140,7 @@ class VarselInfoMapperTest {
 
 		var result = varselInfoMapper.map(varselInfoTo);
 
-		assertEquals(expected, result.getPreferertKanal());
+		assertThat(expected).isEqualTo(result.getPreferertKanal());
 	}
 
 	private static Stream<Arguments> shouldMapPreferertKanalTo() {
@@ -153,58 +152,54 @@ class VarselInfoMapperTest {
 		);
 	}
 
-
 	@Test
 	void shouldThrowOnIllegalEnumValue() {
 		var varselInfoTo = createVarselInfoTo();
 		varselInfoTo.setVarselForDistribusjonKanal("UGYLDIG");
 
-		var result = assertThrows(IllegalValueException.class,
-				() -> varselInfoMapper.map(varselInfoTo));
-
-		assertTrue(result.getMessage().contains("UGYLDIG er ikke en gyldig kodeverdi for DistribusjonKanalKode"));
+		assertThatExceptionOfType(IllegalValueException.class)
+				.isThrownBy(() -> varselInfoMapper.map(varselInfoTo))
+				.withMessage("UGYLDIG er ikke en gyldig kodeverdi for DistribusjonKanalKode");
 	}
 
 	private static void assertVarselInfo(VarselInfo varselInfo) {
-
-		assertEquals(VARSELTYPE_ID, varselInfo.getVarseltypeId());
-		assertEquals(VARSEL_NAVN, varselInfo.getVarselNavn());
-		assertEquals(VARSEL_KATEGORI, varselInfo.getVarselKategori());
-		assertEquals(VARSEL_FOR_DISTRIBUSJON_KANAL, varselInfo.getVarselForDistribusjonKanal());
-		assertEquals(INAKTIV, varselInfo.getInaktiv());
-		assertEquals(REVARSLING_INTERVALL, varselInfo.getRevarslingIntervall());
-		assertEquals(ANTALL_REVARSLINGER, varselInfo.getAntallRevarslinger());
-		assertEquals(VARSEL_URL, varselInfo.getVarselURL());
-		assertEquals(1, varselInfo.getPreferertKanal().size());
-		assertEquals(KANAL, varselInfo.getPreferertKanal().iterator().next());
-		assertEquals(1, varselInfo.getVarselmals().size());
+		assertThat(varselInfo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
+		assertThat(varselInfo.getVarselNavn()).isEqualTo(VARSEL_NAVN);
+		assertThat(varselInfo.getVarselKategori()).isEqualTo(VARSEL_KATEGORI);
+		assertThat(varselInfo.getVarselForDistribusjonKanal()).isEqualTo(VARSEL_FOR_DISTRIBUSJON_KANAL);
+		assertThat(varselInfo.getInaktiv()).isEqualTo(INAKTIV);
+		assertThat(varselInfo.getRevarslingIntervall()).isEqualTo(REVARSLING_INTERVALL);
+		assertThat(varselInfo.getAntallRevarslinger()).isEqualTo(ANTALL_REVARSLINGER);
+		assertThat(varselInfo.getVarselURL()).isEqualTo(VARSEL_URL);
+		assertThat(varselInfo.getPreferertKanal()).hasSize(1);
+		assertThat(varselInfo.getPreferertKanal().iterator().next()).isEqualTo(KANAL);
+		assertThat(varselInfo.getVarselmals()).hasSize(1);
 
 		VarselMal varselMal = varselInfo.getVarselmals().iterator().next();
-		assertEquals(KANAL, varselMal.getKanal());
-		assertEquals(TITTEL, varselMal.getVarselTittel());
-		assertEquals(FOERSTEGANGSVARSEL_TEKST, varselMal.getFoerstegangsvarselTekst());
-		assertEquals(REVARSLING_TEKST, varselMal.getRevarslingTekst());
+		assertThat(varselMal.getKanal()).isEqualTo(KANAL);
+		assertThat(varselMal.getVarselTittel()).isEqualTo(TITTEL);
+		assertThat(varselMal.getFoerstegangsvarselTekst()).isEqualTo(FOERSTEGANGSVARSEL_TEKST);
+		assertThat(varselMal.getRevarslingTekst()).isEqualTo(REVARSLING_TEKST);
 	}
 
 	private static void assertVarselInfoTo(VarselInfoTo varselInfoTo) {
-
-		assertEquals(VARSELTYPE_ID, varselInfoTo.getVarseltypeId());
-		assertEquals(VARSEL_NAVN, varselInfoTo.getVarselNavn());
-		assertEquals(VARSEL_KATEGORI.name(), varselInfoTo.getVarselKategori());
-		assertEquals(VARSEL_FOR_DISTRIBUSJON_KANAL.name(), varselInfoTo.getVarselForDistribusjonKanal());
-		assertEquals(INAKTIV, varselInfoTo.getInaktiv());
-		assertEquals(REVARSLING_INTERVALL, varselInfoTo.getRevarslingIntervall());
-		assertEquals(ANTALL_REVARSLINGER, varselInfoTo.getAntallRevarslinger());
-		assertEquals(VARSEL_URL, varselInfoTo.getVarselURL());
-		assertEquals(1, varselInfoTo.getPreferertKanal().size());
-		assertEquals(KANAL.name(), varselInfoTo.getPreferertKanal().iterator().next());
-		assertEquals(1, varselInfoTo.getVarselmals().size());
+		assertThat(varselInfoTo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
+		assertThat(varselInfoTo.getVarselNavn()).isEqualTo(VARSEL_NAVN);
+		assertThat(varselInfoTo.getVarselKategori()).isEqualTo(VARSEL_KATEGORI.name());
+		assertThat(varselInfoTo.getVarselForDistribusjonKanal()).isEqualTo(VARSEL_FOR_DISTRIBUSJON_KANAL.name());
+		assertThat(varselInfoTo.getInaktiv()).isEqualTo(INAKTIV);
+		assertThat(varselInfoTo.getRevarslingIntervall()).isEqualTo(REVARSLING_INTERVALL);
+		assertThat(varselInfoTo.getAntallRevarslinger()).isEqualTo(ANTALL_REVARSLINGER);
+		assertThat(varselInfoTo.getVarselURL()).isEqualTo(VARSEL_URL);
+		assertThat(varselInfoTo.getPreferertKanal()).hasSize(1);
+		assertThat(varselInfoTo.getPreferertKanal().iterator().next()).isEqualTo(KANAL.name());
+		assertThat(varselInfoTo.getVarselmals()).hasSize(1);
 
 		VarselMalTo varselMalTo = varselInfoTo.getVarselmals().iterator().next();
-		assertEquals(KANAL.name(), varselMalTo.getKanal());
-		assertEquals(TITTEL, varselMalTo.getVarselTittel());
-		assertEquals(FOERSTEGANGSVARSEL_TEKST, varselMalTo.getFoerstegangsvarselTekst());
-		assertEquals(REVARSLING_TEKST, varselMalTo.getRevarslingTekst());
+		assertThat(varselMalTo.getKanal()).isEqualTo(KANAL.name());
+		assertThat(varselMalTo.getVarselTittel()).isEqualTo(TITTEL);
+		assertThat(varselMalTo.getFoerstegangsvarselTekst()).isEqualTo(FOERSTEGANGSVARSEL_TEKST);
+		assertThat(varselMalTo.getRevarslingTekst()).isEqualTo(REVARSLING_TEKST);
 	}
 
 }
