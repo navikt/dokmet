@@ -1,4 +1,5 @@
 # Dokmet
+
 Dokmet tilbyr fylgjande Rest-tenester
 * tkat020 - les-operasjonar for metadata om dokument produsert av metaforce.
 * tkat021 - operasjonar for oversikt og oppdatering av varselmalar.
@@ -12,10 +13,29 @@ Dokmet tilbyr også eit Varseladmin-GUI for å administrere varselmalar, i tille
 publisert til Github Packages.
 
 Varseladmin-GUIet kan opnast i vanleg nettlesar dersom ein er kopla til Naisdevice, og er tilgjengeleg i alle dev-miljø (også q0, q4 og q5):
-* [Varseladmin i q1](https://dokmet-q1.dev.intern.nav.no/dokmet/varseladmin)
-* [Varseladmin i q2](https://dokmet.dev.intern.nav.no/dokmet/varseladmin)
+* [Varseladmin i q1 (Nav-internt)](https://dokmet-q1.dev.intern.nav.no/dokmet/varseladmin)
+* [Varseladmin i q2 (Nav-internt)](https://dokmet.dev.intern.nav.no/dokmet/varseladmin)
 
-Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet](https://confluence.adeo.no/display/BOA/Dokmet+-+Tjenester).
+Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet (Nav-internt)](https://confluence.adeo.no/display/BOA/Dokmet+-+Tjenester).
 
-## Førespurnadar
-Spørsmål om koda eller prosjektet kan stillast på [Slack-kanalen for \#Team  Dokumentløsninger](https://nav-it.slack.com/archives/C6W9E5GPJ)
+## Komme i gang
+
+Kjør tester og bygg appen. Krever også at `npm` er installert.
+
+```
+mvn clean verify
+```
+
+---
+
+## Henvendelser
+
+Lag en issue i repository.
+
+### For Nav-ansatte
+
+Spørsmål om appen kan stilles på [#team_dokumentløsninger](https://nav-it.slack.com/archives/C6W9E5GPJ)
+
+## Lisens
+
+[MIT](LICENSE.md)
