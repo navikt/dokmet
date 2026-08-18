@@ -14,13 +14,13 @@
         <f:automatiskBehandlet>true</f:automatiskBehandlet>
         <f:dokumentDato>2017-11-17</f:dokumentDato>
         <f:sakspart>
-            <aktoer:id>30085849677</aktoer:id>
+            <aktoer:id>11111111111</aktoer:id>
             <aktoer:typeKode>PERSON</aktoer:typeKode>
             <aktoer:navn>Her Majesty The Duchess of York: Queen Latifa</aktoer:navn>
             <sakspart:diskresjonskode>true</sakspart:diskresjonskode>
         </f:sakspart>
         <f:mottaker>
-            <aktoer:id>30085849677</aktoer:id>
+            <aktoer:id>11111111111</aktoer:id>
             <aktoer:typeKode>PERSON</aktoer:typeKode>
             <aktoer:navn>Her Majesty The Duchess of York: Queen Latifa</aktoer:navn>
             <mottaker:kortNavn>Queen Latifa</mottaker:kortNavn>
