@@ -21,14 +21,6 @@
 			<groupId>no.nav.dokmet</groupId>
 			<artifactId>web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.dokmet</groupId>
-			<artifactId>varseladmin-frontend</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>no.nav.dokmet</groupId>
-			<artifactId>varseladmin-bff</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>net.logstash.logback</groupId>

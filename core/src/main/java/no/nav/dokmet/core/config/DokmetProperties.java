@@ -1,6 +1,5 @@
 package no.nav.dokmet.core.config;
 
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,16 +16,6 @@ public class DokmetProperties {
 
     private final Proxy proxy = new Proxy();
     private final Database database = new Database();
-
-	@NotEmpty
-	private String baseUrl;
-
-	@NotEmpty
-	private String scopesForBff;
-
-	public String[] getScopesForBff() {
-		return scopesForBff.split(",");
-	}
 
     @Data
     @Validated

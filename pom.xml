@@ -19,8 +19,6 @@
 		<module>app</module>
 		<module>core</module>
 		<module>web</module>
-		<module>varseladmin-frontend</module>
-		<module>varseladmin-bff</module>
 		<module>api</module>
 	</modules>
 
@@ -42,7 +40,6 @@
 
 		<!-- plugins -->
 		<maven-toolchains-plugin.version>3.3.0</maven-toolchains-plugin.version>
-		<exec-maven-plugin.version>3.6.4</exec-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -65,16 +62,6 @@
 			<dependency>
 				<groupId>no.nav.dokmet</groupId>
 				<artifactId>web</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.dokmet</groupId>
-				<artifactId>varseladmin-frontend</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>no.nav.dokmet</groupId>
-				<artifactId>varseladmin-bff</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -114,16 +101,6 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>exec-maven-plugin</artifactId>
-					<version>${exec-maven-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
