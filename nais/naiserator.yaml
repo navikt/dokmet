@@ -18,10 +18,6 @@ spec:
     - name: JDK_JAVA_OPTIONS
       value: "-XX:MaxRAMPercentage=75
               $(JAVA_PROXY_OPTIONS) $(JAVA_TRUSTSTORE_OPTIONS)"
-    - name: DOKMET_PROXY_HOST
-      value: "webproxy.nais"
-    - name: DOKMET_PROXY_PORT
-      value: "8088"
     - name: NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL
       value: {{ NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL }}
     - name: SPRING_LDAP_BASE
