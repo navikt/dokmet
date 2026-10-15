@@ -25,10 +25,6 @@
 			<groupId>no.nav.dokmet</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>no.nav.dokmet</groupId>
-			<artifactId>varseladmin-frontend</artifactId>
-		</dependency>
 
 		<!-- test -->
 		<dependency>

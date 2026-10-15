@@ -32,6 +32,7 @@ public class Tkat021Controller {
 		this.varselInfoService = varselInfoService;
 	}
 
+	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
 	@Unprotected
 	@GetMapping("/")
 	public ResponseEntity<List<VarselInfoTo>> hentAlleVarselInfoer() {
@@ -61,6 +62,7 @@ public class Tkat021Controller {
 		return ResponseEntity.ok(result);
 	}
 
+	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
 	@Protected
 	@PostMapping("/")
 	public ResponseEntity<String> opprettNyVarselInfo(@RequestBody VarselInfoTo varselInfo) {
@@ -73,6 +75,7 @@ public class Tkat021Controller {
 		return ResponseEntity.status(CREATED).body(varseltypeId);
 	}
 
+	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
 	@Protected
 	@PutMapping("/{varseltypeId}")
 	public ResponseEntity<String> oppdaterVarselInfo(@PathVariable String varseltypeId, @RequestBody VarselInfoTo varselInfo) {

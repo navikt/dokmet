@@ -1,35 +1,20 @@
 package no.nav.dokmet.core.config;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-
-import java.net.InetSocketAddress;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Data
 @Validated
 @ConfigurationProperties("dokmet")
 public class DokmetProperties {
 
-    private final Proxy proxy = new Proxy();
+    @Valid
     private final Database database = new Database();
 
-	@NotEmpty
-	private String baseUrl;
-
-	@NotEmpty
-	private String scopesForBff;
-
-	public String[] getScopesForBff() {
-		return scopesForBff.split(",");
-	}
-
     @Data
-    @Validated
     public static class Database {
         /**
          * Statisk pool verdi for dokkat databasen.
@@ -47,18 +32,4 @@ public class DokmetProperties {
         private int poolsize = 60;
     }
 
-    @Data
-    @Validated
-    public static class Proxy {
-        private String host;
-        private int port;
-
-        public boolean isSet() {
-            return isNotBlank(host);
-        }
-
-		public java.net.Proxy toJavaProxy() {
-			return new java.net.Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(host, port));
-		}
-    }
 }

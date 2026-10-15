@@ -18,16 +18,8 @@ spec:
     - name: JDK_JAVA_OPTIONS
       value: "-XX:MaxRAMPercentage=75
               $(JAVA_PROXY_OPTIONS) $(JAVA_TRUSTSTORE_OPTIONS)"
-    - name: DOKMET_PROXY_HOST
-      value: "webproxy.nais"
-    - name: DOKMET_PROXY_PORT
-      value: "8088"
     - name: NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL
       value: {{ NO_NAV_SECURITY_JWT_ISSUER_AZUREV2_DISCOVERYURL }}
-    - name: DOKMET_BASE_URL
-      value: {{ DOKMET_BASE_URL }}
-    - name: DOKMET_SCOPES_FOR_BFF
-      value: {{ DOKMET_SCOPES_FOR_BFF }}
     - name: SPRING_LDAP_BASE
       value: {{ SPRING_LDAP_BASE }}
     - name: OTEL_RESOURCE_ATTRIBUTES
@@ -74,13 +66,7 @@ spec:
   azure:
     application:
       enabled: true
-      replyURLs:
-          {{#each AZURE_REPLYURLS}}
-          - "{{this}}"
-          {{/each}}
       claims:
-        groups:
-          - id: "{{AZURE_ACCESS_GROUP}}"
         extra:
           - "azp_name"
   accessPolicy:

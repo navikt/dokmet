@@ -9,18 +9,13 @@ Dokmet tilbyr fylgjande Rest-tenester
 Rest-endepunkta i tkat020 (basic auth) skal <ins>kun</ins> brukast av aura-maven-plugin og løpet
 for deploy av brevpakkar.
 
-Dokmet tilbyr også eit Varseladmin-GUI for å administrere varselmalar, i tillegg til ei pakke med API-klasser som blir 
-publisert til Github Packages.
-
-Varseladmin-GUIet kan opnast i vanleg nettlesar dersom ein er kopla til Naisdevice, og er tilgjengeleg i alle dev-miljø (også q0, q4 og q5):
-* [Varseladmin i q1 (Nav-internt)](https://dokmet-q1.dev.intern.nav.no/dokmet/varseladmin)
-* [Varseladmin i q2 (Nav-internt)](https://dokmet.dev.intern.nav.no/dokmet/varseladmin)
+Dokmet tilbyr også ei pakke med API-klasser som blir publisert til Github Packages.
 
 Meir informasjon om korleis appen fungerer finn du på [Confluence-sida for dokmet (Nav-internt)](https://confluence.adeo.no/display/BOA/Dokmet+-+Tjenester).
 
-## Komme i gang
+## Kome i gong
 
-Kjør tester og bygg appen. Krever også at `npm` er installert.
+Køyr testar og bygg appen.
 
 ```
 mvn clean verify
@@ -28,13 +23,13 @@ mvn clean verify
 
 ---
 
-## Henvendelser
+## Førespurnadar
 
-Lag en issue i repository.
+Lag ein issue i repository.
 
 ### For Nav-ansatte
 
-Spørsmål om appen kan stilles på [#team_dokumentløsninger](https://nav-it.slack.com/archives/C6W9E5GPJ)
+Spørsmål om appen kan stillast på [#team_dokumentløsninger](https://nav-it.slack.com/archives/C6W9E5GPJ)
 
 ## Lisens
 
