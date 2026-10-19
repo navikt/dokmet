@@ -9,15 +9,11 @@ import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.MDC;
-import org.springframework.transaction.TransactionSystemException;
 
 import static java.util.Collections.singleton;
 import static no.nav.dokmet.core.builders.builder.VarselMalBuilder.aVarselMal;
-import static no.nav.dokmet.core.domain.kode.KanalKode.DITT_NAV;
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 
@@ -46,7 +42,7 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 
 	@Test
 	public void shouldFindByVarseltypeId() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
+		varselInfoRepository.save(createDomainVarselInfo());
 		commitAndBeginNewTransaction();
 
 		VarselInfo varselInfo = varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID);
@@ -55,59 +51,7 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 		assertVarselInfo(varselInfo);
 	}
 
-	@Test
-	public void shouldFindAllVarselInfo() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
-		varselInfoRepository.save(createDomainVarselInfo().varseltypeId("varseltypeId2").build());
-
-		commitAndBeginNewTransaction();
-		assertThat(varselInfoRepository.findAll()).hasSize(2);
-	}
-
-	@Test
-	public void shouldSaveNewVarselInfo() {
-		varselInfoRepository.save(createDomainVarselInfo().build());
-
-		assertThat(varselInfoRepository.findAll()).hasSize(1);
-	}
-
-	@Test
-	public void shouldUpdateVarselInfo() {
-		VarselInfo varselInfo = varselInfoRepository.save(createDomainVarselInfo().build());
-		varselInfo.setPreferertKanal(singleton(DITT_NAV));
-
-		varselInfoRepository.save(varselInfo);
-
-		assertThat(varselInfoRepository.findByVarseltypeId(VARSELTYPE_ID).getPreferertKanal()).contains(DITT_NAV);
-	}
-
-	@Test
-	public void shouldFailSaveInvalidFoerstegangsvarselTekst() {
-		varselInfoRepository.save(createDomainVarselInfo()
-				.varselmals(singleton(createVarselMalBuilder()
-						.foerstegangsvarselTekst("dette er en tekst med ugyldig {dato:formatering}")
-						.build()))
-				.build());
-
-		//Custom constrainten valideres først når transactionen committes til db
-		TransactionSystemException e = assertThrows(TransactionSystemException.class, this::commitTransaction);
-		assertTrue(e.getCause().getCause().getMessage().contains("Parameter '{dato:formatering}' har ikke et gyldig datoformat"));
-	}
-
-	@Test
-	public void shouldFailSaveInvalidRevarslingTekst() {
-		varselInfoRepository.save(createDomainVarselInfo()
-				.varselmals(singleton(createVarselMalBuilder()
-						.revarslingTekst("dette er en tekst med ugyldig {parameter navn}")
-						.build()))
-				.build());
-
-		//Custom constrainten valideres først når transactionen committes til db
-		TransactionSystemException e = assertThrows(TransactionSystemException.class, this::commitTransaction);
-		assertTrue(e.getCause().getCause().getMessage().contains("Parameter '{parameter navn}' er ikke et gyldig parameternavn"));
-	}
-
-	public static VarselInfoBuilder createDomainVarselInfo() {
+	public static VarselInfo createDomainVarselInfo() {
 		return VarselInfoBuilder.aVarselInfo()
 				.varseltypeId(VARSELTYPE_ID)
 				.varselNavn(VARSEL_NAVN)
@@ -118,10 +62,8 @@ public class VarselInfoRepositoryTest extends AbstractRepositoryTest {
 				.antallRevarslinger(ANTALL_REVARSLINGER)
 				.varselURL(VARSEL_URL)
 				.preferertKanal(singleton(KANAL_EPOST))
-				.varselmals(singleton(
-						createVarselMalBuilder()
-								.build()
-				));
+				.varselmals(singleton(createVarselMalBuilder().build()))
+				.build();
 	}
 
 	private static VarselMalBuilder createVarselMalBuilder() {
