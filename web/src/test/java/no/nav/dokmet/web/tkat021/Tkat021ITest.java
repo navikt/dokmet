@@ -21,7 +21,6 @@ public class Tkat021ITest extends AbstractITest {
 
 	private static final URI DOKMET_VARSELINFO_BASE_URL = URI.create("/rest/varselinfo/");
 	private static final String VARSELTYPEID_1 = "VARSELTYPEID_1";
-	private static final String VARSELTYPEID_NEW = "VARSELTYPEID_NEW";
 
 	private static final VarselInfoTo VARSELINFO_TO_1 = createVarselInfoToWithVarseltypeId(VARSELTYPEID_1);
 
@@ -37,18 +36,18 @@ public class Tkat021ITest extends AbstractITest {
 	}
 
 	@Test
-	public void shouldFindVarselInfoByVarselTypeId() {
-		RequestEntity<Void> requestEntity = RequestEntity.get(DOKMET_VARSELINFO_BASE_URL.resolve(VARSELTYPEID_1)).build();
-		ResponseEntity<VarselInfoTo> response = restTemplate.exchange(requestEntity, VarselInfoTo.class);
+	public void skalHenteVarselinfo() {
+		ResponseEntity<VarselInfoTo> response = restTemplate.exchange(
+				RequestEntity.get(DOKMET_VARSELINFO_BASE_URL.resolve(VARSELTYPEID_1)).build(), VarselInfoTo.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(OK);
 		assertThat(response.getBody()).isEqualTo(VARSELINFO_TO_1);
 	}
 
 	@Test
-	void shouldReturn404IfVarselInfoIsNotFound() {
-		RequestEntity<Void> requestEntity = RequestEntity.get(DOKMET_VARSELINFO_BASE_URL.resolve(VARSELTYPEID_NEW)).build();
-		ResponseEntity<VarselInfoTo> response = restTemplate.exchange(requestEntity, VarselInfoTo.class);
+	void skalReturnereNotFoundHvisVarselinfoIkkeFinnes() {
+		ResponseEntity<VarselInfoTo> response = restTemplate.exchange(
+				RequestEntity.get(DOKMET_VARSELINFO_BASE_URL.resolve("VARSELTYPEID_UKJENT")).build(), VarselInfoTo.class);
 
 		assertThat(response.getStatusCode()).isEqualTo(NOT_FOUND);
 	}

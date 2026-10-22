@@ -28,14 +28,14 @@ class VarselInfoServiceTest {
 	private VarselInfoService varselInfoService;
 
 	@Test
-	void shouldFindVarselInfoByVarselTypeId() {
+	void skalHenteVarselinfo() {
 		var varselInfo = createVarselInfo();
 		var varselInfoTo = createVarselInfoTo();
 
 		when(varselInfoRepository.findByVarseltypeId(any())).thenReturn(varselInfo);
 		when(varselInfoMapper.map(varselInfo)).thenReturn(varselInfoTo);
 
-		var result = varselInfoService.findVarselInfoByVarselTypeId(varselInfoTo.getVarseltypeId());
+		var result = varselInfoService.hentVarselinfo(varselInfoTo.getVarseltypeId());
 
 		assertEquals(varselInfoTo, result);
 		verify(varselInfoRepository).findByVarseltypeId(varselInfoTo.getVarseltypeId());

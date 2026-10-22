@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Slf4j
 @Protected
@@ -27,20 +26,20 @@ public class Tkat021Controller {
 
 	@Unprotected
 	@GetMapping("/{varseltypeId}")
-	public ResponseEntity<VarselInfoTo> hentVarselInfoMedVarseltypeId(@PathVariable String varseltypeId) {
+	public ResponseEntity<VarselInfoTo> hentVarselinfo(@PathVariable String varseltypeId) {
 		String safeVarseltypeId = removeUnsafeChars(varseltypeId);
-		log.info("tkat021 har mottatt kall om å hente varselInfo med varseltypeId={}", safeVarseltypeId);
+		log.info("tkat021 har mottatt kall om å hente varselinfo med varseltypeId={}", safeVarseltypeId);
 
-		var result = varselInfoService.findVarselInfoByVarselTypeId(varseltypeId);
+		var varselinfo = varselInfoService.hentVarselinfo(varseltypeId);
 
-		if (result == null) {
-			log.info("tkat021 fant ingen varselInfo for varseltypeId={}", safeVarseltypeId);
-			return ResponseEntity.status(NOT_FOUND).body(result);
+		if (varselinfo == null) {
+			log.info("tkat021 fant ingen varselinfo for varseltypeId={}", safeVarseltypeId);
+			return ResponseEntity.notFound().build();
 		}
 
-		log.info("tkat021 har hentet varselInfo med varseltypeId={}", safeVarseltypeId);
+		log.info("tkat021 har hentet varselinfo med varseltypeId={}", safeVarseltypeId);
 
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(varselinfo);
 	}
 
 }

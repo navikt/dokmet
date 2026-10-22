@@ -3,10 +3,10 @@ package no.nav.dokmet.web.tkat021;
 import no.nav.dokmet.api.tkat021.VarselInfoTo;
 import no.nav.dokmet.core.domain.entities.VarselInfo;
 import no.nav.dokmet.core.repository.VarselInfoRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class VarselInfoService {
 
@@ -19,10 +19,14 @@ public class VarselInfoService {
 		this.varselInfoMapper = varselInfoMapper;
 	}
 
-	public VarselInfoTo findVarselInfoByVarselTypeId(String varselTypeId) {
+	public VarselInfoTo hentVarselinfo(String varseltypeId) {
+		VarselInfo varselInfo = varselInfoRepository.findByVarseltypeId(varseltypeId);
 
-		VarselInfo varselInfo = varselInfoRepository.findByVarseltypeId(varselTypeId);
-		return varselInfo == null ? null : varselInfoMapper.map(varselInfo);
+		if (varselInfo == null) {
+			return null;
+		}
+
+		return varselInfoMapper.map(varselInfo);
 	}
 
 }
