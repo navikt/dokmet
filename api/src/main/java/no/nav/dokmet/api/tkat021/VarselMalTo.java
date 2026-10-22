@@ -8,8 +8,13 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class VarselMalTo {
-	private String kanal;
+	// Brukt av varsel2
 	private String varselTittel;
+
+	// Brukt av dokdistdpi-2 og varsel2
+	private String kanal;
 	private String foerstegangsvarselTekst;
+
+	// TODO: Ikke i bruk
 	private String revarslingTekst;
 }

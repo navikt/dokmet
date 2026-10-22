@@ -38,9 +38,25 @@ class VarselInfoMapperTest {
 
 	@Test
 	void shouldMapToVarselInfoTo() {
-		var result = varselInfoMapper.map(createVarselInfo());
+		var varselInfoTo = varselInfoMapper.map(createVarselInfo());
 
-		assertVarselInfoTo(result);
+		assertThat(varselInfoTo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
+		assertThat(varselInfoTo.getVarselNavn()).isEqualTo(VARSEL_NAVN);
+		assertThat(varselInfoTo.getVarselKategori()).isEqualTo(VARSEL_KATEGORI.name());
+		assertThat(varselInfoTo.getVarselForDistribusjonKanal()).isEqualTo(VARSEL_FOR_DISTRIBUSJON_KANAL.name());
+		assertThat(varselInfoTo.getInaktiv()).isEqualTo(INAKTIV);
+		assertThat(varselInfoTo.getRevarslingIntervall()).isEqualTo(REVARSLING_INTERVALL);
+		assertThat(varselInfoTo.getAntallRevarslinger()).isEqualTo(ANTALL_REVARSLINGER);
+		assertThat(varselInfoTo.getVarselURL()).isEqualTo(VARSEL_URL);
+		assertThat(varselInfoTo.getPreferertKanal()).hasSize(1);
+		assertThat(varselInfoTo.getPreferertKanal().iterator().next()).isEqualTo(KANAL.name());
+		assertThat(varselInfoTo.getVarselmals()).hasSize(1);
+
+		VarselMalTo varselMalTo = varselInfoTo.getVarselmals().iterator().next();
+		assertThat(varselMalTo.getKanal()).isEqualTo(KANAL.name());
+		assertThat(varselMalTo.getVarselTittel()).isEqualTo(TITTEL);
+		assertThat(varselMalTo.getFoerstegangsvarselTekst()).isEqualTo(FOERSTEGANGSVARSEL_TEKST);
+		assertThat(varselMalTo.getRevarslingTekst()).isEqualTo(REVARSLING_TEKST);
 	}
 
 	@ParameterizedTest
@@ -83,26 +99,6 @@ class VarselInfoMapperTest {
 				Arguments.of(Set.of(EPOST, DITT_NAV), Set.of("EPOST", "DITT_NAV")),
 				Arguments.of(Set.of(SMS, EPOST, DITT_NAV), Set.of("SMS", "EPOST", "DITT_NAV"))
 		);
-	}
-
-	private static void assertVarselInfoTo(VarselInfoTo varselInfoTo) {
-		assertThat(varselInfoTo.getVarseltypeId()).isEqualTo(VARSELTYPE_ID);
-		assertThat(varselInfoTo.getVarselNavn()).isEqualTo(VARSEL_NAVN);
-		assertThat(varselInfoTo.getVarselKategori()).isEqualTo(VARSEL_KATEGORI.name());
-		assertThat(varselInfoTo.getVarselForDistribusjonKanal()).isEqualTo(VARSEL_FOR_DISTRIBUSJON_KANAL.name());
-		assertThat(varselInfoTo.getInaktiv()).isEqualTo(INAKTIV);
-		assertThat(varselInfoTo.getRevarslingIntervall()).isEqualTo(REVARSLING_INTERVALL);
-		assertThat(varselInfoTo.getAntallRevarslinger()).isEqualTo(ANTALL_REVARSLINGER);
-		assertThat(varselInfoTo.getVarselURL()).isEqualTo(VARSEL_URL);
-		assertThat(varselInfoTo.getPreferertKanal()).hasSize(1);
-		assertThat(varselInfoTo.getPreferertKanal().iterator().next()).isEqualTo(KANAL.name());
-		assertThat(varselInfoTo.getVarselmals()).hasSize(1);
-
-		VarselMalTo varselMalTo = varselInfoTo.getVarselmals().iterator().next();
-		assertThat(varselMalTo.getKanal()).isEqualTo(KANAL.name());
-		assertThat(varselMalTo.getVarselTittel()).isEqualTo(TITTEL);
-		assertThat(varselMalTo.getFoerstegangsvarselTekst()).isEqualTo(FOERSTEGANGSVARSEL_TEKST);
-		assertThat(varselMalTo.getRevarslingTekst()).isEqualTo(REVARSLING_TEKST);
 	}
 
 }
