@@ -1,10 +1,8 @@
 package no.nav.dokmet.web;
 
-import no.nav.dokmet.core.domain.kode.DistribusjonKanalKode;
 import no.nav.dokmet.core.domain.kode.KanalKode;
 import no.nav.dokmet.core.domain.kode.VarselKategoriKode;
 
-import static no.nav.dokmet.core.domain.kode.DistribusjonKanalKode.VED_DITT_NAV_OGSA_PRINT;
 import static no.nav.dokmet.core.domain.kode.KanalKode.EPOST;
 import static no.nav.dokmet.core.domain.kode.VarselKategoriKode.DISTRIBUSJON;
 
@@ -40,14 +38,12 @@ public class TestDataUtils {
 	public static final String DIST_KANAL_DITT_NAV = "DITT_NAV";
 
 	public static final VarselKategoriKode VARSEL_KATEGORI = DISTRIBUSJON;
-	public static final DistribusjonKanalKode VARSEL_FOR_DISTRIBUSJON_KANAL = VED_DITT_NAV_OGSA_PRINT;
 	public static final boolean INAKTIV = false;
 	public static final int REVARSLING_INTERVALL = 5;
 	public static final int ANTALL_REVARSLINGER = 2;
 	public static final String TITTEL = "tittel";
 	public static final KanalKode KANAL = EPOST;
 	public static final String FOERSTEGANGSVARSEL_TEKST = "forestagang tekst";
-	public static final String REVARSLING_TEKST = "revarseltekst";
 	public static final String VARSEL_NAVN = "varselNavn";
 	public static final String VARSEL_URL = "VARSEL_URL";
 

@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import java.net.URI;
 
 import static no.nav.dokmet.core.util.MDCConstants.MDC_USER_ID;
-import static no.nav.dokmet.web.TestUtils.createVarselInfoToWithVarseltypeId;
-import static no.nav.dokmet.web.TestUtils.createVarselInfoWithVarseltypeId;
+import static no.nav.dokmet.web.TestUtils.createVarselinfo;
+import static no.nav.dokmet.web.TestUtils.createVarselinfoTo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
@@ -22,14 +22,14 @@ public class Tkat021ITest extends AbstractITest {
 	private static final URI DOKMET_VARSELINFO_BASE_URL = URI.create("/rest/varselinfo/");
 	private static final String VARSELTYPEID_1 = "VARSELTYPEID_1";
 
-	private static final VarselInfoTo VARSELINFO_TO_1 = createVarselInfoToWithVarseltypeId(VARSELTYPEID_1);
+	private static final VarselInfoTo VARSELINFO_TO_1 = createVarselinfoTo(VARSELTYPEID_1);
 
 	@BeforeEach
 	public void setUp() {
 		MDC.put(MDC_USER_ID, REPO_USER_ID);
 
 		emptyDatabases();
-		varselInfoRepository.save(createVarselInfoWithVarseltypeId(VARSELTYPEID_1));
+		varselInfoRepository.save(createVarselinfo(VARSELTYPEID_1));
 		commitAndBeginNewTransaction();
 
 		MDC.remove(MDC_USER_ID);

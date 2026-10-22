@@ -6,7 +6,6 @@ import no.nav.dokmet.core.domain.kode.KanalKode;
 
 public final class VarselMalBuilder extends Builder<VarselMal> {
 
-	private String revarslingTekst;
 	private String foerstegangsvarselTekst;
 	private String varselTittel;
 	private KanalKode kanal;
@@ -18,11 +17,6 @@ public final class VarselMalBuilder extends Builder<VarselMal> {
 
 	public static VarselMalBuilder aVarselMal() {
 		return new VarselMalBuilder();
-	}
-
-	public VarselMalBuilder revarslingTekst(String revarslingTekst) {
-		this.revarslingTekst = revarslingTekst;
-		return this;
 	}
 
 	public VarselMalBuilder foerstegangsvarselTekst(String foerstegangsvarselTekst) {
@@ -52,7 +46,6 @@ public final class VarselMalBuilder extends Builder<VarselMal> {
 
 	public VarselMal build() {
 		VarselMal varselMal = new VarselMal();
-		varselMal.setRevarslingTekst(revarslingTekst);
 		varselMal.setFoerstegangsvarselTekst(foerstegangsvarselTekst);
 		varselMal.setVarselTittel(varselTittel);
 		varselMal.setKanal(kanal);
