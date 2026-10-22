@@ -28,11 +28,9 @@ import static no.nav.dokmet.web.TestDataUtils.MAL_XSD_REFERANSE;
 import static no.nav.dokmet.web.TestDataUtils.PORTO_KLASSE;
 import static no.nav.dokmet.web.TestDataUtils.REDIGERBAR_MAL_ID;
 import static no.nav.dokmet.web.TestDataUtils.REVARSLING_INTERVALL;
-import static no.nav.dokmet.web.TestDataUtils.REVARSLING_TEKST;
 import static no.nav.dokmet.web.TestDataUtils.SDP;
 import static no.nav.dokmet.web.TestDataUtils.TITTEL;
 import static no.nav.dokmet.web.TestDataUtils.VARSELTYPE_ID;
-import static no.nav.dokmet.web.TestDataUtils.VARSEL_FOR_DISTRIBUSJON_KANAL;
 import static no.nav.dokmet.web.TestDataUtils.VARSEL_KATEGORI;
 import static no.nav.dokmet.web.TestDataUtils.VARSEL_NAVN;
 import static no.nav.dokmet.web.TestDataUtils.VARSEL_URL;
@@ -75,16 +73,9 @@ public class TestUtils {
 		return to;
 	}
 
-	public static VarselInfo createVarselInfo() {
-		return createVarselInfoWithVarseltypeId(VARSELTYPE_ID);
-	}
-
-	public static VarselInfo createVarselInfoWithVarseltypeId(String varseltypeId) {
-		return VarselInfoBuilder.aVarselInfo()
+	public static VarselInfo createVarselinfo(String varseltypeId) {
+		var varselinfo = VarselInfoBuilder.aVarselInfo()
 				.varseltypeId(varseltypeId)
-				.varselNavn(VARSEL_NAVN)
-				.varselKategori(VARSEL_KATEGORI)
-				.varselForDistribusjonKanal(VARSEL_FOR_DISTRIBUSJON_KANAL)
 				.inaktiv(INAKTIV)
 				.revarslingIntervall(REVARSLING_INTERVALL)
 				.antallRevarslinger(ANTALL_REVARSLINGER)
@@ -95,21 +86,19 @@ public class TestUtils {
 								.kanal(KANAL)
 								.varselTittel(TITTEL)
 								.foerstegangsvarselTekst(FOERSTEGANGSVARSEL_TEKST)
-								.revarslingTekst(REVARSLING_TEKST)
 								.build()))
 				.build();
+
+		// Fjernet fra API, men non-nullable i database
+		varselinfo.setVarselNavn(VARSEL_NAVN);
+		varselinfo.setVarselKategori(VARSEL_KATEGORI);
+
+		return varselinfo;
 	}
 
-	public static VarselInfoTo createVarselInfoTo() {
-		return createVarselInfoToWithVarseltypeId(VARSELTYPE_ID);
-	}
-
-	public static VarselInfoTo createVarselInfoToWithVarseltypeId(String varseltypeId) {
+	public static VarselInfoTo createVarselinfoTo(String varseltypeId) {
 		return VarselInfoTo.builder()
 				.varseltypeId(varseltypeId)
-				.varselNavn(VARSEL_NAVN)
-				.varselKategori(VARSEL_KATEGORI.name())
-				.varselForDistribusjonKanal(VARSEL_FOR_DISTRIBUSJON_KANAL.name())
 				.inaktiv(INAKTIV)
 				.revarslingIntervall(REVARSLING_INTERVALL)
 				.antallRevarslinger(ANTALL_REVARSLINGER)
@@ -120,7 +109,6 @@ public class TestUtils {
 								.kanal(KANAL.name())
 								.varselTittel(TITTEL)
 								.foerstegangsvarselTekst(FOERSTEGANGSVARSEL_TEKST)
-								.revarslingTekst(REVARSLING_TEKST)
 								.build()))
 				.build();
 	}

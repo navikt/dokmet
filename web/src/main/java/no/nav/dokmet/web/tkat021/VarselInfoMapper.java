@@ -15,9 +15,6 @@ public class VarselInfoMapper {
 	public VarselInfoTo map(VarselInfo varselInfo) {
 		return VarselInfoTo.builder()
 				.varseltypeId(varselInfo.getVarseltypeId())
-				.varselNavn(varselInfo.getVarselNavn())
-				.varselKategori(varselInfo.getVarselKategori().name())
-				.varselForDistribusjonKanal(mapVarselForDistribusjonKanal(varselInfo))
 				.inaktiv(varselInfo.getInaktiv())
 				.revarslingIntervall(varselInfo.getRevarslingIntervall())
 				.antallRevarslinger(varselInfo.getAntallRevarslinger())
@@ -35,12 +32,6 @@ public class VarselInfoMapper {
 				.collect(Collectors.toSet());
 	}
 
-	private static String mapVarselForDistribusjonKanal(VarselInfo varselInfo) {
-		var varselForDistribusjonsKanal = varselInfo.getVarselForDistribusjonKanal();
-
-		return varselForDistribusjonsKanal == null ? null : varselForDistribusjonsKanal.name();
-	}
-
 	private Set<VarselMalTo> mapMalerTo(Set<VarselMal> varselMaler) {
 		return varselMaler.stream()
 				.map(this::mapMalTo)
@@ -52,7 +43,6 @@ public class VarselInfoMapper {
 				.kanal(varselMal.getKanal().name())
 				.varselTittel(varselMal.getVarselTittel())
 				.foerstegangsvarselTekst(varselMal.getFoerstegangsvarselTekst())
-				.revarslingTekst(varselMal.getRevarslingTekst())
 				.build();
 	}
 

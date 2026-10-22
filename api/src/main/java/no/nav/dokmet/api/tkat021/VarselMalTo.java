@@ -14,7 +14,4 @@ public class VarselMalTo {
 	// Brukt av dokdistdpi-2 og varsel2
 	private String kanal;
 	private String foerstegangsvarselTekst;
-
-	// TODO: Ikke i bruk
-	private String revarslingTekst;
 }
