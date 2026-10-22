@@ -7,18 +7,11 @@ import no.nav.security.token.support.core.api.Unprotected;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import static no.nav.dokmet.core.util.SafeLoggingUtil.removeUnsafeChars;
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
 @Protected
@@ -30,18 +23,6 @@ public class Tkat021Controller {
 
 	public Tkat021Controller(VarselInfoService varselInfoService) {
 		this.varselInfoService = varselInfoService;
-	}
-
-	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
-	@Unprotected
-	@GetMapping("/")
-	public ResponseEntity<List<VarselInfoTo>> hentAlleVarselInfoer() {
-		log.info("tkat021 har mottatt kall om å hente alle varselInfoer");
-
-		var varselinfoer = varselInfoService.findAllVarselInfo();
-		log.info("tkat021 har hentet alle varselInfoer");
-
-		return ResponseEntity.ok(varselinfoer);
 	}
 
 	@Unprotected
@@ -60,35 +41,6 @@ public class Tkat021Controller {
 		log.info("tkat021 har hentet varselInfo med varseltypeId={}", safeVarseltypeId);
 
 		return ResponseEntity.ok(result);
-	}
-
-	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
-	@Protected
-	@PostMapping("/")
-	public ResponseEntity<String> opprettNyVarselInfo(@RequestBody VarselInfoTo varselInfo) {
-		String safeVarseltypeId = removeUnsafeChars(varselInfo.getVarseltypeId());
-		log.info("tkat021 har mottatt kall om å opprette ny varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		var varseltypeId = varselInfoService.saveNewVarselInfo(varselInfo);
-		log.info("tkat021 har opprettet ny varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		return ResponseEntity.status(CREATED).body(varseltypeId);
-	}
-
-	// TODO: Endepunktet ble brukt av varseladmin (avviklet) - kan fjernes
-	@Protected
-	@PutMapping("/{varseltypeId}")
-	public ResponseEntity<String> oppdaterVarselInfo(@PathVariable String varseltypeId, @RequestBody VarselInfoTo varselInfo) {
-		String safeVarseltypeId = removeUnsafeChars(varseltypeId);
-		log.info("tkat021 har mottatt kall om å oppdatere varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		// TODO: VarselInfoNotFoundException blir kastet fra updateVarselInfo, så logikken under for NOT_FOUND vil ikke skje hvis varselinfo ikke blir funnet
-		var result = varselInfoService.updateVarselInfo(varseltypeId, varselInfo);
-
-		ResponseEntity<String> response = ResponseEntity.status(result == null ? NOT_FOUND : OK).body(result);
-		log.info("tkat021 har oppdatert varselInfo med varseltypeId={}", safeVarseltypeId);
-
-		return response;
 	}
 
 }
